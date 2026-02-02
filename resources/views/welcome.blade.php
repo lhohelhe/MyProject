@@ -1,103 +1,206 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Portfolio — Nama Kamu</title>
-  <style>
-    /* Minimal style */
-    :root{--bg:#f7f7f9;--card:#ffffff;--muted:#6b7280;--accent:#2563eb}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto; background:var(--bg); color:#111}
-    .wrap{max-width:880px;margin:48px auto;padding:20px}
-    header{display:flex;justify-content:space-between;align-items:center}
-    h1{margin:0;font-size:26px}
-    p.lead{color:var(--muted);margin:6px 0 18px}
-    .hero{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-    .card{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
-    .intro{flex:1;min-width:240px}
-    .cta{display:inline-block;background:var(--accent);color:white;padding:10px 14px;border-radius:8px;text-decoration:none}
-    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
-    .proj{padding:12px;border-radius:8px;background:linear-gradient(180deg,rgba(0,0,0,0.02),transparent);text-align:center}
-    .proj img{width:100%;height:80px;object-fit:cover;border-radius:6px;margin-bottom:8px}
-    footer{margin-top:28px;color:var(--muted);font-size:13px;text-align:center}
-    @media(max-width:720px){.projects{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:420px){.projects{grid-template-columns:1fr}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SahabatBuku - Belajar di mana pun, kapanpun!</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>Nama Kamu</h1>
-        <div style="color:var(--muted);font-size:13px">Desainer & Pengembang Frontend</div>
-      </div>
-      <nav style="font-size:14px">
-        <a href="#work" style="color:var(--muted);text-decoration:none;margin-right:12px">Work</a>
-        <a href="#contact" class="cta">Contact</a>
-      </nav>
-    </header>
+<body class="antialiased">
+    <div class="min-h-screen bg-sky-50 overflow-x-hidden">
+        
+        {{-- Hero Section --}}
+        <section class="pt-8 md:pt-16 pb-12 px-4">
+            <div class="max-w-7xl mx-auto">
+                
+                {{-- Logo and Tagline --}}
+                <div class="flex flex-col items-center gap-4 mb-8 md:mb-20">
+                    <div class="flex items-end justify-center gap-2">
+                        <h1 class="text-5xl sm:text-7xl md:text-8xl lg:text-[135px] font-bold text-black leading-none">
+                            SahabatBuku
+                        </h1>
+                        {{-- Book Icon --}}
+                        <svg class="w-10 h-12 sm:w-12 sm:h-16 md:w-16 md:h-20 flex-shrink-0" viewBox="0 0 62 80" fill="none">
+                            <path d="M10.219 0C4.5826 0 0 4.44475 0 9.91163V74.3372C0 76.1182 0.98997 77.7753 2.5867 78.6426C4.18342 79.5098 6.1474 79.4943 7.72815 78.5806L30.6571 65.2464L53.5702 78.5806C55.1509 79.4943 57.1149 79.5253 58.7116 78.6426C60.3083 77.7598 61.3143 76.1182 61.3143 74.3372V9.91163C61.3143 4.44475 56.7317 0 51.0952 0H10.219Z" fill="#A7D1EF"/>
+                        </svg>
+                    </div>
+                    <p class="text-2xl sm:text-3xl md:text-4xl font-light text-black text-center">
+                        Belajar di mana pun, kapanpun!
+                    </p>
+                </div>
 
-    <main style="margin-top:22px">
-      <section class="hero">
-        <div class="intro card">
-          <h2 style="margin:0 0 8px">Halo — saya Nama Kamu</h2>
-          <p class="lead">Saya membuat antarmuka sederhana, cepat, dan mudah dipakai. Berikut beberapa proyek singkat saya.</p>
-          <a href="#work" class="cta">Lihat Portofolio</a>
-        </div>
+                {{-- CTA Button --}}
+                <div class="flex justify-center mb-8">
+                    @guest
+                        <a href="{{ route('register') }}" class="bg-orange-400 hover:bg-orange-500 transition-colors px-10 py-5 rounded-full text-black text-2xl sm:text-3xl md:text-[35px] font-light">
+                            Mari coba!
+                        </a>
+                    @else
+                        <a href="{{ route('dashboard') }}" class="bg-orange-400 hover:bg-orange-500 transition-colors px-10 py-5 rounded-full text-black text-2xl sm:text-3xl md:text-[35px] font-light">
+                            Masuk Dashboard
+                        </a>
+                    @endguest
+                </div>
 
-        <div style="width:260px" class="card">
-          <strong>Quick info</strong>
-          <div style="color:var(--muted);margin-top:8px;font-size:14px">
-            Email: <a href="mailto:email@domain.com">email@domain.com</a><br>
-            Lokasi: Kota, Negara
-          </div>
-        </div>
-      </section>
-
-      <section id="work">
-        <h3 style="margin-top:20px">Selected projects</h3>
-        <div class="projects">
-          <div class="proj card">
-            <img src="https://picsum.photos/seed/a/400/200" alt="P1">
-            <strong>Project A</strong>
-            <div style="color:var(--muted);font-size:13px">Landing page sederhana</div>
-          </div>
-          <div class="proj card">
-            <img src="https://picsum.photos/seed/b/400/200" alt="P2">
-            <strong>Project B</strong>
-            <div style="color:var(--muted);font-size:13px">Dashboard kecil</div>
-          </div>
-          <div class="proj card">
-            <img src="https://picsum.photos/seed/c/400/200" alt="P3">
-            <strong>Project C</strong>
-            <div style="color:var(--muted);font-size:13px">Toko online minimal</div>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" style="margin-top:20px">
-        <h3>Contact</h3>
-        <div class="card" style="margin-top:8px">
-          <form onsubmit="event.preventDefault(); alert('Terima kasih — ini demo. Email: email@domain.com');">
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <input required placeholder="Nama" style="flex:1;padding:8px;border-radius:6px;border:1px solid #e6e9ef">
-              <input required type="email" placeholder="Email" style="flex:1;padding:8px;border-radius:6px;border:1px solid #e6e9ef">
+                {{-- Illustrations --}}
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 lg:gap-32 mt-12">
+                  <img src="{{ asset('images/college entrance exam-amico 1.png') }}" 
+                alt="Student studying" 
+                class="w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px] lg:w-[524px] lg:h-[524px] object-contain">
+    
+                <img src="{{ asset('images/college entrance exam-rafiki (1) 1.png') }}" 
+                    alt="Student celebrating" 
+                    class="w-64 h-64 sm:w-80 sm:h-80 md:w-[400px] md:h-[400px] lg:w-[524px] lg:h-[524px] object-contain">
             </div>
-            <textarea required placeholder="Pesan singkat" style="width:100%;margin-top:8px;padding:8px;border-radius:6px;border:1px solid #e6e9ef"></textarea>
-            <div style="text-align:right;margin-top:8px">
-              <button class="cta" type="submit">Kirim</button>
+                        </div>
+                    </section>
+
+        {{-- Four Main Feature Cards --}}
+        <section class="py-12 md:py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    {{-- Card 1 --}}
+                    <div class="bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center gap-6 text-center">
+                        <img src="{{ asset('images/akses_mudah.png') }}" alt="Akses Mudah" class="w-16 h-16 mb-4">
+                        <h3 class="text-2xl font-bold text-black">Akses Mudah</h3>
+                        <p class="text-lg text-gray-700">
+                            Belajar dimana saja dan kapan saja menggunakan platform yang mudah diakses
+                        </p>
+                    </div>
+
+                    {{-- Card 2 --}}
+                    <div class="bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center gap-6 text-center">
+                        <img src="{{ asset('images/belajar_interaktif.png') }}" alt="Belajar Interaktif" class="w-16 h-16 mb-4">
+                        <h3 class="text-2xl font-bold text-black">Belajar Interaktif</h3>
+                        <p class="text-lg text-gray-700">
+                            Mengatur waktu belajar sendiri dengan fleksibilitas penuh sesuai kebutuhan
+                        </p>
+                    </div>
+
+                    {{-- Card 3 --}}
+                    <div class="bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center gap-6 text-center">
+                        <img src="{{ asset('images/ringkasan_ai.png') }}" alt="Ringkasan AI" class="w-16 h-16 mb-4">
+                        <h3 class="text-2xl font-bold text-black">Ringkasan AI</h3>
+                        <p class="text-lg text-gray-700">
+                            Metode pembelajaran yang terstruktur membantu pemahaman lebih cepat dan mendalam
+                        </p>
+                    </img>
+                    </div>
+
+                    {{-- Card 4 --}}
+                    <div class="bg-white rounded-3xl shadow-lg p-8 flex flex-col items-center gap-6 text-center">
+                        <img src="{{ asset('images/materi_resmi.png') }}" alt="Materi Resmi" class="w-16 h-16 mb-4">
+                        <h3 class="text-2xl font-bold text-black">Materi Resmi</h3>
+                        <p class="text-lg text-gray-700">
+                            Berbagai fitur interaktif seperti quiz, flashcard, dan simulasi ujian tersedia
+                        </p>
+                    </div>
+
+                </div>
             </div>
-          </form>
-        </div>
-      </section>
-    </main>
+        </section>
 
-    <footer>
-      © <span id="y"></span> Nama Kamu — simple portfolio
-    </footer>
-  </div>
+        {{-- Feature Details --}}
+        <section class="py-12 md:py-20 px-4 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-black mb-16">
+                    Nikmati Keragaman Fitur
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
 
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+                    {{-- Quiz --}}
+                    <div class="bg-sky-50 rounded-3xl shadow-lg p-8 flex flex-col items-center gap-5 text-center">
+                        <img src="{{ asset('images/quiz.png') }}" alt="Quiz Icon" class="w-16 h-16 mb-4">
+                        <h3 class="text-3xl font-bold text-black">Quiz</h3>
+                        <p class="text-xl text-gray-700">
+                            Latihan soal disusun dari isi buku tematik, membantu menguji pemahaman tanpa keluar dari materi yang dipelajari
+                        </p>
+                    </div>
+
+                    {{-- Flashcard --}}
+                    <div class="bg-sky-50 rounded-3xl shadow-lg p-8 flex flex-col items-center gap-5 text-center">
+                        <img src="{{ asset('images/flashcard.png') }}" alt="Flashcard Icon" class="w-16 h-16 mb-4">
+                        <h3 class="text-3xl font-bold text-black">Flashcard</h3>
+                        <p class="text-xl text-gray-700">
+                            Istilah dan konsep penting diambil dari materi buku tematik, dilatih berulang agar lebih mudah diingat dan dipahami
+                        </p>
+                    </div>
+
+                    {{-- Ujian Simulasi --}}
+                    <div class="bg-sky-50 rounded-3xl shadow-lg p-8 flex flex-col items-center gap-5 text-center">
+                        <img src="{{ asset('images/ujian_simulasi.png') }}" alt="Ujian Simulasi Icon" class="w-16 h-16 mb-4">
+                        <h3 class="text-3xl font-bold text-black">Ujian Simulasi</h3>
+                        <p class="text-xl text-gray-700 max-w-2xl">
+                            Latihan ujian berbasis materi buku tematik, lengkap dengan batas waktu dan tipe soal, untuk membiasakan diri menghadapi evaluasi sebenarnya
+                        </p>
+                    </div>
+
+                    {{-- Notes AI --}}
+                    <div class="bg-sky-50 rounded-3xl shadow-lg p-8 flex flex-col items-center gap-5 text-center">
+                        <img src="{{ asset('images/notes_ai.png') }}" alt="Notes AI Icon" class="w-16 h-16 mb-4">
+                        <h3 class="text-3xl font-bold text-black">Notes AI</h3>
+                        <p class="text-xl text-gray-700">
+                            Ringkasan materi dibuat dari konten buku tematik dengan bantuan AI, sehingga penjelasan lebih singkat namun tetap sesuai makna aslinya
+                        </p>
+                    </img>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+        {{-- Footer --}}
+        <footer class="bg-slate-700 py-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    
+                    {{-- Left Column --}}
+                    <div class="flex flex-col gap-6">
+                        <div class="flex items-end gap-2">
+                            <h3 class="text-4xl md:text-5xl font-bold text-white">SahabatBuku</h3>
+                            <svg class="w-8 h-10 flex-shrink-0" viewBox="0 0 62 80" fill="none">
+                                <path d="M10.219 0C4.5826 0 0 4.44475 0 9.91163V74.3372C0 76.1182 0.98997 77.7753 2.5867 78.6426C4.18342 79.5098 6.1474 79.4943 7.72815 78.5806L30.6571 65.2464L53.5702 78.5806C55.1509 79.4943 57.1149 79.5253 58.7116 78.6426C60.3083 77.7598 61.3143 76.1182 61.3143 74.3372V9.91163C61.3143 4.44475 56.7317 0 51.0952 0H10.219Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <p class="text-white text-xl">
+                            Belajar di mana pun, kapanpun!
+                        </p>
+                        <nav class="flex flex-wrap gap-6 text-white">
+                            <a href="#" class="text-lg hover:text-sky-300 transition">Fitur</a>
+                            <a href="#" class="text-lg hover:text-sky-300 transition">Tentang</a>
+                            <a href="#" class="text-lg hover:text-sky-300 transition">Kontak</a>
+                            <a href="#" class="text-lg hover:text-sky-300 transition">Bantuan</a>
+                        </nav>
+                    </div>
+
+                    {{-- Right Column --}}
+                    <div class="flex flex-col gap-6">
+                        <h4 class="text-2xl font-semibold text-white">Hubungi Kami</h4>
+                        <div class="flex flex-col gap-4 text-white text-lg">
+                            <p>Email: info@sahabatbuku.com</p>
+                            <p>WhatsApp: +62 812-3456-7890</p>
+                        </div>
+                        @guest
+                        <div class="mt-4">
+                            <a href="{{ route('register') }}" class="inline-block bg-orange-400 hover:bg-orange-500 transition-colors px-8 py-3 rounded-full text-black text-lg font-semibold">
+                                Daftar Sekarang
+                            </a>
+                        </div>
+                        @endguest
+                    </div>
+                </div>
+
+                {{-- Copyright --}}
+                <div class="mt-12 pt-8 border-t border-slate-600 text-center text-white text-lg">
+                    <p>&copy; 2026 SahabatBuku. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
 </body>
 </html>
