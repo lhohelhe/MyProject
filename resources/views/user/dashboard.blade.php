@@ -48,10 +48,10 @@
                     <div class="break-all">{{ $user->email }}</div>
                     <div class="flex justify-center gap-4">
                         <a href="#" class="text-green-600">Edit</a>
-                        <form method="POST" action="#">
+                        <form method="POST" action="{{ route('users.destroy', $user->id) }}">
                             @csrf
                             @method('DELETE')
-                            <button class="text-red-600">Hapus</button>
+                            <button type="submit">Hapus</button>
                         </form>
                     </div>
                 </div>

@@ -1,11 +1,10 @@
 <!DOCTYPE html> <html lang="id"> <head> <meta charset="utf-8"> <title>Login</title> @vite(['resources/css/app.css', 'resources/js/app.js']) </head> <body class="min-h-screen">
     <div class="relative flex items-center justify-center w-full min-h-screen overflow-hidden bg-white">
 
-        <!-- Background circle -->
-        <div class="absolute left-0 top-0 -translate-x-1/3 -translate-y-[3%] w-[60vw] h-[106vh] max-w-[1162px] max-h-[1147px] rounded-full bg-[#405272] shadow-[0_0_10px_10px_rgba(0,0,0,0.25)]"></div>
+        <div class="absolute left-0 top-30 -translate-x-1/3 -translate-y-[3%] w-[60vw] h-[100vh] max-w-[920px] max-h-[920px] rounded-full bg-[#405272] shadow-[0_0_10px_10px_rgba(0,0,0,0.25)]"></div>
 
-        <!-- Illustration -->
-        <div class="absolute left-[2%] top-1/2 -translate-y-1/2 w-[28vw] min-w-[280px] max-w-[520px] z-10 hidden lg:block">
+        <div class="absolute left-[6%] top-1/2 -translate-y-1/2 
+                    w-[25vw] min-w-[250px] max-w-[500px] z-8 hidden lg:block">
             <img
                 src="{{ asset('images\Mobile login-rafiki 1.png') }}"
                 alt="Login Illustration"
@@ -14,18 +13,18 @@
         </div>
 
         <!-- Card -->
-        <div class="relative z-20 w-full max-w-[623px] mx-4 lg:ml-auto lg:mr-[10%] bg-white rounded-[25px] shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] px-8 sm:px-12 lg:px-16 py-10 lg:py-12">
+        <div class="static z-6 w-full max-w-[500px] mx-2 lg:ml-auto lg:mr-[5%] bg-white rounded-[25px] shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] px-6 sm:px-10 py-6">
 
             <h1 class="text-[clamp(32px,5vw,48px)] font-bold text-black mb-8 lg:mb-12 text-center lg:text-center">
                 Masuk
             </h1>
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-8">
+            <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
 
                 <!-- Email -->
                 <div>
-                    <label class="block text-[20px] lg:text-[24px] text-black mb-3">Email</label>
+                    <label class="block text-[20px] lg:text-[16px] text-black mb-3">Email</label>
                     <input
                         type="email"
                         name="email"
@@ -40,7 +39,7 @@
 
                 <!-- Password -->
                 <div>
-                    <label class="block text-[20px] lg:text-[24px] text-black mb-3">Password</label>
+                    <label class="block text-[20px] lg:text-[16px ] text-black mb-3">Password</label>
                     <input
                         type="password"
                         name="password"
