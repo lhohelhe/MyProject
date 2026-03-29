@@ -7,7 +7,7 @@
 
 <body class="bg-[#F5F5F5]">
 
-<div class="flex">
+<div class="flex flex-col min-h-screen lg:flex-row">
 
 <x-admin-sidebar />
 

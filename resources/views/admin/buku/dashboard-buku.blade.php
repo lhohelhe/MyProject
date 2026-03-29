@@ -17,7 +17,7 @@
 
         <h1>Dashboard Buku</h1>
 
-        <a href="/books/create">Tambah Buku</a>
+        <a href="/dashboard-buku/create">Tambah Buku</a>
 
         <table border="1">
             <tr>
@@ -36,16 +36,17 @@
                 <td>{{ $b->kelas }}</td>
                 <td>{{ $b->semester }}</td>
                 <td>
-                    <a href="/books/{{ $b->id_buku }}/edit">Edit</a>
+                    <a href="/dashboard-buku/{{ $b->id_buku }}/edit">Edit</a>
 
-                    <form action="/books/{{ $b->id_buku }}" method="POST">
+                    <form action="/dashboard-buku/{{ $b->id_buku }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit">Delete</button>
                     </form>
                 </td>
                 <td>
-                    <a href="{{ route('bab.index',$b->id_buku) }}" class="btn btn-sm btn-info">
+                    <a href="{{ route('bab.index', ['id_buku' => $b->id_buku]) }}"
+                    class="btn btn-sm btn-info">
                         Kelola Buku
                     </a>
                 </td>

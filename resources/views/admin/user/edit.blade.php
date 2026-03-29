@@ -26,7 +26,7 @@
                     </div>
                     @endif
 
-                    <form action="/users/{{ $user->id }}" method="POST" enctype="multipart/form-data" class="max-w-3xl mx-auto space-y-8 md:space-y-12">
+                    <form action="/dashboard-user/{{ $user->id }}" method="POST" enctype="multipart/form-data" class="max-w-3xl mx-auto space-y-8 md:space-y-12">
                         @csrf
                         @method('PUT')
 
@@ -39,7 +39,7 @@
                                 @if($user->foto)
                                     <img src="{{ asset('storage/' . $user->foto) }}" id="foto-preview" class="object-cover w-40 h-40 border-2 border-gray-200 rounded-full">
                                 @else
-                                    <div id="foto-preview-placeholder" class="flex items-center justify-center w-40 h-40 text-2xl text-gray-400 bg-gray-200 rounded-full">gaada</div>
+                                    <div id="foto-preview-placeholder" class="flex items-center justify-center w-40 h-40 text-2xl text-gray-400 bg-gray-200 rounded-full">kosong</div>
                                 @endif
                             </div>
                             <input
@@ -88,7 +88,7 @@
 
                         <!-- Submit Buttons -->
                         <div class="flex gap-4 pt-6 md:pt-8">
-                            <a href="/dashboard" class="flex-1 py-4 font-medium text-center text-white transition-all bg-gray-400 text-l hover:bg-gray-500 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-jakarta">
+                            <a href="/dashboard-user" class="flex-1 py-4 font-medium text-center text-white transition-all bg-gray-400 text-l hover:bg-gray-500 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-jakarta">
                                 Batal
                             </a>
                             <button type="submit" class="flex-1 py-4 font-medium text-white transition-all text-l bg-sahabat-orange hover:bg-opacity-90 md:text-2xl lg:text-3xl md:py-3 rounded-xl hover:shadow-lg font-jakarta">

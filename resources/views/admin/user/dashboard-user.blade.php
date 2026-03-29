@@ -21,7 +21,7 @@
             <div class="text-2xl font-semibold lg:text-xl font-jakarta">
                 Total User: <span class="ml-2">{{ $users->count() }}</span>
             </div>
-            <a href="/users/create" class="flex items-center gap-3 px-4 py-3 text-xl font-bold text-black bg-admin-orange rounded-xl hover:bg-opacity-90 lg:text-xl font-jakarta">
+            <a href="/dashboard-user/create" class="flex items-center gap-3 px-4 py-3 text-xl font-bold text-black bg-admin-orange rounded-xl hover:bg-opacity-90 lg:text-xl font-jakarta">
                 <span>Tambah pengguna</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 lg:w-8 lg:h-8" fill="none"
                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
@@ -85,7 +85,7 @@
 
                 <!-- ACTION (ASLI, TIDAK DIUBAH) -->
                 <div class="flex justify-center gap-6">
-                    <a href="/users/{{ $user->id }}/edit" class="transition-opacity hover:opacity-80">
+                    <a href="/dashboard-user/{{ $user->id }}/edit" class="transition-opacity hover:opacity-80">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

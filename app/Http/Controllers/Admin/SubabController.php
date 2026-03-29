@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Subab;
+
+class SubabController extends Controller
+{
+
+    public function create(Request $request)
+    {
+        $id_bab = $request->id_bab;
+
+        return view('admin.subab.create', compact('id_bab'));
+    }
+
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'id_bab' => 'required',
+            'nomor_subbab' => 'required',
+            'judul_subbab' => 'required'
+        ]);
+
+        Subab::create([
+            'id_bab' => $request->id_bab,
+            'nomor_subbab' => $request->nomor_subbab,
+            'judul_subbab' => $request->judul_subbab
+        ]);
+
+        return redirect()->back();
+    }
+
+
+    public function edit($id)
+    {
+        $subab = Subab::findOrFail($id);
+
+        return view('admin.subab.edit', compact('subab'));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nomor_subbab' => 'required',
+            'judul_subbab' => 'required'
+        ]);
+
+        $subab = Subab::findOrFail($id);
+
+        $subab->update([
+            'nomor_subbab' => $request->nomor_subbab,
+            'judul_subbab' => $request->judul_subbab
+        ]);
+
+        return redirect()->back();
+    }
+
+
+    public function destroy($id)
+    {
+        $subab = Subab::findOrFail($id);
+
+        $subab->delete();
+
+        return redirect()->back();
+    }
+}

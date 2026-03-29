@@ -15,7 +15,7 @@
                 Dashboard
             </a>
             
-            <a href="/users" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->is('users*') ? 'font-bold text-admin-orange' : '' }}">
+            <a href="/dashboard-user" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->is('users*') ? 'font-bold text-admin-orange' : '' }}">
                 Data User
             </a>
 
@@ -24,7 +24,7 @@
             </a>
 
             <!-- TAMBAHKAN MENU BARU DI SINI -->
-            <a href="/books" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->is('books*') ? 'font-bold text-admin-orange' : '' }}">
+            <a href="/dashboard-buku" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->is('books*') ? 'font-bold text-admin-orange' : '' }}">
                 Data Buku
             </a>
 

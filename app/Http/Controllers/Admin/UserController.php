@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller; 
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+    class UserController extends Controller
 {
     public function index()
     {
         $users = User::all();
-        return view('admin.user.dashboard', compact('users'));
+        return view('admin.user.dashboard-user', compact('users'));
     }
 
     public function create()
@@ -40,7 +40,7 @@ class UserController extends Controller
         }
 
         User::create($data);
-        return redirect('/dashboard')->with('success', 'User berhasil ditambahkan!');
+        return redirect('/dashboard-user')->with('success', 'User berhasil ditambahkan!');
     }
 
     public function show(User $user)
@@ -48,13 +48,15 @@ class UserController extends Controller
         return view('admin.user.show', compact('user'));
     }
 
-    public function edit(User $user)
+    public function edit(User $dashboard_user) 
     {
+        $user = $dashboard_user; 
         return view('admin.user.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $dashboard_user)
     {
+        $user = $dashboard_user;
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -76,12 +78,12 @@ class UserController extends Controller
         }
 
         $user->save();
-        return redirect('/dashboard')->with('success', 'User berhasil diupdate!');
+        return redirect('/dashboard-user')->with('success', 'User berhasil diupdate!');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect('/dashboard')->with('success', 'User berhasil dihapus!');
+        return redirect('/dashboard-user')->with('success', 'User berhasil dihapus!');
     }
 }
