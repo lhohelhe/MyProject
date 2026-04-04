@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
          */
             public function store(Request $request): RedirectResponse
         {
-            // Validation
+            // Validasi
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
@@ -34,12 +34,13 @@ class RegisteredUserController extends Controller
                 'password' => ['required', 'confirmed', 'min:3'],
             ]);
 
-            // Create user
+            // Buat user baru, password disimpan plain text untuk proyek pembelajaran
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'kelas' => $request->kelas,
                 'password' => $request->password,
+                'role' => 'user',
                 'email_verified_at' => now(),
             ]);
 

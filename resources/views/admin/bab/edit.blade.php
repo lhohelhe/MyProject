@@ -1,20 +1,63 @@
-<h2>Edit Bab</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Bab - SahabatBuku</title>
+    @vite('resources/css/app.css')
+</head>
+<body class="bg-[#F5F5F5]">
+<div class="flex flex-col min-h-screen lg:flex-row">
+    <x-admin-sidebar />
+    <main class="flex-1 p-4 sm:p-6 lg:p-16">
 
-<form method="POST" action="{{ route('bab.update',$bab->id_bab) }}">
+        <h1 class="mb-6 text-3xl font-extrabold font-jakarta">edit bab</h1>
 
-@csrf
-@method('PUT')
+        <div class="max-w-xl p-8 bg-white shadow-md rounded-xl">
+            <form method="POST" action="{{ route('bab.update', $bab->id_bab) }}">
+                @csrf
+                @method('PUT')
 
-<input type="number"
-       name="nomor_bab"
-       value="{{ $bab->nomor_bab }}">
+                {{-- nomor bab --}}
+                <div class="mb-5">
+                    <label class="block mb-2 text-sm font-medium font-jakarta">nomor bab</label>
+                    <input type="number"
+                           name="nomor_bab"
+                           value="{{ old('nomor_bab', $bab->nomor_bab) }}"
+                           placeholder="contoh: 1"
+                           class="w-full px-4 py-3 border border-gray-200 rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-admin-orange">
+                    @error('nomor_bab')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
 
-<input type="text"
-       name="judul_bab"
-       value="{{ $bab->judul_bab }}">
+                {{-- judul bab --}}
+                <div class="mb-8">
+                    <label class="block mb-2 text-sm font-medium font-jakarta">judul bab</label>
+                    <input type="text"
+                           name="judul_bab"
+                           value="{{ old('judul_bab', $bab->judul_bab) }}"
+                           placeholder="contoh: pengenalan sistem"
+                           class="w-full px-4 py-3 border border-gray-200 rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-admin-orange">
+                    @error('judul_bab')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
 
-<button type="submit">
-Update
-</button>
+                <div class="flex gap-3">
+                    <button type="submit"
+                            class="px-6 py-3 font-bold text-black bg-admin-orange rounded-xl hover:bg-opacity-90 font-jakarta">
+                        perbarui bab
+                    </button>
+                    <a href="{{ url()->previous() }}"
+                       class="px-6 py-3 font-bold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 font-jakarta">
+                        batal
+                    </a>
+                </div>
+            </form>
+        </div>
 
-</form>
+    </main>
+</div>
+</body>
+</html>

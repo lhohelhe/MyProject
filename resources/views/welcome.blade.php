@@ -8,24 +8,6 @@
 </head>
 <body class="antialiased">
     <body class="antialiased">
-    {{-- Success Message (setelah register/login) --}}
-    @if(session('success'))
-        <div class="fixed z-50 px-6 py-4 text-white bg-green-500 rounded-lg shadow-lg top-4 right-4">
-            <div class="flex items-center gap-3">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span class="font-medium">{{ session('success') }}</span>
-            </div>
-        </div>
-        <script>
-            // Auto hide after 5 seconds
-            setTimeout(() => {
-                document.querySelector('.fixed').style.display = 'none';
-            }, 5000);
-        </script>
-    @endif
-
     
     <div class="min-h-screen overflow-x-hidden bg-sky-50">
         
@@ -46,21 +28,9 @@
 
                 {{-- CTA Button --}}
                 <div class="flex justify-center mb-8 space y-6">
-                    @guest
-                        <a href="{{ route('register') }}" class="bg-orange-400 hover:bg-orange-500 transition-colors px-10 py-5 rounded-full text-black text-2xl sm:text-3xl md:text-[35px] font-light">
-                            Mari coba!
-                        </a>
-                   @else
-                        <div class="space-y-6 text-center">
-                            <p class="mb-6 text-2xl">
-                                Selamat datang kembali, 
-                                <span class="font-bold">{{ Auth::user()->name }}</span>! 👋
-                            </p>
-                            <a href="#fitur" class="inline-block px-10 py-5 text-xl font-light text-black transition-colors bg-orange-400 rounded-full hover:bg-orange-500 sm:text-2xl md:text-3xl">
-                                Mulai Belajar
-                            </a>
-                        </div>
-                    @endguest
+                    <a href="{{ route('register') }}" class="bg-orange-400 hover:bg-orange-500 transition-colors px-10 py-5 rounded-full text-black text-2xl sm:text-3xl md:text-[35px] font-light">
+                        Mari coba!
+                    </a>
                 </div>
 
                 {{-- Illustrations --}}
@@ -205,13 +175,11 @@
                             <p>Email: info@sahabatbuku.com</p>
                             <p>WhatsApp: +62 812-3456-7890</p>
                         </div>
-                        @guest
                         <div class="mt-4">
                             <a href="{{ route('register') }}" class="inline-block px-8 py-3 text-lg font-semibold text-black transition-colors bg-orange-400 rounded-full hover:bg-orange-500">
                                 Daftar Sekarang
                             </a>
                         </div>
-                        @endguest
                     </div>
                 </div>
 

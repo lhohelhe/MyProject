@@ -16,11 +16,12 @@ class User extends Authenticatable
     'password',
     'kelas',
     'foto',
+    'role',
     'email_verified_at',
     ];
 
     protected $hidden = [
-        // 'password', // ← COMMENT INI (agar password terlihat)
+        'password',
         'remember_token',
     ];
 

@@ -12,7 +12,7 @@
         <main class="flex items-start justify-center flex-1 p-4 md:p-8 lg:p-12 xl:p-16">
             <div class="w-full max-w-5xl">
                 <div class="bg-white rounded-3xl shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] p-8 md:p-16 lg:p-20">
-                    <h1 class="mb-12 text-3xl font-normal text-center md:text-4xl lg:text-5xl md:mb-16 font-catamaran">
+                    <h1 class="mb-12 text-3xl font-normal text-center md:text-4xl lg:text-5xl md:mb-16 font-jakarta">
                         Tambah Pengguna
                     </h1>
 
@@ -26,12 +26,12 @@
                     </div>
                     @endif
 
-                    <form action="/users" method="POST" enctype="multipart/form-data" class="max-w-3xl mx-auto space-y-8 md:space-y-12">
+                    <form action="{{ route('dashboard-user.store') }}" method="POST" enctype="multipart/form-data" class="max-w-3xl mx-auto space-y-8 md:space-y-12">
                         @csrf
 
                         <!-- Foto Field -->
                         <div>
-                            <label class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-catamaran">
+                            <label class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">
                                 Foto Profil (opsional)
                             </label>
                             <div class="flex items-center gap-6 mb-4">
@@ -42,28 +42,28 @@
                                 name="foto"
                                 accept="image/*"
                                 onchange="previewImage(this)"
-                                class="w-full text-base text-gray-500 cursor-pointer font-catamaran file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200"
+                                class="w-full text-base text-gray-500 cursor-pointer font-jakarta file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200"
                             />
                         </div>
 
                         <!-- Username Field -->
                         <div>
-                            <label for="name" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-catamaran">Username</label>
+                            <label for="name" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Username</label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" required
-                                class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-catamaran"/>
+                                class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                         </div>
 
                         <!-- Email Field -->
                         <div>
-                            <label for="email" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-catamaran">Email</label>
+                            <label for="email" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Email</label>
                             <input type="email" id="email" name="email" value="{{ old('email') }}" required
-                                class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-catamaran"/>
+                                class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                         </div>
 
                         <!-- Kelas Field -->
                         <div>
-                            <label for="kelas" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-catamaran">Kelas</label>
-                            <select id="kelas" name="kelas" class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-catamaran">
+                            <label for="kelas" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Kelas</label>
+                            <select id="kelas" name="kelas" class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta">
                                 <option value="">-- Pilih Kelas --</option>
                                 <option value="10" {{ old('kelas') == '10' ? 'selected' : '' }}>10</option>
                                 <option value="11" {{ old('kelas') == '11' ? 'selected' : '' }}>11</option>
@@ -73,17 +73,26 @@
 
                         <!-- Password Field -->
                         <div>
-                            <label for="password" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-catamaran">Buat Kata Sandi</label>
-                            <input type="password" id="password" name="password" required
-                                class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-catamaran"/>
+                            <label for="password" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Buat Kata Sandi</label>
+                            <input type="text" id="password" name="password" required
+                                class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta"/>
+                        </div>
+
+                        <!-- Role Field -->
+                        <div>
+                            <label for="role" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Role</label>
+                            <select id="role" name="role" class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta">
+                                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>user</option>
+                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>admin</option>
+                            </select>
                         </div>
 
                         <!-- Submit Buttons -->
                         <div class="flex gap-4 pt-6 md:pt-8">
-                            <a href="/dashboard" class="flex-1 py-4 text-xl font-medium text-center text-white transition-all bg-gray-400 hover:bg-gray-500 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-catamaran">
+                            <a href="{{ route('dashboard-user.index') }}" class="flex-1 py-4 text-xl font-medium text-center text-white transition-all bg-gray-400 hover:bg-gray-500 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-jakarta">
                                 Batal
                             </a>
-                            <button type="submit" class="flex-1 py-4 text-xl font-medium text-white transition-all bg-sahabat-orange hover:bg-opacity-90 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-catamaran">
+                            <button type="submit" class="flex-1 py-4 text-xl font-medium text-white transition-all bg-sahabat-orange hover:bg-opacity-90 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-jakarta">
                                 Lanjut
                             </button>
                         </div>

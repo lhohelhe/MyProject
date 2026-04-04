@@ -19,7 +19,6 @@
             >
         </div>
 
-        <!-- Card -->
         <div class="static z-6 w-full max-w-[500px] mx-2 lg:ml-auto lg:mr-[5%] bg-white rounded-[25px] shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] px-6 sm:px-10 py-6">
             <h1 class="mb-6 text-3xl font-bold text-center text-black">
                 Mendaftar
@@ -28,7 +27,6 @@
             <form method="POST" action="{{ route('register') }}" class="space-y-4">
                 @csrf
 
-                <!-- Nama -->
                 <div>
                     <label class="block text-[20px] lg:text-[16px] text-black mb-3">Nama</label>
                     <input
@@ -39,7 +37,6 @@
                         class="w-full bg-transparent border-0 border-b border-black pb-2 text-[18px] lg:text-[20px] focus:outline-none focus:border-[#F0924E]">
                 </div>
 
-                <!-- Email -->
                 <div>
                     <label class="block text-[20px] lg:text-[16px] text-black mb-3">Email</label>
                     <input
@@ -51,7 +48,6 @@
                     >
                 </div>
 
-                <!-- Kelas -->
                 <div>
                     <label class="block text-[20px] lg:text-[16px] text-black mb-3">Kelas</label>
                     <select

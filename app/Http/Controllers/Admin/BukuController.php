@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Buku;
 use App\Models\KategoriMapel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
     public function index()
     {
-        $buku = Buku::all();
+        $buku = Buku::with('kategori')
+                    ->latest('id_buku') 
+                    ->paginate(10);
 
         return view('admin.buku.dashboard-buku', compact('buku'));
     }
@@ -19,21 +22,21 @@ class BukuController extends Controller
     public function create()
     {
         $kategori = KategoriMapel::all();
-
         return view('admin.buku.create', compact('kategori'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'judul_buku' => 'required',
-            'id_kategori' => 'required',
-            'semester' => 'required',
-            'kelas' => 'required',
-            'gambar' => 'nullable|image|max:2048'
+            'judul_buku' => 'required|string|max:255',
+            'id_kategori' => 'required|exists:kategori_mapel,id_kategori',
+            'semester' => 'required|string',
+            'kelas' => 'required|string',
+            'deskripsi' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['judul_buku', 'id_kategori', 'semester', 'kelas', 'deskripsi']);
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('buku', 'public');
@@ -41,7 +44,8 @@ class BukuController extends Controller
 
         Buku::create($data);
 
-        return redirect('/books')->with('success','Buku berhasil ditambahkan');
+        return redirect()->route('dashboard-buku.index')
+                         ->with('success', 'Buku berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -49,30 +53,48 @@ class BukuController extends Controller
         $buku = Buku::findOrFail($id);
         $kategori = KategoriMapel::all();
 
-        return view('admin.buku.edit', compact('buku','kategori'));
+        return view('admin.buku.edit', compact('buku', 'kategori'));
     }
 
     public function update(Request $request, $id)
     {
         $buku = Buku::findOrFail($id);
 
-        $data = $request->all();
+        $request->validate([
+            'judul_buku' => 'required|string|max:255',
+            'id_kategori' => 'required|exists:kategori_mapel,id_kategori',
+            'semester' => 'required|string',
+            'kelas' => 'required|string',
+            'deskripsi' => 'nullable|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-        if ($request->hasFile('gambar')) {
+        $data = $request->only(['judul_buku', 'id_kategori', 'semester', 'kelas', 'deskripsi']);
+
+        if ($request->hasFile('gambar')) {// Hapus gambar lama kalau ada
+            if ($buku->gambar) {
+                Storage::disk('public')->delete($buku->gambar);
+            }
             $data['gambar'] = $request->file('gambar')->store('buku', 'public');
         }
 
         $buku->update($data);
 
-        return redirect('/books')->with('success','Buku berhasil diupdate');
+        return redirect()->route('dashboard-buku.index')
+                         ->with('success', 'Buku berhasil diupdate!');
     }
 
     public function destroy($id)
     {
         $buku = Buku::findOrFail($id);
 
+        if ($buku->gambar) {
+            Storage::disk('public')->delete($buku->gambar);
+        }
+
         $buku->delete();
 
-        return redirect('/books')->with('success','Buku berhasil dihapus');
+        return redirect()->route('dashboard-buku.index')
+                         ->with('success', 'Buku berhasil dihapus!');
     }
 }

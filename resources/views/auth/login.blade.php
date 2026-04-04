@@ -1,4 +1,10 @@
-<!DOCTYPE html> <html lang="id"> <head> <meta charset="utf-8"> <title>Login</title> @vite(['resources/css/app.css', 'resources/js/app.js']) </head> <body class="min-h-screen">
+<!DOCTYPE html> 
+<html lang="id"> 
+    <head> <meta charset="utf-8"> 
+    <title>Login</title> 
+    @vite(['resources/css/app.css', 'resources/js/app.js']) 
+</head> 
+<body class="min-h-screen">
     <div class="relative flex items-center justify-center w-full min-h-screen overflow-hidden bg-white">
 
         <div class="absolute left-0 top-30 -translate-x-1/3 -translate-y-[3%] w-[60vw] h-[100vh] max-w-[920px] max-h-[920px] rounded-full bg-[#405272] shadow-[0_0_10px_10px_rgba(0,0,0,0.25)]"></div>
@@ -12,7 +18,6 @@
             >
         </div>
 
-        <!-- Card -->
         <div class="static z-6 w-full max-w-[500px] mx-2 lg:ml-auto lg:mr-[5%] bg-white rounded-[25px] shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] px-6 sm:px-10 py-6">
 
             <h1 class="text-[clamp(32px,5vw,48px)] font-bold text-black mb-8 lg:mb-12 text-center lg:text-center">
@@ -21,8 +26,6 @@
 
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
-
-                <!-- Email -->
                 <div>
                     <label class="block text-[20px] lg:text-[16px] text-black mb-3">Email</label>
                     <input
@@ -37,7 +40,6 @@
                     @enderror
                 </div>
 
-                <!-- Password -->
                 <div>
                     <label class="block text-[20px] lg:text-[16px ] text-black mb-3">Password</label>
                     <input
@@ -51,7 +53,6 @@
                     @enderror
                 </div>
 
-                <!-- Remember + Forgot -->
                 <div class="flex items-center justify-between text-sm">
                     <label class="flex items-center gap-2">
                         <input type="checkbox" name="remember">
@@ -62,16 +63,14 @@
                         Lupa password?
                     </a>
                 </div>
-
-                <!-- Button -->
+                
+                
                 <button
-                    type="submit"
-                    class="w-full bg-[#F0924E] text-white text-[20px] lg:text-[24px] font-bold rounded-[10px] py-3 lg:py-4 mt-8 hover:bg-[#e08440] transition-colors shadow-md"
+                    type="submit" class="w-full bg-[#F0924E] text-white text-[20px] lg:text-[24px] font-bold rounded-[10px] py-3 lg:py-4 mt-8 hover:bg-[#e08440] transition-colors shadow-md"
                 >
                     Masuk
                 </button>
 
-                <!-- Register link -->
                 <p class="mt-6 text-sm text-center">
                     Belum punya akun?
                     <a href="{{ route('register') }}" class="text-[#F0924E] font-semibold hover:underline">

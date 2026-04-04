@@ -271,7 +271,7 @@
         const btnSimpan = document.getElementById('btn-simpan');
         btnSimpan.textContent = 'Menyimpan...';
 
-        fetch('{{ route("profile.update.ajax") }}', {
+        fetch('{{ route("profile.update") }}', {
             method: 'POST',
             headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
             body: formData

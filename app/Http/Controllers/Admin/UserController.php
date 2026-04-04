@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::latest('created_at')->paginate(15);
         return view('admin.user.dashboard-user', compact('users'));
     }
 
@@ -23,8 +23,9 @@ use Illuminate\Http\Request;
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:5',
+            'password' => 'required|string|min:3',
             'kelas'    => 'nullable|string|max:255',
+            'role'     => 'required|in:user,admin',
             'foto'     => 'nullable|image|max:2048',
         ]);
 
@@ -33,6 +34,7 @@ use Illuminate\Http\Request;
             'email'    => $request->email,
             'password' => $request->password,
             'kelas'    => $request->kelas,
+            'role'     => $request->role,
         ];
 
         if ($request->hasFile('foto')) {
@@ -40,11 +42,12 @@ use Illuminate\Http\Request;
         }
 
         User::create($data);
-        return redirect('/dashboard-user')->with('success', 'User berhasil ditambahkan!');
+        return redirect('/dashboard-user')->with('success', 'user berhasil ditambahkan!');
     }
 
-    public function show(User $user)
+    public function show(User $dashboard_user)
     {
+        $user = $dashboard_user;
         return view('admin.user.show', compact('user'));
     }
 
@@ -57,28 +60,38 @@ use Illuminate\Http\Request;
     public function update(Request $request, User $dashboard_user)
     {
         $user = $dashboard_user;
+
         $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:5',
-            'kelas'    => 'nullable|string|max:255',
+            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'kelas'    => 'nullable|string|max:10',
+            'role'     => 'required|in:user,admin',
             'foto'     => 'nullable|image|max:2048',
+            // password tidak wajib diisi saat edit
+            'password' => 'nullable|string|min:3',
         ]);
 
-        $user->name  = $request->name;
-        $user->email = $request->email;
-        $user->kelas = $request->kelas;
+        $data = [
+            'name'  => $request->name,
+            'email' => $request->email,
+            'kelas' => $request->kelas,
+            'role'  => $request->role,
+        ];
+
+        // hanya update password kalau field password diisi
+        if ($request->filled('password')) {
+            // simpan plain text, tidak di-hash
+            $data['password'] = $request->password;
+        }
 
         if ($request->hasFile('foto')) {
-            $user->foto = $request->file('foto')->store('foto-profil', 'public');
+            $data['foto'] = $request->file('foto')->store('foto-profil', 'public');
         }
 
-        if ($request->filled('password')) {
-            $user->password = $request->password;
-        }
+        $user->update($data);
 
-        $user->save();
-        return redirect('/dashboard-user')->with('success', 'User berhasil diupdate!');
+        return redirect()->route('dashboard-user.index')
+                         ->with('success', 'data user berhasil diperbarui!');
     }
 
     public function destroy(User $user)
