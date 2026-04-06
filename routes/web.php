@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\BabController;
 use App\Http\Controllers\Admin\SubabController;
 use App\Http\Controllers\Admin\MateriController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\User\KatalogController;
 use App\Http\Controllers\ProfileController;
 
 // halaman landing page — tidak perlu login
@@ -45,16 +45,21 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 // ─────────────────────────────────────────
 Route::middleware(['auth'])->prefix('user')->group(function () {
 
-    // dashboard user biasa
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-
     // halaman profil user
     Route::get('/profile', function () {
         return view('user.profile');
     })->name('user.profile');
 
+    // dashboard user biasa (deprecated — gunakan profile)
+    Route::get('/dashboard', function () {
+        return redirect()->route('user.profile');
+    });
+
     // update profil
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    // katalog buku
+    Route::get('/katalog', [KatalogController::class, 'index'])->name('user.katalog');
 });
 
 // auth routes (login, register, logout) — dari breeze

@@ -14,8 +14,17 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
+        // jika sudah ada sesi aktif, logout dulu lalu redirect kembali ke login
+        // agar cookie lama benar-benar terhapus di browser
+        if (auth()->check()) {
+            auth()->logout();
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+            return redirect()->route('login');
+        }
+
         return view('auth.login');
     }
 
@@ -36,7 +45,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->route('user.dashboard');
+        return redirect()->route('user.profile');
     }
 
     /**

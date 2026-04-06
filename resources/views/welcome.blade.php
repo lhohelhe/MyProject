@@ -28,7 +28,7 @@
 
                 {{-- CTA Button --}}
                 <div class="flex justify-center mb-8 space y-6">
-                    <a href="{{ route('register') }}" class="bg-orange-400 hover:bg-orange-500 transition-colors px-10 py-5 rounded-full text-black text-2xl sm:text-3xl md:text-[35px] font-light">
+                    <a href="{{ route('login') }}" class="bg-orange-400 hover:bg-orange-500 transition-colors px-10 py-5 rounded-full text-black text-2xl sm:text-3xl md:text-[35px] font-light">
                         Mari coba!
                     </a>
                 </div>
@@ -176,7 +176,7 @@
                             <p>WhatsApp: +62 812-3456-7890</p>
                         </div>
                         <div class="mt-4">
-                            <a href="{{ route('register') }}" class="inline-block px-8 py-3 text-lg font-semibold text-black transition-colors bg-orange-400 rounded-full hover:bg-orange-500">
+                            <a href="{{ route('login') }}" class="inline-block px-8 py-3 text-lg font-semibold text-black transition-colors bg-orange-400 rounded-full hover:bg-orange-500">
                                 Daftar Sekarang
                             </a>
                         </div>
