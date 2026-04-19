@@ -14,9 +14,20 @@ class Bab extends Model
         'nomor_bab',
         'judul_bab'
     ];
+
     public function subab()
     {
         return $this->hasMany(Subab::class,'id_bab','id_bab')
                     ->orderBy('nomor_subbab');
+    }
+
+    public function quiz()
+    {
+        return $this->hasMany(Quiz::class, 'id_bab', 'id_bab');
+    }
+
+    public function userQuizProgress()
+    {
+        return $this->hasMany(UserQuizProgress::class, 'id_bab', 'id_bab');
     }
 }

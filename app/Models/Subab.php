@@ -23,4 +23,9 @@ class Subab extends Model
     {
         return $this->belongsTo(Bab::class,'id_bab','id_bab');
     }
+
+    public function flashcard()
+    {
+        return $this->hasMany(Flashcard::class, 'id_subbab', 'id_subbab');
+    }
 }

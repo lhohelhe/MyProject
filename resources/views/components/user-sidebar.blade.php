@@ -12,6 +12,36 @@
     {{-- logo --}}
     <img src="{{ asset('images/logo_1.png') }}" alt="SahabatBuku" class="h-10">
 
+    {{-- xp & level section --}}
+    @php
+        use App\Services\XpService;
+        $user = Auth::user();
+        $currentLevel = $user->level;
+        $progress = XpService::getProgressToNextLevel($user);
+        $currentXp = XpService::getXpInCurrentLevel($user);
+        $xpForNext = XpService::getXpForNextLevel($user);
+    @endphp
+    <div class="mt-8 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+        <div class="flex items-center justify-between mb-3">
+            <div>
+                <div class="text-sm font-medium opacity-90">Level</div>
+                <div class="text-2xl font-bold">{{ $currentLevel }}</div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm font-medium opacity-90">XP</div>
+                <div class="text-lg font-bold">{{ $user->total_xp }}</div>
+            </div>
+        </div>
+        
+        {{-- progress bar --}}
+        <div class="mb-2">
+            <div class="w-full bg-white/30 rounded-full h-2">
+                <div class="bg-white rounded-full h-2 transition-all duration-300" style="width: {{ $progress }}%"></div>
+            </div>
+        </div>
+        <div class="text-xs opacity-90">{{ $currentXp }} / {{ $xpForNext }} XP</div>
+    </div>
+
     {{-- navigasi --}}
     <nav class="flex flex-col flex-1 gap-16 mt-10">
 

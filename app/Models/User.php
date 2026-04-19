@@ -18,6 +18,9 @@ class User extends Authenticatable
     'foto',
     'role',
     'email_verified_at',
+    'xp',
+    'level',
+    'total_xp',
     ];
 
     protected $hidden = [
@@ -29,6 +32,30 @@ class User extends Authenticatable
     {
     return [
             'email_verified_at' => 'datetime',
+            'xp' => 'integer',
+            'level' => 'integer',
+            'total_xp' => 'integer',
         ];
+    }
+
+    // Relasi
+    public function hasilSimulasi()
+    {
+        return $this->hasMany(HasilSimulasi::class, 'user_id', 'id');
+    }
+
+    public function hasilQuiz()
+    {
+        return $this->hasMany(HasilQuiz::class, 'user_id', 'id');
+    }
+
+    public function userQuizProgress()
+    {
+        return $this->hasMany(UserQuizProgress::class, 'user_id', 'id');
+    }
+
+    public function userFlashcard()
+    {
+        return $this->hasMany(UserFlashcard::class, 'user_id', 'id');
     }
 }

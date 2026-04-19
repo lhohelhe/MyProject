@@ -32,4 +32,9 @@ class Buku extends Model
     {
         return $this->hasMany(Bab::class, 'id_buku', 'id_buku');
     }
+
+    public function simulasi()
+    {
+        return $this->hasMany(Simulasi::class, 'id_buku', 'id_buku');
+    }
 }
