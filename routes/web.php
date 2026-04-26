@@ -45,7 +45,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Kelola simulasi
     Route::resource('/simulasi', SimulasiController::class);
     Route::get('/simulasi/{id}/soal', [SoalSimulasiController::class, 'index'])->name('soal-simulasi.index');
-    Route::post('/simulasi/soal', [SoalSimulasiController::class, 'store'])->name('soal-simulasi.store');
+    Route::post('/simulasi/{id}/soal', [SoalSimulasiController::class, 'store'])->name('soal-simulasi.store');
     Route::put('/simulasi/soal/{id}', [SoalSimulasiController::class, 'update'])->name('soal-simulasi.update');
     Route::delete('/simulasi/soal/{id}', [SoalSimulasiController::class, 'destroy'])->name('soal-simulasi.destroy');
 });
@@ -68,6 +68,9 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
 
     // Katalog buku
     Route::get('/katalog', [KatalogController::class, 'index'])->name('user.katalog');
+
+    // Detail buku
+    Route::get('/buku/{id}', [App\Http\Controllers\User\BukuController::class, 'show'])->name('user.buku.show');
 
     // SIMULASI UJIAN (Perbaikan urutan: Submit & Result dulu sebelum {id})
     Route::get('/simulasi', [UserSimulasiController::class, 'index'])->name('user.simulasi.index');

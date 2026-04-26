@@ -9,8 +9,8 @@
 <body class="bg-gray-50">
     <div class="flex flex-col min-h-screen md:flex-row">
         <x-admin-sidebar />
-
-        <main class="flex items-start justify-center flex-1 p-4 md:p-8 lg:p-12 xl:p-16">
+    
+        <main class="flex-1 min-h-screen px-8 py-8 overflow-y-auto">
             <div class="w-full max-w-5xl">
                 <div class="bg-white rounded-3xl shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] p-8 md:p-16 lg:p-20">
 
@@ -35,7 +35,7 @@
                         </div>
 
                         <!-- KANAN: Data User -->
-                        <div class="lg:col-span-2 space-y-8">
+                        <div class="space-y-8 lg:col-span-2">
 
                             <div>
                                 <label class="block mb-2 text-sm font-medium text-gray-600 font-jakarta">Nama Pengguna</label>
@@ -44,7 +44,7 @@
 
                             <div>
                                 <label class="block mb-2 text-sm font-medium text-gray-600 font-jakarta">Email</label>
-                                <p class="text-lg font-jakarta break-all">{{ $user->email }}</p>
+                                <p class="text-lg break-all font-jakarta">{{ $user->email }}</p>
                             </div>
 
                             <div>
@@ -74,7 +74,7 @@
                             <!-- Action Buttons -->
                             <div class="flex gap-4 pt-8">
                                 <a href="{{ route('dashboard-user.edit', $user->id) }}" 
-                                   class="flex-1 py-4 text-xl font-bold text-center text-black bg-admin-orange hover:bg-opacity-90 rounded-xl transition-all font-jakarta">
+                                   class="flex-1 py-4 text-xl font-bold text-center text-black transition-all bg-admin-orange hover:bg-opacity-90 rounded-xl font-jakarta">
                                     Edit
                                 </a>
 
@@ -84,13 +84,13 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" 
-                                            class="w-full py-4 text-xl font-bold text-white bg-red-500 hover:bg-red-600 rounded-xl transition-all font-jakarta">
+                                            class="w-full py-4 text-xl font-bold text-white transition-all bg-red-500 hover:bg-red-600 rounded-xl font-jakarta">
                                         Hapus
                                     </button>
                                 </form>
 
                                 <a href="{{ route('dashboard-user.index') }}" 
-                                   class="flex-1 py-4 text-xl font-bold text-center text-white bg-gray-400 hover:bg-gray-500 rounded-xl transition-all font-jakarta">
+                                   class="flex-1 py-4 text-xl font-bold text-center text-white transition-all bg-gray-400 hover:bg-gray-500 rounded-xl font-jakarta">
                                     Kembali
                                 </a>
                             </div>

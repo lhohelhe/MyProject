@@ -21,7 +21,7 @@
         $currentXp = XpService::getXpInCurrentLevel($user);
         $xpForNext = XpService::getXpForNextLevel($user);
     @endphp
-    <div class="mt-8 p-4 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+    <div class="p-4 mt-8 text-white rounded-lg bg-gradient-to-r from-orange-400 to-orange-500">
         <div class="flex items-center justify-between mb-3">
             <div>
                 <div class="text-sm font-medium opacity-90">Level</div>
@@ -32,25 +32,25 @@
                 <div class="text-lg font-bold">{{ $user->total_xp }}</div>
             </div>
         </div>
-        
+
         {{-- progress bar --}}
         <div class="mb-2">
-            <div class="w-full bg-white/30 rounded-full h-2">
-                <div class="bg-white rounded-full h-2 transition-all duration-300" style="width: {{ $progress }}%"></div>
+            <div class="w-full h-2 rounded-full bg-white/30">
+                <div class="h-2 transition-all duration-300 bg-white rounded-full" style="width: {{ $progress }}%"></div>
             </div>
         </div>
         <div class="text-xs opacity-90">{{ $currentXp }} / {{ $xpForNext }} XP</div>
     </div>
 
     {{-- navigasi --}}
-    <nav class="flex flex-col flex-1 gap-16 mt-10">
+    <nav class="flex flex-col flex-1 gap-10 mt-10">
 
         {{-- katalog --}}
         <a href="{{ route('user.katalog') }}" class="flex items-center gap-5 group">
             <svg width="22" height="23" viewBox="0 0 22 23" fill="none">
                 <path d="M2.89474 17.7727C2.127 17.7727 1.39072 18.0481 0.847849 18.5382C0.30498 19.0284 0 19.6932 0 20.3864M0 20.3864C0 21.0795 0.30498 21.7443 0.847849 22.2345C1.39072 22.7246 2.127 23 2.89474 23H22M0 20.3864V2.61364C0 1.92046 0.30498 1.25567 0.847849 0.765516C1.39072 0.275364 2.127 0 2.89474 0H20.8421L20.6667 17.78H2.88547M20.2632 17.7727C19.4954 17.7727 18.7591 18.0481 18.2163 18.5382C17.6734 19.0284 17.3684 19.6932 17.3684 20.3864C17.3684 21.0795 17.6734 21.7443 18.2163 22.2345C18.7591 22.7246 19.4954 23 20.2632 23" stroke="black" stroke-width="2"/>
             </svg>
-            <span class="text-[26px] font-medium text-black">Katalog</span>
+            <span class="text-[26px] font-medium {{ request()->routeIs('user.katalog') ? 'text-blue-600 font-bold' : 'text-black' }}">Katalog</span>
         </a>
 
         {{-- kategori --}}
@@ -64,7 +64,6 @@
             <div class="flex gap-5 pl-1">
                 <div class="w-[3px] rounded-full bg-[#9E9E9E]"></div>
                 <div class="flex flex-col flex-1 gap-8">
-                    {{-- ambil kategori dari database --}}
                     @php $kategori = \App\Models\KategoriMapel::all(); @endphp
                     @foreach($kategori as $k)
                         <a href="{{ route('user.katalog', ['kategori' => $k->id_kategori]) }}" class="text-[18px] font-medium text-black hover:text-blue-600">
@@ -83,7 +82,7 @@
             <svg width="22" height="27" viewBox="0 0 22 27" fill="none">
                 <path d="M11 12.8571C11.8334 12.8571 12.6586 12.6909 13.4286 12.3678C14.1985 12.0447 14.8981 11.5712 15.4874 10.9743C16.0767 10.3773 16.5442 9.66863 16.8631 8.88868C17.182 8.10873 17.3462 7.27278 17.3462 6.42857C17.3462 5.58436 17.182 4.74841 16.8631 3.96846C16.5442 3.18851 16.0767 2.47983 15.4874 1.88288C14.8981 1.28594 14.1985 0.812412 13.4286 0.489346C12.6586 0.16628 11.8334 0 11 0C10.1666 0 9.34138 0.16628 8.57143 0.489346C7.80148 0.812412 7.10189 1.28594 6.51259 1.88288C5.9233 2.47983 5.45584 3.18851 5.13692 3.96846C4.81799 4.74841 4.65385 5.58436 4.65385 6.42857C4.65385 7.27278 4.81799 8.10873 5.13692 8.88868C5.45584 9.66863 5.9233 10.3773 6.51259 10.9743C7.10189 11.5712 7.80148 12.0447 8.57143 12.3678C9.34138 12.6909 10.1666 12.8571 11 12.8571ZM9.42933 15.8571C4.22019 15.8571 0 20.1321 0 25.4089C0 26.2875 0.703365 27 1.57067 27H20.4293C21.2966 27 22 26.2875 22 25.4089C22 20.1321 17.7798 15.8571 12.5707 15.8571H9.42933Z" fill="black"/>
             </svg>
-            <span class="text-[24px] font-medium text-black">Profil</span>
+            <span class="text-[24px] font-medium {{ request()->routeIs('user.profile') ? 'text-blue-600 font-bold' : 'text-black' }}">Profil</span>
         </a>
 
         <form method="POST" action="{{ route('logout') }}">

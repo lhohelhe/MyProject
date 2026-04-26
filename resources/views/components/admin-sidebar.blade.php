@@ -13,7 +13,7 @@
             <a href="{{ route('admin.dashboard') }}" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->routeIs('admin.dashboard') ? 'font-bold text-admin-orange' : '' }}">
                 Dashboard
             </a>
-            
+
             {{-- data user --}}
             <a href="{{ route('dashboard-user.index') }}" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->routeIs('dashboard-user.*') ? 'font-bold text-admin-orange' : '' }}">
                 Data User
@@ -24,11 +24,18 @@
                 Data Buku
             </a>
 
-            <a href="/quiz" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->is('quiz*') ? 'font-bold text-admin-orange' : '' }}">
+            {{-- simulasi ujian --}}
+            <a href="{{ route('simulasi.index') }}" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->routeIs('simulasi.*') || request()->routeIs('soal-simulasi.*') ? 'font-bold text-admin-orange' : '' }}">
+                Simulasi Ujian
+            </a>
+
+            {{-- quiz --}}
+            <a href="/admin/quiz" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->is('admin/quiz*') ? 'font-bold text-admin-orange' : '' }}">
                 Data Quiz
             </a>
 
-            <a href="/flashcards" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->is('flashcards*') ? 'font-bold text-admin-orange' : '' }}">
+            {{-- flashcard --}}
+            <a href="/admin/flashcard" class="block text-base text-white transition lg:text-lg font-jakarta hover:text-admin-orange {{ request()->is('admin/flashcard*') ? 'font-bold text-admin-orange' : '' }}">
                 Data Flashcard
             </a>
         </nav>
