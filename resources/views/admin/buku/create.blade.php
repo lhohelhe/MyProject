@@ -18,17 +18,14 @@
 
                 <form id="form-create" enctype="multipart/form-data">
                     <div class="grid grid-cols-1 gap-10 lg:grid-cols-12">
-<<<<<<< HEAD
-=======
                         
                         <!-- KIRI -->
->>>>>>> 9c67793f02e80bf500aa472bea924463f327f82a
                         <div class="flex flex-col items-center lg:col-span-5">
                             <label class="block mb-4 text-base text-center font-jakarta">Cover Buku</label>
                             <div id="cover-preview" 
                                  class="flex items-center justify-center w-full max-w-sm text-gray-300 bg-gray-100 border border-gray-200 h-96 text-8xl rounded-2xl"
                                  style="aspect-ratio: 717 / 1027;">
-                                ?
+                                📖
                             </div>
                             <div class="w-full max-w-sm mt-6">
                                 <input type="file" 

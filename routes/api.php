@@ -1,6 +1,11 @@
 <?php
-use App\Http\Controllers\Api\BukuController;
 
+// Kateori Mapel
+use App\Models\KategoriMapel;
+Route::get('/kategori', function () {return KategoriMapel::all();});
+
+// Buku
+use App\Http\Controllers\Api\BukuController;
 Route::get('buku', [BukuController::class, 'index']);
 Route::post('buku', [BukuController::class, 'store']);
 Route::get('buku/{id}', [BukuController::class, 'show']);

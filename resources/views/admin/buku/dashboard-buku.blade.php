@@ -67,34 +67,6 @@ async function loadBuku() {
                         Belum ada data buku terdaftar
                     </p>
                 </div>
-<<<<<<< HEAD
-                
-                <!-- JUDUL BUKU -->
-                <div class="pl-6 font-medium text-left">{{ $b->judul_buku }}</div>
-                <div class="font-medium">{{ $b->kategori->nama_kategori ?? '-' }}</div>
-                <div class="font-medium">{{ $b->kelas }}</div>
-                <div class="font-medium">{{ $b->semester }}</div>
-                
-                <!-- Action -->
-                <div class="flex justify-center gap-6">
-                    <a href="{{ route('dashboard-buku.edit', $b->id_buku) }}" class="transition-opacity hover:opacity-80">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="text-admin-green fill-admin-green">
-                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-                            <path d="m15 5 4 4"/>
-                        </svg>
-                    </a>
-                    <form action="{{ route('dashboard-buku.destroy', $b->id_buku) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus buku ini?');">
-                        @csrf
-                        @method('DELETE')
-                        <button class="transition-opacity hover:opacity-80">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="text-admin-red fill-admin-red">
-=======
             `;
         } else {
             data.forEach(b => {
@@ -124,16 +96,8 @@ async function loadBuku() {
 
                         <!-- Action -->
                         <div class="flex justify-center gap-4">
-                            <a href="/admin/dashboard-buku/${b.id_buku}/edit" class="text-green-600"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-admin-green">
-                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>    
-                            <path d="m15 5 4 4"/>
-                        </svg></a>
-                            <button onclick="deleteBuku(${b.id_buku})" class="text-red-600"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-admin-red">
->>>>>>> 9c67793f02e80bf500aa472bea924463f327f82a
-                                <path d="M3 6h18"/>
-                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                            </svg></button>
+                            <a href="/admin/dashboard-buku/${b.id_buku}/edit" class="text-green-600">Edit</a>
+                            <button onclick="deleteBuku(${b.id_buku})" class="text-red-600">Hapus</button>
                         </div>
 
                     </div>
