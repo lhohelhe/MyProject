@@ -52,8 +52,8 @@
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-xl font-bold font-jakarta">buku terbaru ditambahkan</h2>
                 <a href="{{ route('dashboard-buku.index') }}"
-                   class="text-sm text-gray-400 font-jakarta hover:text-black">
-                    lihat lainnya →
+                   class="flex items-center gap-1 text-sm text-gray-400 font-jakarta hover:text-black">
+                    lihat lainnya <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
             </div>
 
@@ -66,8 +66,8 @@
                          class="object-cover w-12 h-16 rounded-lg"
                          alt="{{ $buku->judul_buku }}">
                 @else
-                    <div class="flex items-center justify-center w-12 h-16 text-2xl bg-gray-100 rounded-lg">
-                        📖
+                    <div class="flex items-center justify-center w-12 h-16 bg-gray-100 rounded-lg">
+                        <i data-lucide="book-open" class="w-6 h-6 text-gray-400"></i>
                     </div>
                 @endif
 

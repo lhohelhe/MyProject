@@ -8,7 +8,7 @@
 
     <x-user-sidebar />
 
-     {{-- ===== MAIN CONTENT ===== --}}
+    {{-- ===== MAIN CONTENT ===== --}}
     <main class="flex-1 px-10 py-8">
 
         {{-- Motivation Card --}}
@@ -29,14 +29,46 @@
 
         {{-- Dashboard --}}
         <h1 class="font-bold text-[28px] text-black mb-6">Dasbor</h1>
-        <div class="text-lg text-gray-400">
-            <p class="italic">Belum ada buku dengan progress. Mulai belajar!</p>
-        </div>
+
+        @if($bukuProgress->isEmpty())
+            <div class="flex flex-col items-center justify-center py-12 text-center">
+                <div class="mb-4 text-gray-400">
+                    <i data-lucide="library" class="w-16 h-16 mx-auto"></i>
+                </div>
+                <p class="italic text-gray-400 font-jakarta">Belum ada buku dengan progress. Mulai belajar!</p>
+                <a href="{{ route('user.katalog') }}" class="px-6 py-2 mt-4 font-semibold text-white rounded-xl font-jakarta" style="background-color: #F4922A;">
+                    Ke Katalog
+                </a>
+            </div>
+        @else
+            <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+                @foreach($bukuProgress as $b)
+                <a href="{{ route('user.buku.show', $b->id_buku) }}" class="flex flex-col bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="w-full overflow-hidden" style="aspect-ratio: 3/4;">
+                        @if($b->gambar)
+                            <img src="{{ Storage::url($b->gambar) }}" alt="{{ $b->judul_buku }}" class="object-cover w-full h-full">
+                        @else
+                            <div class="flex items-center justify-center w-full h-full text-4xl bg-gray-100">
+                                <i data-lucide="book-open" class="w-12 h-12 text-gray-400"></i>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="p-3">
+                        <p class="mb-2 text-xs font-semibold text-black font-jakarta line-clamp-2">{{ $b->judul_buku }}</p>
+                        <div class="w-full h-2 mb-1 bg-gray-200 rounded-full">
+                            <div class="h-2 transition-all rounded-full" style="width: {{ $b->progress }}%; background-color: #F4922A;"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 font-jakarta">{{ $b->progress }}% selesai</p>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+        @endif
 
     </main>
 
     {{-- ===== PROFILE PANEL ===== --}}
-    <aside class="w-[380px] min-h-screen bg-white flex-shrink-0 flex flex-col items-center py-16 px-12" style="box-shadow: -4px 0 20px rgba(0,0,0,0.08);">
+    <aside class="w-[380px] h-screen sticky top-0 bg-white flex-shrink-0 flex flex-col items-center py-16 px-12 overflow-y-auto" style="box-shadow: -4px 0 20px rgba(0,0,0,0.08);">
 
         <h2 class="font-medium text-[28px] text-black mb-8">Your Profile</h2>
 
@@ -53,7 +85,6 @@
                 </svg>
             @endif
 
-            {{-- Tombol upload foto (muncul saat edit mode) --}}
             <label id="foto-label" class="absolute bottom-0 right-0 hidden p-2 rounded-full cursor-pointer hover:opacity-80" style="background-color: #F4922A;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
@@ -115,15 +146,15 @@
             Edit
         </button>
 
-        {{-- Success message --}}
-        <p id="success-msg" class="hidden"></p>
+        <p id="success-msg" class="hidden mt-3 text-sm font-medium text-center text-green-600">
+            <i data-lucide="check" class="w-4 h-4 inline-block mb-1"></i> Profil berhasil diperbarui!
+        </p>
 
     </aside>
 
 </div>
 
 <script>
-    // ===== MOTIVATION CARD =====
     const motivKey = 'motivationNote';
     const textEl = document.getElementById('motivation-text');
     const inputEl = document.getElementById('motivation-input');
@@ -162,7 +193,6 @@
         }
     });
 
-    // ===== PROFILE EDIT =====
     let editMode = false;
 
     function toggleEditMode() {

@@ -27,17 +27,17 @@ class QuizController extends Controller
      */
     public function index($id_bab)
     {
-        $quiz = Quiz::where('id_bab', $id_bab)
+        $bab = \App\Models\Bab::findOrFail($id_bab);
+        $quizList = Quiz::where('id_bab', $id_bab)
                     ->with('bab')
                     ->latest('id_quiz')
                     ->paginate(10);
 
-        // Jika tidak ada quiz, redirect
-        if ($quiz->isEmpty()) {
-            return redirect()->back()->with('info', 'Belum ada quiz untuk bab ini.');
-        }
+        $progress = UserQuizProgress::where('user_id', Auth::id())
+                                    ->where('id_bab', $id_bab)
+                                    ->first();
 
-        return view('user.quiz.index', compact('quiz', 'id_bab'));
+        return view('user.quiz.index', compact('quizList', 'id_bab', 'bab', 'progress'));
     }
 
     /**
@@ -58,9 +58,11 @@ class QuizController extends Controller
             ]
         );
 
+        $difficulty = $progress->difficulty_level;
+
         // Ambil 10 soal random sesuai difficulty
         $soal = SoalQuiz::where('id_quiz', $id_quiz)
-                        ->where('difficulty', $progress->difficulty_level)
+                        ->where('difficulty', $difficulty)
                         ->inRandomOrder()
                         ->take(10)
                         ->get();
@@ -69,14 +71,14 @@ class QuizController extends Controller
         if ($soal->count() < 10) {
             $remainingCount = 10 - $soal->count();
             $additionalSoal = SoalQuiz::where('id_quiz', $id_quiz)
-                                      ->where('difficulty', '!=', $progress->difficulty_level)
+                                      ->where('difficulty', '!=', $difficulty)
                                       ->inRandomOrder()
                                       ->take($remainingCount)
                                       ->get();
             $soal = $soal->merge($additionalSoal);
         }
 
-        return view('user.quiz.exam', compact('quiz', 'soal', 'progress'));
+        return view('user.quiz.exam', compact('quiz', 'soal', 'progress', 'difficulty'));
     }
 
     /**
@@ -132,17 +134,19 @@ class QuizController extends Controller
             ]);
         }
 
+        $difficultySebelum = $progress->difficulty_level;
+
         // Tentukan difficulty berikutnya berdasarkan difficulty saat ini user
-        $nextDifficulty = $this->quizAdaptiveService->getNextDifficulty($skor, $progress->difficulty_level);
+        $nextDifficulty = $this->quizAdaptiveService->getNextDifficulty($skor, $difficultySebelum);
 
         // Cek apakah hari ini berturut-turut
         $isConsecutive = $this->quizAdaptiveService->isConsecutiveDay($progress->last_quiz_date);
 
         // Update user progress
-        $this->quizAdaptiveService->updateUserProgress($user->id, $quiz->id_bab, $nextDifficulty, $isConsecutive);
+        $progress = $this->quizAdaptiveService->updateUserProgress($user->id, $quiz->id_bab, $nextDifficulty, $isConsecutive);
 
         // Tambahkan XP ke user
-        $xpResult = XpService::addXp($user, $xpDidapat);
+        XpService::addXp($user, $xpDidapat);
 
         // Simpan hasil quiz
         $hasil = HasilQuiz::create([
@@ -151,12 +155,12 @@ class QuizController extends Controller
             'skor' => $skor,
             'jumlah_benar' => $jumlahBenar,
             'total_soal' => $totalSoal,
-            'difficulty_saat_ini' => $progress->difficulty_level,
+            'difficulty_saat_ini' => $difficultySebelum,
             'xp_didapat' => $xpDidapat
         ]);
 
         return redirect()->route('user.quiz.result', $hasil->id_hasil_quiz)
-                         ->with('success', 'Quiz selesai! Skor Anda: ' . $skor);
+                         ->with('success', 'Quiz selesai!');
     }
 
     /**
@@ -164,14 +168,23 @@ class QuizController extends Controller
      */
     public function result($id_hasil_quiz)
     {
-        $hasil = HasilQuiz::with(['quiz.soalQuiz', 'user'])
+        $hasil = HasilQuiz::with(['quiz.bab', 'user'])
                           ->findOrFail($id_hasil_quiz);
 
-        // Pastikan user hanya bisa lihat hasil miliknya
         if ($hasil->user_id !== Auth::id()) {
             abort(403, 'Unauthorized');
         }
 
-        return view('user.quiz.result', compact('hasil'));
+        $progress = UserQuizProgress::where('user_id', $hasil->user_id)
+                                    ->where('id_bab', $hasil->quiz->id_bab)
+                                    ->first();
+
+        $quiz = $hasil->quiz;
+        $xpDapat = $hasil->xp_didapat;
+        $difficultySebelum = $hasil->difficulty_saat_ini;
+        $difficultyBaru = $progress->difficulty_level;
+        $streakHari = $progress->streak_hari;
+
+        return view('user.quiz.result', compact('hasil', 'quiz', 'xpDapat', 'difficultySebelum', 'difficultyBaru', 'streakHari'));
     }
 }

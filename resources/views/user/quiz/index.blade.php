@@ -22,17 +22,17 @@
             <div class="flex items-center gap-4">
                 <span class="text-sm font-semibold text-gray-600 font-jakarta">Kesulitan Saat Ini:</span>
                 @php
-                    $difficulty = $progress?->difficulty ?? 'easy';
+                    $diffLevel = $progress?->difficulty_level ?? 'easy';
                     $difficultyLabel = [
                         'easy' => 'Mudah',
                         'medium' => 'Sedang',
                         'hard' => 'Sulit'
-                    ][$difficulty] ?? 'Mudah';
+                    ][$diffLevel] ?? 'Mudah';
                     $difficultyColor = [
                         'easy' => 'bg-green-500',
                         'medium' => 'bg-yellow-500',
                         'hard' => 'bg-red-500'
-                    ][$difficulty] ?? 'bg-green-500';
+                    ][$diffLevel] ?? 'bg-green-500';
                 @endphp
                 <span class="px-3 py-1 text-sm font-bold text-white rounded-full {{ $difficultyColor }} font-jakarta">
                     {{ $difficultyLabel }}
@@ -41,7 +41,7 @@
             <div class="flex items-center gap-2">
                 <span class="text-sm font-semibold text-gray-600 font-jakarta">Streak Hari:</span>
                 <span class="text-2xl font-bold text-[#F0924E] font-jakarta">
-                    {{ $progress?->streak_hari ?? 0 }} 🔥
+                    {{ $progress?->streak_hari ?? 0 }} <i data-lucide="flame" class="w-6 h-6 inline-block mb-1"></i>
                 </span>
             </div>
         </div>

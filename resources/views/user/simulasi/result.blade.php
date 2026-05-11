@@ -41,7 +41,7 @@
             <div class="p-6 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]">
                 <p class="text-sm font-semibold text-gray-600 mb-2 font-jakarta">Benar</p>
                 <p class="text-4xl font-bold text-green-600 font-jakarta">
-                    {{ $soal->where('user_answer_correct', true)->count() }}
+                    {{ $hasil->jumlah_benar }}
                 </p>
             </div>
 
@@ -49,7 +49,7 @@
             <div class="p-6 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]">
                 <p class="text-sm font-semibold text-gray-600 mb-2 font-jakarta">Salah</p>
                 <p class="text-4xl font-bold text-red-600 font-jakarta">
-                    {{ $soal->where('user_answer_correct', false)->count() }}
+                    {{ $hasil->jumlah_salah }}
                 </p>
             </div>
 
@@ -57,7 +57,7 @@
             <div class="p-6 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]">
                 <p class="text-sm font-semibold text-gray-600 mb-2 font-jakarta">Kosong</p>
                 <p class="text-4xl font-bold text-gray-600 font-jakarta">
-                    {{ $soal->whereNull('user_answer')->count() }}
+                    {{ $hasil->jumlah_kosong }}
                 </p>
             </div>
         </div>
@@ -93,19 +93,16 @@
                                 <span class="font-bold text-gray-700 font-jakarta">{{ strtoupper($option) }}.</span>
                                 <div class="flex-1">
                                     <p class="text-gray-700 font-jakarta">
-                                        @php
-                                            $columnName = 'opsi_' . $option;
-                                            echo $s->$columnName;
-                                        @endphp
+                                        {{ $s->{'opsi_' . $option} }}
                                     </p>
 
                                     {{-- label jawaban --}}
                                     @if($s->user_answer === $option && $s->user_answer_correct)
-                                        <p class="mt-2 text-xs font-bold text-green-700 font-jakarta">✓ Jawaban Benar</p>
+                                        <p class="mt-2 text-xs font-bold text-green-700 font-jakarta"><i data-lucide="check" class="w-3 h-3 inline-block mb-0.5"></i> Jawaban Benar</p>
                                     @elseif($s->user_answer === $option && !$s->user_answer_correct)
-                                        <p class="mt-2 text-xs font-bold text-red-700 font-jakarta">✗ Jawaban Anda</p>
+                                        <p class="mt-2 text-xs font-bold text-red-700 font-jakarta"><i data-lucide="x" class="w-3 h-3 inline-block mb-0.5"></i> Jawaban Anda</p>
                                     @elseif($s->kunci_jawaban === $option && $s->user_answer !== $option)
-                                        <p class="mt-2 text-xs font-bold text-blue-700 font-jakarta">✓ Jawaban Benar</p>
+                                        <p class="mt-2 text-xs font-bold text-blue-700 font-jakarta"><i data-lucide="check" class="w-3 h-3 inline-block mb-0.5"></i> Jawaban Benar</p>
                                     @endif
                                 </div>
                             </div>

@@ -89,45 +89,53 @@
             <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
                 {{-- Notes AI --}}
                 <a href="#" class="p-6 bg-white rounded-2xl shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] hover:shadow-lg transition text-center">
-                    <div class="mb-4 text-3xl">📝</div>
+                    <div class="mb-4 text-orange-500">
+                        <i data-lucide="notebook-pen" class="w-10 h-10 mx-auto"></i>
+                    </div>
                     <p class="mb-3 text-sm font-bold text-gray-800 font-jakarta">Notes AI</p>
                     <div class="flex justify-center gap-1">
-                        <span class="text-xl text-gray-300">⭐</span>
-                        <span class="text-xl text-gray-300">⭐</span>
-                        <span class="text-xl text-gray-300">⭐</span>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
                     </div>
                 </a>
 
                 {{-- Quiz --}}
                 <a href="{{ route('user.quiz.index', $buku->bab->first()?->id_bab ?? '#') }}" class="p-6 bg-white rounded-2xl shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] hover:shadow-lg transition text-center">
-                    <div class="mb-4 text-3xl">❓</div>
+                    <div class="mb-4 text-blue-500">
+                        <i data-lucide="circle-help" class="w-10 h-10 mx-auto"></i>
+                    </div>
                     <p class="mb-3 text-sm font-bold text-gray-800 font-jakarta">Quiz</p>
                     <div class="flex justify-center gap-1">
-                        <span class="text-xl text-gray-300">⭐</span>
-                        <span class="text-xl text-gray-300">⭐</span>
-                        <span class="text-xl text-gray-300">⭐</span>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
                     </div>
                 </a>
 
                 {{-- Flashcard --}}
                 <a href="{{ route('user.flashcard', $buku->bab->first()?->subbab->first()?->id_subbab ?? '#') }}" class="p-6 bg-white rounded-2xl shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] hover:shadow-lg transition text-center">
-                    <div class="mb-4 text-3xl">🎴</div>
+                    <div class="mb-4 text-purple-500">
+                        <i data-lucide="gallery-vertical-end" class="w-10 h-10 mx-auto"></i>
+                    </div>
                     <p class="mb-3 text-sm font-bold text-gray-800 font-jakarta">Flashcard</p>
                     <div class="flex justify-center gap-1">
-                        <span class="text-xl text-gray-300">⭐</span>
-                        <span class="text-xl text-gray-300">⭐</span>
-                        <span class="text-xl text-gray-300">⭐</span>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
                     </div>
                 </a>
 
                 {{-- Ujian Simulasi --}}
                 <a href="{{ route('user.simulasi.index', ['book' => $buku->id_buku]) }}" class="p-6 bg-white rounded-2xl shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] hover:shadow-lg transition text-center">
-                    <div class="mb-4 text-3xl">📋</div>
+                    <div class="mb-4 text-green-500">
+                        <i data-lucide="clipboard" class="w-10 h-10 mx-auto"></i>
+                    </div>
                     <p class="mb-3 text-sm font-bold text-gray-800 font-jakarta">Ujian Simulasi</p>
                     <div class="flex justify-center gap-1">
-                        <span class="text-xl text-gray-300">⭐</span>
-                        <span class="text-xl text-gray-300">⭐</span>
-                        <span class="text-xl text-gray-300">⭐</span>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
                     </div>
                 </a>
             </div>

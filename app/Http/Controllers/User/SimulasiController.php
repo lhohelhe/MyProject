@@ -109,6 +109,7 @@ class SimulasiController extends Controller
             'jumlah_benar'  => $jumlahBenar,
             'jumlah_salah'  => $jumlahSalah,
             'jumlah_kosong' => $jumlahKosong,
+            'list_jawaban'  => $request->jawaban,
             'lulus'         => $lulus,
             'waktu_mulai'   => session('waktu_mulai') ?? Carbon::now(),
             'waktu_selesai' => Carbon::now(),
@@ -130,6 +131,13 @@ class SimulasiController extends Controller
         }
 
         $soal = $hasil->simulasi->soalSimulasi;
+        $jawabanUser = $hasil->list_jawaban ?? [];
+
+        $soal->transform(function ($s) use ($jawabanUser) {
+            $s->user_answer = $jawabanUser[$s->id_soal] ?? null;
+            $s->user_answer_correct = $s->user_answer == $s->kunci_jawaban;
+            return $s;
+        });
 
         return view('user.simulasi.result', compact('hasil', 'soal'));
     }

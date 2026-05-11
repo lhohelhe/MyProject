@@ -58,16 +58,13 @@
                             @foreach(['a', 'b', 'c', 'd'] as $option)
                             <label class="flex items-start p-3 transition border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50" onclick="markAnswered({{ $index }})">
                                 <input type="radio" 
-                                       name="jawaban[{{ $s->id_soal_simulasi }}]" 
+                                       name="jawaban[{{ $s->id_soal }}]" 
                                        value="{{ $option }}"
                                        class="mt-1"
                                        data-question="{{ $index }}">
                                 <span class="ml-3 font-bold text-gray-700 font-jakarta">{{ strtoupper($option) }}.</span>
                                 <span class="ml-2 text-gray-700 font-jakarta">
-                                    @php
-                                        $columnName = 'opsi_' . $option;
-                                        echo $s->$columnName;
-                                    @endphp
+                                    {{ $s->{'opsi_' . $option} }}
                                 </span>
                             </label>
                             @endforeach

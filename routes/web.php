@@ -13,6 +13,7 @@ use App\Http\Controllers\User\KatalogController;
 use App\Http\Controllers\User\SimulasiController as UserSimulasiController;
 use App\Http\Controllers\User\QuizController as UserQuizController;
 use App\Http\Controllers\User\FlashcardController as UserFlashcardController;
+use App\Http\Controllers\User\MateriController as UserMateriController;
 use App\Http\Controllers\ProfileController;
 
 // Halaman landing page — tidak perlu login
@@ -54,9 +55,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 Route::middleware(['auth'])->prefix('user')->group(function () {
 
     // Halaman profil user
-    Route::get('/profile', function () {
-        return view('user.profile');
-    })->name('user.profile');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('user.profile');
 
     // Dashboard user biasa (redirect ke profile)
     Route::get('/dashboard', function () {
@@ -71,6 +70,9 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
 
     // Detail buku
     Route::get('/buku/{id}', [App\Http\Controllers\User\BukuController::class, 'show'])->name('user.buku.show');
+
+    // Materi buku
+    Route::get('/materi/{id}', [UserMateriController::class, 'show'])->name('user.materi.show');
 
     // SIMULASI UJIAN (Perbaikan urutan: Submit & Result dulu sebelum {id})
     Route::get('/simulasi', [UserSimulasiController::class, 'index'])->name('user.simulasi.index');

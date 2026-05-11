@@ -28,7 +28,7 @@
         {{-- XP badge dengan animasi --}}
         <div class="flex justify-center mb-12">
             <div class="relative inline-block px-6 py-3 text-2xl font-bold text-white bg-[#F0924E] rounded-full shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]" style="animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
-                <span class="text-lg">⭐</span> +{{ $xpDapat }} XP
+                <i data-lucide="star" class="w-5 h-5 inline-block mb-1"></i> +{{ $xpDapat }} XP
             </div>
         </div>
 
@@ -61,13 +61,13 @@
 
                     {{-- arrow --}}
                     @php
-                        $arrowIcon = '→';
+                        $arrowIcon = 'arrow-right';
                         if ($difficultyBaru !== $difficultySebelum) {
                             $difficultyOrder = ['easy' => 0, 'medium' => 1, 'hard' => 2];
-                            $arrowIcon = $difficultyOrder[$difficultyBaru] > $difficultyOrder[$difficultySebelum] ? '↗' : '↙';
+                            $arrowIcon = $difficultyOrder[$difficultyBaru] > $difficultyOrder[$difficultySebelum] ? 'arrow-up-right' : 'arrow-down-left';
                         }
                     @endphp
-                    <div class="text-3xl text-gray-400 font-jakarta">{{ $arrowIcon }}</div>
+                    <div class="text-3xl text-gray-400 font-jakarta"><i data-lucide="{{ $arrowIcon }}" class="w-8 h-8"></i></div>
 
                     {{-- difficulty baru --}}
                     <div class="flex flex-col items-center">
@@ -96,7 +96,7 @@
                 <p class="text-sm font-semibold text-gray-600 mb-4 font-jakarta">Streak Hari</p>
                 <div class="flex items-center justify-center">
                     <p class="text-3xl font-bold text-[#F0924E] font-jakarta">
-                        🔥 {{ $streakHari }} hari berturut-turut
+                        <i data-lucide="flame" class="w-8 h-8 inline-block mb-1"></i> {{ $streakHari }} hari berturut-turut
                     </p>
                 </div>
             </div>
@@ -104,14 +104,11 @@
 
         {{-- tombol aksi --}}
         <div class="flex flex-col justify-center gap-4 sm:flex-row sm:justify-center mb-8">
-            <form action="{{ route('user.quiz.start', $quiz->id_quiz) }}" method="POST" class="flex-1 sm:flex-initial">
-                @csrf
-                <button type="submit" 
-                        class="w-full sm:w-auto px-8 py-3 text-lg font-bold text-white bg-[#F0924E] rounded-[12px] hover:bg-opacity-90 transition font-jakarta">
-                    Ulangi Quiz
-                </button>
-            </form>
-            <a href="{{ route('user.bab.detail', $quiz->bab->id_bab ?? '#') }}" 
+            <a href="{{ route('user.quiz.start', $quiz->id_quiz) }}" 
+               class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-white bg-[#F0924E] rounded-[12px] hover:bg-opacity-90 transition font-jakarta">
+                Ulangi Quiz
+            </a>
+            <a href="{{ route('user.buku.show', $quiz->bab->id_buku) }}" 
                class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-gray-700 bg-gray-300 rounded-[12px] hover:bg-opacity-90 transition font-jakarta">
                 Kembali ke Bab
             </a>

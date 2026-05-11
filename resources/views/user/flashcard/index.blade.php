@@ -20,13 +20,13 @@
         {{-- progress bar --}}
         <div class="mb-8">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-semibold text-gray-600 font-jakarta">Sudah Dipahami</span>
+                <span class="text-sm font-semibold text-gray-600 font-jakarta">Progres Belajar</span>
                 <span class="text-sm font-semibold text-gray-600 font-jakarta" id="progressText">
-                    {{ $flashcards->where('pivot.sudah_paham', true)->count() }} dari {{ $flashcards->count() }}
+                    {{ $sudahDikerjakan }} / {{ $totalFlashcard }} selesai
                 </span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-3">
-                <div id="progressBar" class="bg-green-500 h-3 rounded-full transition-all duration-300" style="width: {{ ($flashcards->where('pivot.sudah_paham', true)->count() / $flashcards->count() * 100) }}%;"></div>
+                <div id="progressBar" class="bg-green-500 h-3 rounded-full transition-all duration-300" style="width: {{ $progressPercent }}%;"></div>
             </div>
         </div>
 
@@ -40,7 +40,9 @@
                         {{-- kartu depan (pertanyaan) --}}
                         <div class="absolute w-full h-full p-8 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center" style="backface-visibility: hidden;">
                             <div class="text-center">
-                                <p class="text-3xl text-gray-600 mb-4 font-jakarta">❓</p>
+                                <p class="text-3xl text-gray-400 mb-4 font-jakarta">
+                                    <i data-lucide="circle-help" class="w-12 h-12 mx-auto"></i>
+                                </p>
                                 <p id="frontText" class="text-2xl font-bold text-gray-800 font-jakarta"></p>
                             </div>
                             <p class="mt-6 text-xs text-gray-500 font-jakarta">Klik untuk melihat jawaban</p>
@@ -49,7 +51,9 @@
                         {{-- kartu belakang (jawaban) --}}
                         <div class="absolute w-full h-full p-8 bg-[#F0924E] rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center" style="backface-visibility: hidden; transform: rotateY(180deg);">
                             <div class="text-center">
-                                <p class="text-3xl text-white mb-4 font-jakarta">✅</p>
+                                <p class="text-3xl text-white mb-4 font-jakarta">
+                                    <i data-lucide="check-circle" class="w-12 h-12 mx-auto"></i>
+                                </p>
                                 <p id="backText" class="text-2xl font-bold text-white font-jakarta"></p>
                             </div>
                         </div>
@@ -61,7 +65,7 @@
             {{-- counter --}}
             <div class="mb-8 text-center">
                 <p class="text-lg font-semibold text-gray-600 font-jakarta">
-                    Kartu <span id="cardNumber">1</span> dari {{ $flashcards->count() }}
+                    Kartu <span id="cardNumber">1</span> dari {{ $totalFlashcard }}
                 </p>
             </div>
 
@@ -69,34 +73,32 @@
             <div class="flex gap-4 mb-8">
                 <button onclick="previousCard()" 
                         id="prevBtn"
-                        disabled
                         class="px-6 py-2 text-lg font-bold text-[#F0924E] border-2 border-[#F0924E] rounded-[8px] hover:bg-orange-50 transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
-                    ← Sebelumnya
+                    <i data-lucide="arrow-left" class="w-5 h-5 inline-block mb-1"></i> Sebelumnya
                 </button>
                 <button onclick="nextCard()" 
                         id="nextBtn"
-                        class="px-6 py-2 text-lg font-bold text-white bg-[#F0924E] rounded-[8px] hover:bg-opacity-90 transition font-jakarta">
-                    Selanjutnya →
+                        class="px-6 py-2 text-lg font-bold text-white bg-[#F0924E] rounded-[8px] hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
+                    Selanjutnya <i data-lucide="arrow-right" class="w-5 h-5 inline-block mb-1"></i>
                 </button>
             </div>
 
             {{-- tombol sudah paham --}}
-            <form id="sudahPahamForm" action="{{ route('user.flashcard.done', ':id') }}" method="POST" class="mb-6" onsubmit="return handleSudahPaham(event)">
-                @csrf
+            <div class="mb-6">
                 <button type="button" 
                         id="sudahPahamBtn"
                         onclick="toggleSudahPaham()"
-                        class="px-6 py-2 text-lg font-bold text-gray-700 bg-gray-300 rounded-[8px] hover:bg-opacity-90 transition font-jakarta">
+                        class="px-8 py-3 text-lg font-bold transition-all duration-300 rounded-[12px] font-jakarta">
                     Sudah Paham
                 </button>
-            </form>
+            </div>
 
             {{-- tombol reset semua --}}
             <form action="{{ route('user.flashcard.reset', $subbab->id_subbab) }}" method="POST" class="w-full max-w-sm">
                 @csrf
                 <button type="submit" 
                         class="w-full px-6 py-2 text-lg font-bold text-gray-600 border-2 border-gray-300 rounded-[8px] hover:bg-gray-100 transition font-jakarta">
-                    Reset Semua
+                    Reset Semua Progres
                 </button>
             </form>
         </div>
@@ -104,7 +106,6 @@
     </main>
 </div>
 
-{{-- data flashcards dalam JSON untuk JavaScript --}}
 <script>
 const flashcards = @json($flashcards);
 let currentIndex = 0;
@@ -132,17 +133,19 @@ function showCard(index) {
     document.getElementById('nextBtn').disabled = index === flashcards.length - 1;
     
     // Update sudah paham button
-    const sudahPaham = card.pivot?.sudah_paham || false;
+    updatePahamButtonState(card.user_status === 'sudah');
+}
+
+function updatePahamButtonState(isSudah) {
     const btn = document.getElementById('sudahPahamBtn');
-    if (sudahPaham) {
-        btn.textContent = '✓ Sudah Paham';
-        btn.style.backgroundColor = '#22c55e';
-        btn.style.color = '#ffffff';
+    if (isSudah) {
+        btn.innerHTML = '<i data-lucide="check" class="w-5 h-5 inline-block mb-1"></i> Sudah Paham';
+        btn.className = 'px-8 py-3 text-lg font-bold text-white bg-green-600 rounded-[12px] hover:bg-green-700 transition font-jakarta';
     } else {
-        btn.textContent = 'Sudah Paham';
-        btn.style.backgroundColor = '#d1d5db';
-        btn.style.color = '#374151';
+        btn.innerHTML = 'Belum Paham';
+        btn.className = 'px-8 py-3 text-lg font-bold text-gray-700 bg-gray-300 rounded-[12px] hover:bg-gray-400 transition font-jakarta';
     }
+    if (window.lucide) lucide.createIcons();
 }
 
 function flipCard() {
@@ -166,38 +169,41 @@ function nextCard() {
     }
 }
 
-function toggleSudahPaham() {
+async function toggleSudahPaham() {
     const card = flashcards[currentIndex];
-    const btn = document.getElementById('sudahPahamBtn');
-    const newStatus = !(card.pivot?.sudah_paham || false);
+    const url = "{{ route('user.flashcard.done', ':id') }}".replace(':id', card.id_flashcard);
     
-    // Update local state
-    if (!card.pivot) {
-        card.pivot = {};
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update local state
+            card.user_status = data.status;
+            
+            // Update UI
+            updatePahamButtonState(data.status === 'sudah');
+            
+            // Update progress bar & text
+            document.getElementById('progressBar').style.width = data.progress + '%';
+            document.getElementById('progressText').textContent = `${data.sudah_dikerjakan} / ${data.total} selesai`;
+            
+            // Auto-next after short delay if marked as done
+            if (data.status === 'sudah' && currentIndex < flashcards.length - 1) {
+                setTimeout(nextCard, 500);
+            }
+        }
+    } catch (error) {
+        console.error('Error toggling flashcard status:', error);
     }
-    card.pivot.sudah_paham = newStatus;
-    
-    // Update button appearance
-    if (newStatus) {
-        btn.textContent = '✓ Sudah Paham';
-        btn.style.backgroundColor = '#22c55e';
-        btn.style.color = '#ffffff';
-    } else {
-        btn.textContent = 'Sudah Paham';
-        btn.style.backgroundColor = '#d1d5db';
-        btn.style.color = '#374151';
-    }
-    
-    // Submit form
-    handleSudahPaham(null);
-}
-
-function handleSudahPaham(event) {
-    const card = flashcards[currentIndex];
-    const form = document.getElementById('sudahPahamForm');
-    form.action = form.action.replace(':id', card.id_flashcard);
-    form.submit();
-    return false;
 }
 
 // Flip card on click

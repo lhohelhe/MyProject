@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<aside class="flex-shrink-0 w-full lg:w-52 bg-admin-sidebar">
+<aside class="flex-shrink-0 w-full lg:w-52 lg:h-screen lg:sticky lg:top-0 bg-admin-sidebar overflow-y-auto">
     <div class="p-4 lg:p-6">
         <!-- Logo -->
         <div class="flex items-center gap-2 mb-6 lg:mb-12">
@@ -41,3 +41,8 @@
         </nav>
     </div>
 </aside>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>

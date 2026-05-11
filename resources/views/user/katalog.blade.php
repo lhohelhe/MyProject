@@ -40,7 +40,7 @@
                  class="object-cover w-full h-full">
         @else
             <div class="flex items-center justify-center w-full h-full text-5xl bg-gray-100">
-                📖
+                <i data-lucide="book-open" class="w-16 h-16 text-gray-400"></i>
             </div>
         @endif
     </div>

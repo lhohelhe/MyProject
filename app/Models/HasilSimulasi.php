@@ -20,6 +20,7 @@ class HasilSimulasi extends Model
         'jumlah_benar',
         'jumlah_salah',
         'jumlah_kosong',
+        'list_jawaban',
         'lulus',
         'waktu_mulai',
         'waktu_selesai'
@@ -28,6 +29,7 @@ class HasilSimulasi extends Model
     protected $casts = [
         'skor' => 'decimal:2',
         'lulus' => 'boolean',
+        'list_jawaban' => 'array',
         'waktu_mulai' => 'datetime',
         'waktu_selesai' => 'datetime',
     ];

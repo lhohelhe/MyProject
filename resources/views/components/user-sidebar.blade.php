@@ -7,7 +7,7 @@
     }
 </style>
 
-<aside class="sidebar-glass w-[280px] min-h-screen flex flex-col py-12 px-7 flex-shrink-0">
+<aside class="sidebar-glass w-[280px] h-screen sticky top-0 flex flex-col py-12 px-7 flex-shrink-0 overflow-y-auto">
 
     {{-- logo --}}
     <img src="{{ asset('images/logo_1.png') }}" alt="SahabatBuku" class="h-10">
@@ -97,3 +97,8 @@
     </div>
 
 </aside>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>

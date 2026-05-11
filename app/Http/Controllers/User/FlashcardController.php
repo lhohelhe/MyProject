@@ -16,10 +16,10 @@ class FlashcardController extends Controller
     public function index($id_subbab)
     {
         $user = Auth::user();
+        $subbab = \App\Models\Subab::findOrFail($id_subbab);
 
         // Ambil semua flashcard untuk subbab ini
         $flashcards = Flashcard::where('id_subbab', $id_subbab)
-                               ->with('subab')
                                ->latest('id_flashcard')
                                ->get();
 
@@ -36,7 +36,6 @@ class FlashcardController extends Controller
         // Tambahkan status ke flashcard collection
         foreach ($flashcards as $fc) {
             $fc->user_status = $userStatuses[$fc->id_flashcard]?->status ?? 'belum';
-            $fc->user_flashcard_id = $userStatuses[$fc->id_flashcard]?->id ?? null;
         }
 
         // Hitung progress
@@ -44,17 +43,15 @@ class FlashcardController extends Controller
         $sudahDikerjakan = $userStatuses->where('status', 'sudah')->count();
         $progressPercent = $totalFlashcard > 0 ? intval(($sudahDikerjakan / $totalFlashcard) * 100) : 0;
 
-        return view('user.flashcard.index', compact('flashcards', 'id_subbab', 'progressPercent', 'sudahDikerjakan', 'totalFlashcard'));
+        return view('user.flashcard.index', compact('flashcards', 'subbab', 'id_subbab', 'progressPercent', 'sudahDikerjakan', 'totalFlashcard'));
     }
 
     /**
-     * Set flashcard sebagai sudah dikerjakan
+     * Set flashcard sebagai sudah dikerjakan (AJAX)
      */
     public function markDone($id_flashcard)
     {
         $user = Auth::user();
-
-        // Cek flashcard ada atau tidak
         $flashcard = Flashcard::findOrFail($id_flashcard);
 
         // Ambil atau buat user_flashcard record
@@ -63,16 +60,18 @@ class FlashcardController extends Controller
             ['status' => 'belum']
         );
 
-        // Update status ke sudah
-        $userFlashcard->status = 'sudah';
+        // Toggle status: jika sudah, jadi belum; jika belum, jadi sudah
+        // Sesuai requirement "Mark done button saves... with status sudah", 
+        // tapi kita buat toggle agar user bisa membatalkan.
+        $newStatus = ($userFlashcard->status === 'sudah') ? 'belum' : 'sudah';
+        $userFlashcard->status = $newStatus;
         $userFlashcard->save();
 
         // Hitung progress untuk subbab ini
-        $totalFlashcard = Flashcard::where('id_subbab', $flashcard->id_subbab)->count();
+        $allIds = Flashcard::where('id_subbab', $flashcard->id_subbab)->pluck('id_flashcard');
+        $totalFlashcard = $allIds->count();
         $sudahDikerjakan = UserFlashcard::where('user_id', $user->id)
-                                        ->whereIn('id_flashcard', 
-                                                  Flashcard::where('id_subbab', $flashcard->id_subbab)->pluck('id_flashcard')
-                                                 )
+                                        ->whereIn('id_flashcard', $allIds)
                                         ->where('status', 'sudah')
                                         ->count();
 
@@ -80,6 +79,7 @@ class FlashcardController extends Controller
 
         return response()->json([
             'success' => true,
+            'status' => $newStatus,
             'progress' => $progressPercent,
             'sudah_dikerjakan' => $sudahDikerjakan,
             'total' => $totalFlashcard
