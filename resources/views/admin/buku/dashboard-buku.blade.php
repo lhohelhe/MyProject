@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Buku - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-[#F5F5F5]">
-<div class="flex flex-col min-h-screen lg:flex-row">
-    <x-admin-sidebar />
+@extends('layouts.admin')
 
-    <main class="flex-1 p-4 sm:p-6 lg:p-16">
+@section('title', 'Data Buku - SahabatBuku')
+
+@section('content')
         <h1 class="mb-6 text-3xl font-extrabold lg:text-4xl font-jakarta lg:mb-10">
             Data Buku
         </h1>
@@ -38,7 +30,7 @@
                 <div>Kategori</div>
                 <div>Kelas</div>
                 <div>Semester</div>
-                <div></div>
+                <div>Aksi</div>
             </div>
         </div>
 
@@ -60,6 +52,8 @@ async function loadBuku() {
 
         let html = '';
 
+        const activeMenu = new URLSearchParams(window.location.search).get('active_menu') || 'bab';
+
         if (data.length === 0) {
             html = `
                 <div class="p-8 text-center bg-white shadow-md rounded-2xl">
@@ -70,6 +64,18 @@ async function loadBuku() {
             `;
         } else {
             data.forEach(b => {
+                let actionTitle = 'Kelola Bab';
+                let actionIcon = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="text-admin-blue fill-admin-blue">
+                        <path d="m12 3-10 5 10 5 10-5-10-5Z"/>
+                        <path d="m2 17 10 5 10-5"/>
+                        <path d="m2 12 10 5 10-5"/>
+                    </svg>
+                `;
+
                 html += `
                 <div class="p-4 mb-4 bg-white shadow-md rounded-xl">
                     <div class="grid items-center grid-cols-6 gap-4 text-center font-jakarta">
@@ -95,9 +101,29 @@ async function loadBuku() {
                         <div>${b.semester}</div>
 
                         <!-- Action -->
-                        <div class="flex justify-center gap-4">
-                            <a href="/admin/dashboard-buku/${b.id_buku}/edit" class="text-green-600">Edit</a>
-                            <button onclick="deleteBuku(${b.id_buku})" class="text-red-600">Hapus</button>
+                        <div class="flex justify-center items-center gap-4 flex-wrap">
+                            <a href="/admin/bab?id_buku=${b.id_buku}&active_menu=${activeMenu}" class="transition-opacity hover:opacity-80" title="${actionTitle}">
+                                ${actionIcon}
+                            </a>
+                            <a href="/admin/dashboard-buku/${b.id_buku}/edit" class="transition-opacity hover:opacity-80" title="Edit Buku">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="text-admin-green fill-admin-green">
+                                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                                    <path d="m15 5 4 4"/>
+                                </svg>
+                            </a>
+                            <button onclick="deleteBuku(${b.id_buku})" class="transition-opacity hover:opacity-80" title="Hapus Buku">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="text-admin-red fill-admin-red">
+                                    <path d="M3 6h18"/>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                </svg>
+                            </button>
                         </div>
 
                     </div>
@@ -125,6 +151,4 @@ async function deleteBuku(id) {
 
 loadBuku();
 </script>
-
-</body>
-</html>
+@endsection

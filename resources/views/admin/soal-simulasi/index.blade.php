@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Soal Simulasi - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-[#F5F5F5]">
-<div class="flex flex-col min-h-screen lg:flex-row">
-    <x-admin-sidebar />
-    <main class="flex-1 p-4 sm:p-6 lg:p-16">
+@extends('layouts.admin')
+
+@section('title', 'Kelola Soal Simulasi - SahabatBuku')
+
+@section('content')
         <h1 class="mb-6 text-3xl font-extrabold sm:text-3xl lg:text-4xl font-jakarta lg:mb-10">
             Kelola Soal — {{ $simulasi->judul_simulasi }}
         </h1>
@@ -56,9 +49,9 @@
                         <input type="text" 
                                id="opsi_a" 
                                name="opsi_a" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-admin-orange"
+                               class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-admin-orange"
                                placeholder="Masukkan opsi A"
-                               value="{{ old('opsi_a') }}"~
+                               value="{{ old('opsi_a') }}"
                                required>
                         @error('opsi_a')
                             <span class="block mt-2 text-sm text-red-500">{{ $message }}</span>
@@ -200,8 +193,15 @@
                             <form action="/admin/simulasi/soal/{{ $s->id_soal_simulasi }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus soal ini?');">
                                 @csrf
                                 @method('DELETE')
-                                <button class="px-4 py-2 text-sm font-medium text-white transition rounded-lg bg-admin-red hover:bg-opacity-90">
-                                    Hapus
+                                <button class="transition-opacity hover:opacity-80">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="text-admin-red fill-admin-red">
+                                        <path d="M3 6h18"/>
+                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                    </svg>
                                 </button>
                             </form>
                         </div>
@@ -219,7 +219,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button class="transition-opacity hover:opacity-80">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                          viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                          class="text-admin-red fill-admin-red">
@@ -247,7 +247,4 @@
                 Kembali
             </a>
         </div>
-    </main>
-</div>
-</body>
-</html>
+@endsection

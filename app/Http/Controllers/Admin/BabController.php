@@ -41,7 +41,7 @@ class BabController extends Controller
             'judul_bab' => $request->judul_bab
         ]);
 
-        return redirect()->route('bab.index',['id_buku'=>$request->id_buku]);
+        return redirect()->route('bab.index',['id_buku'=>$request->id_buku, 'active_menu' => $request->active_menu]);
     }
 
     public function edit($id)
@@ -65,10 +65,10 @@ class BabController extends Controller
             'judul_bab'=>$request->judul_bab
         ]);
 
-        return redirect()->route('bab.index',['id_buku'=>$bab->id_buku]);
+        return redirect()->route('bab.index',['id_buku'=>$bab->id_buku, 'active_menu' => $request->active_menu]);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $bab = Bab::findOrFail($id);
 
@@ -76,6 +76,6 @@ class BabController extends Controller
 
         $bab->delete();
 
-        return redirect()->route('bab.index',['id_buku'=>$id_buku]);
+        return redirect()->route('bab.index',['id_buku'=>$id_buku, 'active_menu' => $request->active_menu]);
     }
 }

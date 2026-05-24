@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Pengguna - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-50">
-    <div class="flex flex-col min-h-screen md:flex-row">
-        <x-admin-sidebar />
-        <main class="flex items-start justify-center flex-1 p-4 md:p-6 lg:p-10 xl:p-10">
-            <div class="w-full max-w-2xl">
+@extends('layouts.admin')
+
+@section('title', 'Edit Pengguna - SahabatBuku')
+
+@section('content')
+            <div class="w-full max-w-2xl mx-auto">
                 <div class="bg-white rounded-3xl shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] p-8 md:p-16 lg:p-20">
                     <h1 class="mb-10 text-2xl font-bold text-center md:text-2xl lg:text-4xl md:mb-10 font-jakarta">
                         Edit Pengguna
@@ -107,9 +100,6 @@
                     </form>
                 </div>
             </div>
-        </main>
-    </div>
-
     <script>
         function previewImage(input) {
             if (input.files && input.files[0]) {
@@ -121,7 +111,7 @@
                         img = document.createElement('img');
                         img.id = 'foto-preview';
                         img.className = 'object-cover w-20 h-20 rounded-full border-2 border-gray-200';
-                        if (plabukuceholder) placeholder.replaceWith(img);
+                        if (placeholder) placeholder.replaceWith(img);
                     }
                     img.src = e.target.result;
                 };
@@ -129,5 +119,4 @@
             }
         }
     </script>
-</body>
-</html>
+@endsection

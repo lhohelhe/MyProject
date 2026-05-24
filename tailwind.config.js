@@ -13,6 +13,7 @@ export default {
           orange: '#F0924E',
           green: '#28AE4E',
           red: '#FF0000',
+          blue: '#3B82F6',
         },
         sahabat: {
           blue: '#405272',

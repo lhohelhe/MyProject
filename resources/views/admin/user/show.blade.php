@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Pengguna - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-50">
-    <div class="flex flex-col min-h-screen md:flex-row">
-        <x-admin-sidebar />
-    
-        <main class="flex-1 min-h-screen px-8 py-8 overflow-y-auto">
-            <div class="w-full max-w-5xl">
+@extends('layouts.admin')
+
+@section('title', 'Detail Pengguna - SahabatBuku')
+
+@section('content')
+            <div class="w-full max-w-5xl mx-auto">
                 <div class="bg-white rounded-3xl shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] p-8 md:p-16 lg:p-20">
 
                     <h1 class="mb-12 text-3xl font-bold text-center md:text-4xl font-jakarta">
@@ -100,8 +92,4 @@
                     </div>
 
                 </div>
-            </div>
-        </main>
-    </div>
-</body>
-</html>
+@endsection

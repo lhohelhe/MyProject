@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Bab - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-[#F5F5F5]">
-<div class="flex flex-col min-h-screen lg:flex-row">
-    <x-admin-sidebar />
-    <main class="flex-1 p-4 sm:p-6 lg:p-16">
+@extends('layouts.admin')
 
+@section('title', 'Tambah Bab - SahabatBuku')
+
+@section('content')
         <h1 class="mb-6 text-3xl font-extrabold font-jakarta">tambah bab baru</h1>
 
         <div class="max-w-xl p-8 bg-white shadow-md rounded-xl">
-            <form method="POST" action="{{ route('bab.store') }}">
+            <form method="POST" action="{{ route('bab.store', ['active_menu' => request()->input('active_menu')]) }}">
                 @csrf
                 <input type="hidden" name="id_buku" value="{{ $id_buku }}">
 
@@ -46,18 +38,14 @@
 
                 <div class="flex gap-3">
                     <button type="submit"
-                            class="px-6 py-3 font-bold text-black bg-admin-orange rounded-xl hover:bg-opacity-90 font-jakarta">
+                           class="px-6 py-3 font-bold text-black bg-admin-orange rounded-xl hover:bg-opacity-90 font-jakarta">
                         simpan bab
                     </button>
-                    <a href="{{ url()->previous() }}"
+                    <a href="{{ route('bab.index', ['id_buku' => $id_buku, 'active_menu' => request()->input('active_menu')]) }}"
                        class="px-6 py-3 font-bold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 font-jakarta">
                         batal
                     </a>
                 </div>
             </form>
         </div>
-
-    </main>
-</div>
-</body>
-</html>
+@endsection

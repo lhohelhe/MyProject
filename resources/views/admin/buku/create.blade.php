@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Buku - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-50">
-<div class="flex flex-col min-h-screen md:flex-row">
-    <x-admin-sidebar />
-    <main class="flex-1 p-6 md:p-8 lg:p-10">
+@extends('layouts.admin')
+
+@section('title', 'Tambah Buku - SahabatBuku')
+
+@section('content')
         <div class="max-w-6xl mx-auto">
             <div class="bg-white rounded-3xl shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] p-8 md:p-12">
                 <h1 class="mb-10 text-2xl font-bold text-center md:text-3xl font-jakarta">
@@ -153,5 +146,4 @@ function previewImage(input) {
 
 loadKategori();
 </script>
-</body>
-</html>
+@endsection

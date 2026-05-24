@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulasi Ujian - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-[#F5F5F5]">
-<div class="flex flex-col min-h-screen lg:flex-row">
-    <x-admin-sidebar />
-    <main class="flex-1 p-4 sm:p-6 lg:p-16">
+@extends('layouts.admin')
+
+@section('title', 'Simulasi Ujian - SahabatBuku')
+
+@section('content')
         <h1 class="mb-6 text-3xl font-extrabold sm:text-3xl lg:text-4xl font-jakarta lg:mb-10">
             Simulasi Ujian
         </h1>
@@ -38,7 +31,7 @@
                 <div>Durasi (menit)</div>
                 <div>Jumlah Soal</div>
                 <div>Status</div>
-                <div colspan="2">Aksi</div>
+                <div class="col-span-2">Aksi</div>
             </div>
         </div>
 
@@ -74,18 +67,31 @@
                         {{ $sim->is_active ? 'Aktif' : 'Nonaktif' }}
                     </span>
                 </div>
-                <div class="flex items-center gap-3 mt-4">
-                    <a href="{{route('simulasi.edit', $sim->id_simulasi) }}" class="flex-1 px-3 py-2 text-center text-white transition rounded-lg bg-admin-green hover:bg-opacity-90">
-                        Edit
-                    </a>
-                    <a href="/admin/simulasi/{{ $sim->id_simulasi }}/soal" class="flex-1 px-3 py-2 text-center text-white transition bg-blue-500 rounded-lg hover:bg-opacity-90">
+                <div class="flex items-center justify-end gap-3 mt-4">
+                    <a href="/admin/simulasi/{{ $sim->id_simulasi }}/soal" class="px-4 py-2 text-sm font-semibold text-white transition bg-blue-500 rounded-xl hover:bg-opacity-90">
                         Kelola Soal
                     </a>
-                    <form action="{{ route('simulasi.destroy', $sim->id_simulasi) }}" method="POST" class="flex-1" onsubmit="return confirm('Yakin ingin menghapus simulasi ini?');">
+                    <a href="{{route('simulasi.edit', $sim->id_simulasi) }}" class="transition-opacity hover:opacity-80">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="text-admin-green fill-admin-green">
+                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                            <path d="m15 5 4 4"/>
+                        </svg>
+                    </a>
+                    <form action="{{ route('simulasi.destroy', $sim->id_simulasi) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus simulasi ini?');">
                         @csrf
                         @method('DELETE')
-                        <button class="w-full px-3 py-2 text-white transition rounded-lg bg-admin-red hover:bg-opacity-90">
-                            Hapus
+                        <button class="transition-opacity hover:opacity-80">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="text-admin-red fill-admin-red">
+                                <path d="M3 6h18"/>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                            </svg>
                         </button>
                     </form>
                 </div>
@@ -117,9 +123,9 @@
                 </div>
                 
                 <!-- Action -->
-                <div class="flex justify-center gap-4">
+                <div class="flex justify-center gap-4 items-center col-span-2">
                     <a href="{{ route('simulasi.edit', $sim->id_simulasi) }}" class="transition-opacity hover:opacity-80">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="text-admin-green fill-admin-green">
@@ -128,7 +134,7 @@
                         </svg>
                     </a>
                     <a href="/admin/simulasi/{{ $sim->id_simulasi }}/soal" class="transition-opacity hover:opacity-80" title="Kelola Soal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-admin-blue fill-admin-blue">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                         </svg>
@@ -137,7 +143,7 @@
                         @csrf
                         @method('DELETE')
                         <button class="transition-opacity hover:opacity-80">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                  class="text-admin-red fill-admin-red">
@@ -162,7 +168,4 @@
             {{ $simulasi->links() }}
         </div>
         @endif
-    </main>
-</div>
-</body>
-</html>
+@endsection

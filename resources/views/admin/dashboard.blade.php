@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-[#F5F5F5]">
-<div class="flex flex-col min-h-screen lg:flex-row">
-    <x-admin-sidebar />
-    <main class="flex-1 p-4 sm:p-6 lg:p-16">
+@extends('layouts.admin')
 
-        <h1 class="mb-6 text-3xl font-extrabold sm:text-3xl lg:text-4xl font-jakarta lg:mb-10">
-            dashboard admin
+@section('title', 'Dashboard Admin - SahabatBuku')
+
+@section('content')
+        <h1 class="text-2xl font-bold text-slate-800 mb-6 font-jakarta">
+            Dashboard Admin
         </h1>
 
         {{-- flash message --}}
@@ -22,43 +14,111 @@
         </div>
         @endif
 
-        {{-- 4 kartu statistik --}}
-        <div class="grid grid-cols-2 gap-4 mb-10 lg:grid-cols-4">
+        {{-- 8 kartu statistik --}}
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
 
-            <div class="p-6 bg-white shadow-md rounded-xl">
-                <p class="mb-1 text-sm text-gray-500 font-jakarta">total buku</p>
-                <p class="text-4xl font-extrabold font-jakarta">{{ $total_buku }}</p>
+            {{-- 1. Users (user) --}}
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">User</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ \App\Models\User::where('role', 'user')->count() }}</p>
+                </div>
             </div>
 
-            <div class="p-6 bg-white shadow-md rounded-xl">
-                <p class="mb-1 text-sm text-gray-500 font-jakarta">total pengguna</p>
-                <p class="text-4xl font-extrabold font-jakarta">{{ $total_user }}</p>
+            {{-- 2. ShieldCheck (admin) --}}
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
+                    <i data-lucide="shield-check" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">Admin</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ \App\Models\User::where('role', 'admin')->count() }}</p>
+                </div>
             </div>
 
-            <div class="p-6 bg-white shadow-md rounded-xl">
-                <p class="mb-1 text-sm text-gray-500 font-jakarta">total kategori</p>
-                <p class="text-4xl font-extrabold font-jakarta">{{ $total_kategori }}</p>
+            {{-- 3. BookOpen (mapel) --}}
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">Mapel</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ $total_kategori }}</p>
+                </div>
             </div>
 
-            <div class="p-6 bg-white shadow-md rounded-xl">
-                <p class="mb-1 text-sm text-gray-500 font-jakarta">total bab</p>
-                <p class="text-4xl font-extrabold font-jakarta">{{ $total_bab }}</p>
+            {{-- 4. Book (buku) --}}
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
+                    <i data-lucide="book" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">Buku</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ $total_buku }}</p>
+                </div>
+            </div>
+
+            {{-- 5. Layers (bab) --}}
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">Bab</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ $total_bab }}</p>
+                </div>
+            </div>
+
+            {{-- 6. BookMarked (subbab) --}}
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
+                    <i data-lucide="book-marked" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">Subbab</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ \App\Models\Subab::count() }}</p>
+                </div>
+            </div>
+
+            {{-- 7. FileText (materi) --}}
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
+                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">Materi</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ \App\Models\Materi::count() }}</p>
+                </div>
+            </div>
+
+            {{-- 8. ClipboardList (quiz) --}}
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
+                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">Quiz</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ \App\Models\Quiz::count() }}</p>
+                </div>
             </div>
 
         </div>
 
         {{-- buku terbaru --}}
-        <div class="p-6 bg-white shadow-md rounded-xl">
+        <div class="p-6 bg-white shadow-sm border border-slate-100 rounded-2xl">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold font-jakarta">buku terbaru ditambahkan</h2>
+                <h2 class="text-xl font-bold font-jakarta text-slate-800">Buku Terbaru Ditambahkan</h2>
                 <a href="{{ route('dashboard-buku.index') }}"
-                   class="flex items-center gap-1 text-sm text-gray-400 font-jakarta hover:text-black">
-                    lihat lainnya <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                   class="flex items-center gap-1 text-sm text-slate-400 font-jakarta hover:text-[#F4922A] transition-colors">
+                    Lihat lainnya <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
             </div>
 
             @forelse($buku_terbaru as $buku)
-            <div class="flex items-center gap-4 py-3 border-b last:border-b-0">
+            <div class="flex items-center gap-4 py-3 border-b last:border-b-0 border-slate-100">
 
                 {{-- cover buku --}}
                 @if($buku->gambar)
@@ -73,8 +133,8 @@
 
                 {{-- info buku --}}
                 <div class="flex-1">
-                    <p class="font-semibold font-jakarta">{{ $buku->judul_buku }}</p>
-                    <p class="text-sm text-gray-500 font-jakarta">
+                    <p class="font-semibold font-jakarta text-slate-800 text-sm">{{ $buku->judul_buku }}</p>
+                    <p class="text-xs text-slate-500 font-jakarta">
                         {{ $buku->kategori->nama_kategori ?? '-' }} · kelas {{ $buku->kelas }} · semester {{ $buku->semester }}
                     </p>
                 </div>
@@ -84,8 +144,4 @@
             <p class="text-gray-400 font-jakarta">belum ada buku yang ditambahkan.</p>
             @endforelse
         </div>
-
-    </main>
-</div>
-</body>
-</html>
+@endsection

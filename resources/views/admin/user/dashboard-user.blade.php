@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - SahabatBuku</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-[#F5F5F5]">
-<div class="flex flex-col min-h-screen lg:flex-row">
+@extends('layouts.admin')
 
-    <x-admin-sidebar />
+@section('title', 'Data User - SahabatBuku')
 
-    <main class="flex-1 p-4 sm:p-6 lg:p-16">
+@section('content')
 
         <h1 class="mb-6 text-3xl font-extrabold sm:text-3xl lg:text-4xl font-jakarta lg:mb-10">
             Dashboard Admin
@@ -39,7 +30,7 @@
                 <div>Kelas</div>
                 <div>Email</div>
                 <div>Password</div>
-                <div></div>
+                <div>Aksi</div>
             </div>
         </div>
 
@@ -63,6 +54,32 @@
                     <span class="font-medium text-gray-600">Password:</span>
                     <span>{{ $user->password }}</span>
                 </div>
+                <div class="flex items-center justify-end gap-4 pt-3 border-t border-slate-100">
+                    <a href="{{ route('dashboard-user.edit', $user->id) }}" class="transition-opacity hover:opacity-80">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="text-admin-green fill-admin-green">
+                            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                            <path d="m15 5 4 4"/>
+                        </svg>
+                    </a>
+                    <form action="{{ route('dashboard-user.destroy', $user->id) }}" method="POST"
+                          onsubmit="return confirm('Yakin ingin menghapus user ini?');">
+                        @csrf
+                        @method('DELETE')
+                        <button class="transition-opacity hover:opacity-80">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="text-admin-red fill-admin-red">
+                                <path d="M3 6h18"/>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
             </div>
 
             <div class="items-center hidden grid-cols-6 gap-4 text-center text-l lg:grid font-jakarta">
@@ -82,7 +99,7 @@
 
                 <div class="flex justify-center gap-6">
                     <a href="{{ route('dashboard-user.edit', $user->id) }}" class="transition-opacity hover:opacity-80">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="text-admin-green fill-admin-green">
@@ -96,7 +113,7 @@
                         @csrf
                         @method('DELETE')
                         <button class="transition-opacity hover:opacity-80">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                  class="text-admin-red fill-admin-red">
@@ -118,7 +135,4 @@
         </div>
         @endif
 
-    </main>
-</div>
-</body>
-</html>
+@endsection

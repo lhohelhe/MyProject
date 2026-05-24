@@ -1,27 +1,11 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.admin')
 
-<head>
+@section('title', 'Kelola Bab - SahabatBuku')
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Kelola Bab</title>
-
-    @vite('resources/css/app.css')
-
-</head>
-
-<body class="bg-gray-100 flex">
-
-    {{-- Sidebar Admin --}}
-    <x-admin-sidebar />
-
-    {{-- MAIN CONTENT --}}
-    <main class="flex w-full min-h-screen">
-
+@section('content')
+<div class="flex flex-col lg:flex-row gap-6 min-h-[calc(100vh-120px)]">
     <!-- Sidebar Bab -->
-    <div class="w-95 bg-white border-r p-5 overflow-y-auto">
+    <div class="w-full lg:w-96 bg-white border border-slate-200 p-5 rounded-2xl shadow-sm overflow-y-auto">
 
         <h2 class="text-lg font-semibold mb-4">
             Struktur Buku
@@ -29,7 +13,7 @@
 
         {{-- TAMBAH BAB --}}
         <a
-            href="{{ route('bab.create',['id_buku'=>$id_buku]) }}"
+            href="{{ route('bab.create',['id_buku'=>$id_buku, 'active_menu' => request()->input('active_menu')]) }}"
             class="block mb-4 text-center bg-blue-600 text-white py-2 rounded text-sm hover:bg-blue-700"
         >
             + Tambah Bab
@@ -54,13 +38,18 @@
 
                     </div>
 
-                    <div class="flex gap-2">
-
+                    <div class="flex items-center gap-1">
                         <a
-                            href="{{ route('bab.edit',$b->id_bab) }}"
-                            class="text-xs bg-yellow-400 px-2 py-1 rounded"
+                            href="{{ route('bab.edit',['bab' => $b->id_bab, 'active_menu' => request()->input('active_menu')]) }}"
+                            class="transition-opacity hover:opacity-80"
                         >
-                            Edit
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="text-admin-green fill-admin-green">
+                                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                                <path d="m15 5 4 4"/>
+                            </svg>
                         </a>
 
                         <form
@@ -69,16 +58,20 @@
                         >
                             @csrf
                             @method('DELETE')
-
                             <button
-                                class="text-xs bg-red-500 text-white px-2 py-1 rounded"
+                                class="transition-opacity hover:opacity-80"
                                 onclick="return confirm('Hapus bab ini?')"
                             >
-                                Hapus
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="text-admin-red fill-admin-red">
+                                    <path d="M3 6h18"/>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                </svg>
                             </button>
-
                         </form>
-
                     </div>
 
                 </div>
@@ -86,8 +79,8 @@
 
                 {{-- TAMBAH SUBAB --}}
                 <a
-                    href="{{ route('subab.create',['id_bab'=>$b->id_bab]) }}"
-                    class="text-xs text-blue-600 mt-2 inline-block"
+                    href="{{ route('subab.create',['id_bab'=>$b->id_bab, 'active_menu' => request()->input('active_menu')]) }}"
+                    class="text-xs text-blue-600 mt-2 inline-block font-semibold"
                 >
                     + Tambah Subab
                 </a>
@@ -112,13 +105,18 @@
                                 </a>
                             </span>
 
-                            <div class="flex gap-1">
-
+                             <div class="flex items-center gap-1">
                                 <a
-                                    href="{{ route('subab.edit',$s->id_subbab) }}"
-                                    class="text-xs bg-yellow-400 px-2 py-1 rounded"
+                                    href="{{ route('subab.edit',['subab' => $s->id_subbab, 'active_menu' => request()->input('active_menu')]) }}"
+                                    class="transition-opacity hover:opacity-80"
                                 >
-                                    Edit
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="text-admin-green fill-admin-green">
+                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                                        <path d="m15 5 4 4"/>
+                                    </svg>
                                 </a>
 
                                 <form
@@ -127,16 +125,20 @@
                                 >
                                     @csrf
                                     @method('DELETE')
-
                                     <button
-                                        class="text-xs bg-red-500 text-white px-2 py-1 rounded"
+                                        class="transition-opacity hover:opacity-80"
                                         onclick="return confirm('Hapus subab?')"
                                     >
-                                        Hapus
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="text-admin-red fill-admin-red">
+                                            <path d="M3 6h18"/>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                        </svg>
                                     </button>
-
                                 </form>
-
                             </div>
 
                         </li>
@@ -151,7 +153,7 @@
 
     </div>
         {{-- KONTEN MATERI --}}
-        <div class="flex-1 p-8">
+        <div class="flex-1 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
 
             <div class="flex items-center mb-3 justify-between">
                 <div>
@@ -173,19 +175,48 @@
 
             <div class="mt-6 bg-white rounded shadow p-6">
 
-                <h1 id="materiJudul" class="text-xl font-bold mb-4"></h1>
+                <div class="flex justify-between items-center mb-4 border-b pb-4">
+                    <h1 id="materiJudul" class="text-xl font-bold"></h1>
+                    <div id="materiActions" class="flex items-center gap-2 hidden">
+                        <!-- Edit Button -->
+                        <a id="editMateriBtn" href="#" class="transition-opacity hover:opacity-80">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="text-admin-green fill-admin-green">
+                                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                                <path d="m15 5 4 4"/>
+                            </svg>
+                        </a>
+                        <!-- Delete Button -->
+                        <form id="deleteMateriForm" action="#" method="POST" onsubmit="return confirm('Yakin ingin menghapus materi ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="transition-opacity hover:opacity-80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="text-admin-red fill-admin-red">
+                                    <path d="M3 6h18"/>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
 
                 <div id="materiIsi" class="prose max-w-none"></div>
                 
             </div>
 
         </div>
-
-    </main>
+</div>
 
 
 
 <script>
+const activeMenu = new URLSearchParams(window.location.search).get('active_menu') || 'bab';
 
 /* =========================
    BAB
@@ -294,11 +325,19 @@ document.querySelectorAll('.subab-link').forEach(function(link){
 
         .then(data => {
 
-            document.getElementById('materiJudul').innerText =
-                data?.judul_materi ?? '';
-
-            document.getElementById('materiIsi').innerHTML =
-                data?.isi ?? '';
+            if(data && data.id_materi) {
+                document.getElementById('materiJudul').innerText = data.judul_materi;
+                document.getElementById('materiIsi').innerHTML = data.isi;
+                document.getElementById('editMateriBtn').href = "/admin/materi/" + data.id_materi + "/edit?active_menu=" + activeMenu;
+                document.getElementById('deleteMateriForm').action = "/admin/materi/" + data.id_materi;
+                document.getElementById('materiActions').classList.remove('hidden');
+                document.getElementById('btnTambahMateri').classList.add('hidden');
+            } else {
+                document.getElementById('materiJudul').innerText = 'Belum ada materi';
+                document.getElementById('materiIsi').innerHTML = '<p class="text-slate-400">Silakan tambahkan materi untuk subab ini.</p>';
+                document.getElementById('materiActions').classList.add('hidden');
+                document.getElementById('btnTambahMateri').classList.remove('hidden');
+            }
 
         });
 
@@ -323,7 +362,7 @@ if(btnTambahMateri){
         }
 
         window.location.href =
-            "/materi/create?id_subbab=" + subabAktif;
+            "/admin/materi/create?id_subbab=" + subabAktif + "&active_menu=" + activeMenu;
 
     });
 
@@ -332,5 +371,4 @@ if(btnTambahMateri){
 </script>
 
 
-</body>
-</html>
+@endsection

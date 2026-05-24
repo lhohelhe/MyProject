@@ -21,6 +21,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Public - submit saran from landing page
+Route::post('/saran', [App\Http\Controllers\SaranController::class, 'store'])->name('saran.store');
+
 // ROUTE ADMIN — harus sudah login
 Route::middleware(['auth'])->prefix('admin')->group(function () {
 
@@ -49,6 +52,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('/simulasi/{id}/soal', [SoalSimulasiController::class, 'store'])->name('soal-simulasi.store');
     Route::put('/simulasi/soal/{id}', [SoalSimulasiController::class, 'update'])->name('soal-simulasi.update');
     Route::delete('/simulasi/soal/{id}', [SoalSimulasiController::class, 'destroy'])->name('soal-simulasi.destroy');
+
+    // Admin - kelola saran
+    Route::get('/saran', [App\Http\Controllers\SaranController::class, 'index'])->name('admin.saran.index');
+    Route::patch('/saran/{id}/read', [App\Http\Controllers\SaranController::class, 'markRead'])->name('admin.saran.read');
+    Route::delete('/saran/{id}', [App\Http\Controllers\SaranController::class, 'destroy'])->name('admin.saran.destroy');
 });
 
 // ROUTE USER BIASA — harus sudah login
