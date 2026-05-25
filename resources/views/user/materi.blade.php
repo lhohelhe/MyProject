@@ -9,7 +9,7 @@
     <x-user-sidebar />
 
     {{-- ===== MAIN CONTENT ===== --}}
-    <main class="flex-1 px-10 py-12 overflow-y-auto">
+    <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- Breadcrumbs --}}
         <nav class="flex mb-8 text-sm font-medium text-gray-500" aria-label="Breadcrumb">
@@ -20,7 +20,7 @@
                 <li>
                     <div class="flex items-center">
                         <svg class="w-3 h-3 mx-1 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
-                        <a href="{{ route('user.buku.show', $materi->subbab->bab->buku->id_buku) }}" class="ml-1 hover:text-[#F4922A] md:ml-2">{{ $materi->subbab->bab->buku->judul_buku }}</a>
+                        <a href="{{ route('user.buku.show', $materi->subab->bab->buku->id_buku) }}" class="ml-1 hover:text-[#F4922A] md:ml-2">{{ $materi->subab->bab->buku->judul_buku }}</a>
                     </div>
                 </li>
                 <li aria-current="page">
@@ -33,12 +33,12 @@
         </nav>
 
         {{-- Title --}}
-        <h1 class="text-4xl font-extrabold text-black mb-8 leading-tight">
+        <h1 class="text-2xl font-bold text-slate-800 mb-8 leading-tight">
             {{ $materi->judul_materi }}
         </h1>
 
         {{-- Content Card --}}
-        <div class="bg-white rounded-2xl shadow-[0px_3px_15px_0px_rgba(0,0,0,0.1)] p-10 mb-10">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 mb-10">
             
             {{-- Materi Image --}}
             @if($materi->gambar)

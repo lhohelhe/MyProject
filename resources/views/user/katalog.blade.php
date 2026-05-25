@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Katalog - SahabatBuku</title>
     @vite('resources/css/app.css')
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>* { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
 <body class="antialiased font-jakarta" style="background-color: #E5F8FF;">
 <div class="flex min-h-screen">
@@ -12,10 +15,10 @@
     <x-user-sidebar />
 
     {{-- konten utama --}}
-    <main class="flex-1 px-8 py-8 overflow-y-auto">
+    <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- judul halaman --}}
-        <h1 class="mb-6 text-2xl font-bold text-black font-jakarta">Katalog Buku</h1>
+        <h1 class="mb-6 text-xl font-bold text-slate-800">Katalog Buku</h1>
 
         {{-- grid buku --}}
         @if($buku->isEmpty())
@@ -23,11 +26,11 @@
         @else
             <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 @foreach($buku as $b)
-<a href="{{ route('user.buku.show', $b->id_buku) }}" class="relative flex flex-col items-center bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] overflow-hidden cursor-pointer hover:shadow-[0px_6px_16px_0px_rgba(0,0,0,0.2)] transition-shadow">
+<a href="{{ route('user.buku.show', $b->id_buku) }}" class="relative flex flex-col items-center bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden cursor-pointer hover:shadow-md transition-all">
 
     {{-- badge kelas — pojok kiri atas --}}
-    <div class="absolute z-10 top-2 left-2 bg-[#F0924E] text-white rounded-[8px] px-2 py-1 shadow-[0px_3px_10px_0px_rgba(0,0,0,0.25)]">
-        <span class="text-[13px] font-bold" style="font-family: 'Times New Roman', serif;">
+    <div class="absolute z-10 top-2 left-2 bg-[#F4922A] text-white rounded-[8px] px-2 py-1 shadow-sm">
+        <span class="text-[11px] font-bold font-jakarta">
             {{ $b->kelas }}
         </span>
     </div>
@@ -59,5 +62,8 @@
 
     </main>
 </div>
+<script>
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+</script>
 </body>
 </html>

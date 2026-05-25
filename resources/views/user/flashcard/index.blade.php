@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcard - SahabatBuku</title>
     @vite('resources/css/app.css')
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>* { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
 <body class="antialiased font-jakarta" style="background-color: #E5F8FF;">
 <div class="flex min-h-screen">
@@ -12,10 +15,10 @@
     <x-user-sidebar />
 
     {{-- konten utama --}}
-    <main class="flex-1 px-8 py-8 overflow-y-auto">
+    <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- judul halaman --}}
-        <h1 class="mb-6 text-2xl font-bold text-black font-jakarta">Flashcard — {{ $subbab->judul_subbab }}</h1>
+        <h1 class="mb-6 text-xl font-bold text-slate-800">Flashcard — {{ $subbab->judul_subbab }}</h1>
 
         {{-- progress bar --}}
         <div class="mb-8">
@@ -38,7 +41,7 @@
                     <div class="relative w-full h-full transition-transform duration-500" id="cardInner" style="transform-style: preserve-3d;">
                         
                         {{-- kartu depan (pertanyaan) --}}
-                        <div class="absolute w-full h-full p-8 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center" style="backface-visibility: hidden;">
+                        <div class="absolute w-full h-full p-8 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center" style="backface-visibility: hidden;">
                             <div class="text-center">
                                 <p class="text-3xl text-gray-400 mb-4 font-jakarta">
                                     <i data-lucide="circle-help" class="w-12 h-12 mx-auto"></i>
@@ -49,7 +52,7 @@
                         </div>
 
                         {{-- kartu belakang (jawaban) --}}
-                        <div class="absolute w-full h-full p-8 bg-[#F0924E] rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center" style="backface-visibility: hidden; transform: rotateY(180deg);">
+                        <div class="absolute w-full h-full p-8 bg-[#F4922A] rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center" style="backface-visibility: hidden; transform: rotateY(180deg);">
                             <div class="text-center">
                                 <p class="text-3xl text-white mb-4 font-jakarta">
                                     <i data-lucide="check-circle" class="w-12 h-12 mx-auto"></i>
@@ -73,12 +76,12 @@
             <div class="flex gap-4 mb-8">
                 <button onclick="previousCard()" 
                         id="prevBtn"
-                        class="px-6 py-2 text-lg font-bold text-[#F0924E] border-2 border-[#F0924E] rounded-[8px] hover:bg-orange-50 transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
+                        class="px-6 py-2 text-lg font-bold text-[#F4922A] border-2 border-[#F4922A] rounded-xl hover:bg-orange-50 transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
                     <i data-lucide="arrow-left" class="w-5 h-5 inline-block mb-1"></i> Sebelumnya
                 </button>
                 <button onclick="nextCard()" 
                         id="nextBtn"
-                        class="px-6 py-2 text-lg font-bold text-white bg-[#F0924E] rounded-[8px] hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
+                        class="px-6 py-2 text-lg font-bold text-white bg-[#F4922A] rounded-xl hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
                     Selanjutnya <i data-lucide="arrow-right" class="w-5 h-5 inline-block mb-1"></i>
                 </button>
             </div>
@@ -88,7 +91,7 @@
                 <button type="button" 
                         id="sudahPahamBtn"
                         onclick="toggleSudahPaham()"
-                        class="px-8 py-3 text-lg font-bold transition-all duration-300 rounded-[12px] font-jakarta">
+                        class="px-8 py-3 text-lg font-bold transition-all duration-300 rounded-xl font-jakarta">
                     Sudah Paham
                 </button>
             </div>
@@ -97,7 +100,7 @@
             <form action="{{ route('user.flashcard.reset', $subbab->id_subbab) }}" method="POST" class="w-full max-w-sm">
                 @csrf
                 <button type="submit" 
-                        class="w-full px-6 py-2 text-lg font-bold text-gray-600 border-2 border-gray-300 rounded-[8px] hover:bg-gray-100 transition font-jakarta">
+                        class="w-full px-6 py-2 text-lg font-bold text-gray-600 border-2 border-gray-300 rounded-xl hover:bg-gray-100 transition font-jakarta">
                     Reset Semua Progres
                 </button>
             </form>
@@ -140,10 +143,10 @@ function updatePahamButtonState(isSudah) {
     const btn = document.getElementById('sudahPahamBtn');
     if (isSudah) {
         btn.innerHTML = '<i data-lucide="check" class="w-5 h-5 inline-block mb-1"></i> Sudah Paham';
-        btn.className = 'px-8 py-3 text-lg font-bold text-white bg-green-600 rounded-[12px] hover:bg-green-700 transition font-jakarta';
+        btn.className = 'px-8 py-3 text-lg font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition font-jakarta';
     } else {
         btn.innerHTML = 'Belum Paham';
-        btn.className = 'px-8 py-3 text-lg font-bold text-gray-700 bg-gray-300 rounded-[12px] hover:bg-gray-400 transition font-jakarta';
+        btn.className = 'px-8 py-3 text-lg font-bold text-gray-700 bg-gray-300 rounded-xl hover:bg-gray-400 transition font-jakarta';
     }
     if (window.lucide) lucide.createIcons();
 }
@@ -208,6 +211,8 @@ async function toggleSudahPaham() {
 
 // Flip card on click
 document.getElementById('flipCard').addEventListener('click', flipCard);
+
+if (typeof lucide !== 'undefined') lucide.createIcons();
 </script>
 </body>
 </html>
