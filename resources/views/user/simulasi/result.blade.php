@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hasil Ujian - SahabatBuku</title>
     @vite('resources/css/app.css')
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>* { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
 <body class="antialiased font-jakarta" style="background-color: #E5F8FF;">
 <div class="flex min-h-screen">
@@ -12,14 +15,14 @@
     <x-user-sidebar />
 
     {{-- konten utama --}}
-    <main class="flex-1 px-8 py-8 overflow-y-auto">
+    <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- judul --}}
-        <h1 class="mb-8 text-4xl font-bold text-black font-jakarta">Hasil Ujian</h1>
+        <h1 class="mb-8 text-xl font-bold text-slate-800">Hasil Ujian</h1>
 
         {{-- skor besar --}}
-        <div class="flex flex-col items-center justify-center p-12 mb-8 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]">
-            <div class="mb-4 text-7xl font-bold text-[#F0924E] font-jakarta">
+        <div class="flex flex-col items-center justify-center p-12 mb-8 bg-white rounded-2xl shadow-sm border border-slate-100">
+            <div class="mb-4 text-7xl font-bold text-[#F4922A] font-jakarta">
                 {{ $hasil->skor }}%
             </div>
             <div>
@@ -38,7 +41,7 @@
         {{-- ringkasan --}}
         <div class="grid grid-cols-3 gap-4 mb-12">
             {{-- benar --}}
-            <div class="p-6 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]">
+            <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
                 <p class="text-sm font-semibold text-gray-600 mb-2 font-jakarta">Benar</p>
                 <p class="text-4xl font-bold text-green-600 font-jakarta">
                     {{ $hasil->jumlah_benar }}
@@ -46,7 +49,7 @@
             </div>
 
             {{-- salah --}}
-            <div class="p-6 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]">
+            <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
                 <p class="text-sm font-semibold text-gray-600 mb-2 font-jakarta">Salah</p>
                 <p class="text-4xl font-bold text-red-600 font-jakarta">
                     {{ $hasil->jumlah_salah }}
@@ -54,7 +57,7 @@
             </div>
 
             {{-- kosong --}}
-            <div class="p-6 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]">
+            <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
                 <p class="text-sm font-semibold text-gray-600 mb-2 font-jakarta">Kosong</p>
                 <p class="text-4xl font-bold text-gray-600 font-jakarta">
                     {{ $hasil->jumlah_kosong }}
@@ -64,11 +67,11 @@
 
         {{-- pembahasan per soal --}}
         <div class="mb-12">
-            <h2 class="mb-6 text-2xl font-bold text-black font-jakarta">Pembahasan</h2>
+            <h2 class="mb-6 text-lg font-bold text-slate-800 font-jakarta">Pembahasan</h2>
 
             <div class="space-y-6">
                 @foreach($soal as $index => $s)
-                <div class="p-6 bg-white rounded-[12px] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.15)]">
+                <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
                     {{-- nomor dan pertanyaan --}}
                     <div class="mb-4">
                         <p class="text-sm font-semibold text-gray-600 mb-2 font-jakarta">Soal {{ $index + 1 }}</p>
@@ -125,12 +128,15 @@
         {{-- tombol kembali --}}
         <div class="flex justify-center mb-8">
             <a href="{{ route('user.simulasi.index') }}" 
-               class="inline-block px-8 py-3 text-lg font-bold text-white bg-[#F0924E] rounded-[12px] hover:bg-opacity-90 transition font-jakarta">
+               class="inline-block px-8 py-3 text-lg font-bold text-white bg-[#F4922A] rounded-xl hover:bg-opacity-90 transition font-jakarta">
                 Kembali ke Simulasi
             </a>
         </div>
 
     </main>
 </div>
+<script>
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+</script>
 </body>
 </html>

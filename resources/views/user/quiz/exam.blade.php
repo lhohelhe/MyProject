@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $quiz->judul_quiz }} - Quiz - SahabatBuku</title>
     @vite('resources/css/app.css')
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>* { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
-<body class="antialiased font-jakarta bg-gray-50">
+<body class="antialiased font-jakarta" style="background-color: #E5F8FF;">
 <div class="flex flex-col min-h-screen">
 
     {{-- header --}}
@@ -53,7 +56,7 @@
                         </span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div id="progressBar" class="bg-[#F0924E] h-2 rounded-full transition-all duration-300" style="width: 10%;"></div>
+                        <div id="progressBar" class="bg-[#F4922A] h-2 rounded-full transition-all duration-300" style="width: 10%;"></div>
                     </div>
                 </div>
 
@@ -61,7 +64,7 @@
                 @foreach($soal as $index => $s)
                 <div id="question-{{ $index }}" class="question-container hidden">
                     {{-- teks pertanyaan --}}
-                    <div class="mb-8 p-6 bg-white rounded-[12px] shadow-sm">
+                    <div class="mb-8 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
                         <p class="text-2xl font-bold text-gray-800 font-jakarta">{{ $s->pertanyaan }}</p>
                     </div>
 
@@ -69,7 +72,7 @@
                     <div class="space-y-3 mb-8">
                         @foreach(['a', 'b', 'c', 'd'] as $option)
                         <button type="button" 
-                                class="answer-btn w-full p-4 text-left bg-white border-2 border-gray-200 rounded-[12px] transition-all hover:border-[#F0924E] hover:bg-orange-50 font-jakarta"
+                                class="answer-btn w-full p-4 text-left bg-white border-2 border-gray-200 rounded-xl transition-all hover:border-[#F4922A] hover:bg-orange-50 font-jakarta"
                                 onclick="selectAnswer('{{ $s->id_soal_quiz }}', '{{ $option }}', this, {{ $index }})"
                                 data-soal="{{ $s->id_soal_quiz }}"
                                 data-option="{{ $option }}"
@@ -96,7 +99,7 @@
                     <button type="button" 
                             id="submitBtn"
                             onclick="showConfirmModal()"
-                            class="w-full py-3 text-lg font-bold text-white bg-green-600 rounded-[12px] hover:bg-green-700 transition font-jakarta">
+                            class="w-full py-3 text-lg font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition font-jakarta">
                         Selanjutnya
                     </button>
                 </div>
@@ -107,18 +110,18 @@
 
 {{-- modal konfirmasi submit --}}
 <div id="confirmModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-[12px] p-6 max-w-sm shadow-xl">
+    <div class="bg-white rounded-2xl p-6 max-w-sm shadow-xl border border-slate-100">
         <h2 class="mb-4 text-xl font-bold text-gray-800 font-jakarta">Konfirmasi Submit</h2>
         <p class="mb-6 text-gray-700 font-jakarta">Apakah Anda yakin ingin mengirimkan jawaban? Anda tidak dapat mengubahnya lagi.</p>
         <div class="flex gap-4">
             <button type="button" 
                     onclick="closeConfirmModal()"
-                    class="flex-1 py-2 text-lg font-bold text-gray-700 border-2 border-gray-300 rounded-[12px] hover:bg-gray-50 transition font-jakarta">
+                    class="flex-1 py-2 text-lg font-bold text-gray-700 border-2 border-gray-300 rounded-xl hover:bg-gray-50 transition font-jakarta">
                 Batal
             </button>
             <button type="button" 
                     onclick="submitQuiz()"
-                    class="flex-1 py-2 text-lg font-bold text-white bg-green-600 rounded-[12px] hover:bg-green-700 transition font-jakarta">
+                    class="flex-1 py-2 text-lg font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition font-jakarta">
                 Submit
             </button>
         </div>
@@ -187,7 +190,7 @@ function showQuestion(index) {
     // Restore selected answer
     const selectedBtn = document.querySelector(`[data-question="${index}"][data-option]`);
     document.querySelectorAll(`[data-question="${index}"]`).forEach(btn => {
-        btn.classList.remove('border-[#F0924E]', 'bg-orange-100', 'border-2');
+        btn.classList.remove('border-[#F4922A]', 'bg-orange-100', 'border-2');
         btn.classList.add('border-gray-200', 'bg-white');
     });
     
@@ -197,7 +200,7 @@ function showQuestion(index) {
         const answeredBtn = document.querySelector(`[data-question="${index}"][data-option="${answeredOption}"]`);
         if (answeredBtn) {
             answeredBtn.classList.remove('border-gray-200', 'bg-white');
-            answeredBtn.classList.add('border-[#F0924E]', 'bg-orange-100', 'border-2');
+            answeredBtn.classList.add('border-[#F4922A]', 'bg-orange-100', 'border-2');
         }
     }
 }
@@ -208,13 +211,13 @@ function selectAnswer(soalId, option, button, questionIndex) {
     
     // Remove highlight from other buttons for this question
     document.querySelectorAll(`[data-question="${questionIndex}"]`).forEach(btn => {
-        btn.classList.remove('border-[#F0924E]', 'bg-orange-100', 'border-2');
+        btn.classList.remove('border-[#F4922A]', 'bg-orange-100', 'border-2');
         btn.classList.add('border-gray-200', 'bg-white');
     });
     
     // Highlight selected button
     button.classList.remove('border-gray-200', 'bg-white');
-    button.classList.add('border-[#F0924E]', 'bg-orange-100', 'border-2');
+    button.classList.add('border-[#F4922A]', 'bg-orange-100', 'border-2');
     
     // Auto-next to next question
     if (currentQuestion < totalQuestions - 1) {
@@ -225,6 +228,7 @@ function selectAnswer(soalId, option, button, questionIndex) {
     }
 }
 
+// Submit
 // Submit
 function showConfirmModal() {
     if (currentQuestion === totalQuestions - 1) {
@@ -269,6 +273,8 @@ document.addEventListener('keydown', function(e) {
         closeConfirmModal();
     }
 });
+
+if (typeof lucide !== 'undefined') lucide.createIcons();
 </script>
 </body>
 </html>

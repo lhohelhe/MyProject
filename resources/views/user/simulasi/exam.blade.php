@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $simulasi->judul_simulasi }} - Ujian - SahabatBuku</title>
     @vite('resources/css/app.css')
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>* { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
 </head>
-<body class="antialiased font-jakarta bg-gray-50">
+<body class="antialiased font-jakarta" style="background-color: #E5F8FF;">
 <div class="flex flex-col min-h-screen">
 
     {{-- header --}}
@@ -49,12 +52,12 @@
                         </div>
 
                         {{-- pertanyaan --}}
-                        <div class="mb-6 p-4 bg-white rounded-[12px] shadow-sm">
+                        <div class="mb-6 p-4 bg-white rounded-2xl shadow-sm border border-slate-100">
                             <p class="text-lg font-semibold text-gray-800 font-jakarta">{{ $s->pertanyaan }}</p>
                         </div>
 
                         {{-- pilihan jawaban --}}
-                        <div class="space-y-3 p-4 bg-white rounded-[12px] shadow-sm">
+                        <div class="space-y-3 p-4 bg-white rounded-2xl shadow-sm border border-slate-100">
                             @foreach(['a', 'b', 'c', 'd'] as $option)
                             <label class="flex items-start p-3 transition border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50" onclick="markAnswered({{ $index }})">
                                 <input type="radio" 
@@ -77,13 +80,13 @@
                         <button type="button" 
                                 id="prevBtn"
                                 onclick="previousQuestion()"
-                                class="flex-1 py-3 text-lg font-bold text-[#F0924E] border-2 border-[#F0924E] rounded-[12px] hover:bg-orange-50 transition font-jakarta">
+                                class="flex-1 py-3 text-lg font-bold text-[#F4922A] border-2 border-[#F4922A] rounded-xl hover:bg-orange-50 transition font-jakarta">
                             Sebelumnya
                         </button>
                         <button type="button" 
                                 id="nextBtn"
                                 onclick="nextQuestion()"
-                                class="flex-1 py-3 text-lg font-bold text-white bg-[#F0924E] rounded-[12px] hover:bg-opacity-90 transition font-jakarta">
+                                class="flex-1 py-3 text-lg font-bold text-white bg-[#F4922A] rounded-xl hover:bg-opacity-90 transition font-jakarta">
                             Selanjutnya
                         </button>
                     </div>
@@ -92,7 +95,7 @@
                     <div class="pt-4">
                         <button type="button" 
                                 onclick="showConfirmModal()"
-                                class="w-full py-3 text-lg font-bold text-white bg-green-600 rounded-[12px] hover:bg-green-700 transition font-jakarta">
+                                class="w-full py-3 text-lg font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition font-jakarta">
                             Submit Ujian
                         </button>
                     </div>
@@ -104,18 +107,18 @@
 
 {{-- modal konfirmasi submit --}}
 <div id="confirmModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
-    <div class="bg-white rounded-[12px] p-6 max-w-sm shadow-xl">
+    <div class="bg-white rounded-2xl p-6 max-w-sm shadow-xl border border-slate-100">
         <h2 class="mb-4 text-xl font-bold text-gray-800 font-jakarta">Konfirmasi Submit</h2>
         <p class="mb-6 text-gray-700 font-jakarta">Apakah Anda yakin ingin mengirimkan jawaban? Anda tidak dapat mengubahnya lagi.</p>
         <div class="flex gap-4">
             <button type="button" 
                     onclick="closeConfirmModal()"
-                    class="flex-1 py-2 text-lg font-bold text-gray-700 border-2 border-gray-300 rounded-[12px] hover:bg-gray-50 transition font-jakarta">
+                    class="flex-1 py-2 text-lg font-bold text-gray-700 border-2 border-gray-300 rounded-xl hover:bg-gray-50 transition font-jakarta">
                 Batal
             </button>
             <button type="button" 
                     onclick="submitExam()"
-                    class="flex-1 py-2 text-lg font-bold text-white bg-green-600 rounded-[12px] hover:bg-green-700 transition font-jakarta">
+                    class="flex-1 py-2 text-lg font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition font-jakarta">
                 Submit
             </button>
         </div>
@@ -169,10 +172,10 @@ function showQuestion(index) {
     
     // Update navigation
     document.querySelectorAll('[data-question]').forEach(el => {
-        el.classList.remove('bg-[#F0924E]', 'text-white');
+        el.classList.remove('bg-[#F4922A]', 'text-white');
         el.classList.add('bg-gray-300', 'text-gray-700');
     });
-    document.getElementById('nav-' + index).classList.add('bg-[#F0924E]', 'text-white');
+    document.getElementById('nav-' + index).classList.add('bg-[#F4922A]', 'text-white');
     
     // Update button states
     document.getElementById('prevBtn').disabled = index === 0;
@@ -189,6 +192,7 @@ function goToQuestion(index) {
     showQuestion(index);
 }
 
+// Navigate questions
 function previousQuestion() {
     if (currentQuestion > 0) {
         currentQuestion--;
@@ -207,7 +211,7 @@ function nextQuestion() {
 function markAnswered(index) {
     answeredQuestions.add(index);
     document.getElementById('nav-' + index).classList.remove('bg-gray-300', 'text-gray-700');
-    document.getElementById('nav-' + index).classList.add('bg-[#F0924E]', 'text-white');
+    document.getElementById('nav-' + index).classList.add('bg-[#F4922A]', 'text-white');
 }
 
 // Modal
@@ -235,6 +239,8 @@ document.addEventListener('keydown', function(e) {
         closeConfirmModal();
     }
 });
+
+if (typeof lucide !== 'undefined') lucide.createIcons();
 </script>
 </body>
 </html>
