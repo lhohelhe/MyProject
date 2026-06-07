@@ -217,88 +217,138 @@
 
 <script>
 const activeMenu = new URLSearchParams(window.location.search).get('active_menu') || 'bab';
+const idBuku = new URLSearchParams(window.location.search).get('id_buku');
 
 /* =========================
-   BAB
+   LOAD BAB FROM API
 ========================= */
 
-const dropdown = document.getElementById('babDropdown');
-const textInfo = document.getElementById('babTerpilih');
-const editBtn = document.getElementById('editBab');
-const deleteBtn = document.getElementById('deleteBabBtn');
-const deleteForm = document.getElementById('deleteBabForm');
-
-if(dropdown){
-
-    dropdown.addEventListener('change', function(){
-
-        let id = this.value;
-        let text = this.options[this.selectedIndex].text;
-
-        textInfo.innerText = "Bab dipilih: " + text;
-
-        if(id){
-
-            editBtn.href = "/bab/" + id + "/edit";
-            deleteForm.action = "/bab/" + id;
-
-        }
-
-    });
-
+function loadBab() {
+    fetch('/api/bab?id_buku=' + idBuku)
+        .then(res => res.json())
+        .then(data => {
+            const babList = document.getElementById('babList');
+            babList.innerHTML = '';
+            
+            data.forEach(bab => {
+                const babDiv = document.createElement('div');
+                babDiv.className = 'mb-4 border rounded p-3 bg-gray-50';
+                babDiv.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div class="font-semibold">
+                            Bab ${bab.nomor_bab}
+                            <br>
+                            <span class="text-sm text-gray-600">${bab.judul_bab}</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <a href="/admin/bab/${bab.id_bab}/edit?id_buku=${idBuku}&active_menu=${activeMenu}" class="transition-opacity hover:opacity-80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-admin-green fill-admin-green">
+                                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/>
+                                </svg>
+                            </a>
+                            <button onclick="deleteBab(${bab.id_bab})" class="transition-opacity hover:opacity-80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-admin-red fill-admin-red">
+                                    <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <a href="/admin/subab/create?id_bab=${bab.id_bab}&active_menu=${activeMenu}" class="text-xs text-blue-600 mt-2 inline-block font-semibold">+ Tambah Subab</a>
+                    <ul class="mt-2 pl-4" id="subab-${bab.id_bab}"></ul>
+                `;
+                babList.appendChild(babDiv);
+                loadSubab(bab.id_bab);
+            });
+        });
 }
 
-if(deleteBtn){
-
-    deleteBtn.addEventListener('click', function(){
-
-        if(confirm('Yakin ingin menghapus bab ini?')){
-            deleteForm.submit();
-        }
-
-    });
-
+function loadSubab(idBab) {
+    fetch('/api/subab?id_bab=' + idBab)
+        .then(res => res.json())
+        .then(data => {
+            const subabList = document.getElementById('subab-' + idBab);
+            subabList.innerHTML = '';
+            
+            data.forEach(subab => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center text-sm py-1';
+                li.innerHTML = `
+                    <span class="mr-2">
+                        <a href="#" class="subab-link block text-sm text-gray-700 hover:text-blue-600" data-id="${subab.id_subbab}">
+                            ${subab.nomor_subbab} ${subab.judul_subbab}
+                        </a>
+                    </span>
+                    <div class="flex items-center gap-1">
+                        <a href="/admin/subab/${subab.id_subbab}/edit?active_menu=${activeMenu}" class="transition-opacity hover:opacity-80">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-admin-green fill-admin-green">
+                                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/>
+                            </svg>
+                        </a>
+                        <button onclick="deleteSubab(${subab.id_subbab})" class="transition-opacity hover:opacity-80">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-admin-red fill-admin-red">
+                                <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+                subabList.appendChild(li);
+            });
+            
+            attachSubabLinks();
+        });
 }
 
-
-/* =========================
-   SUBAB
-========================= */
-
-const subabDropdown = document.getElementById('subabDropdown');
-const editSubab = document.getElementById('editSubab');
-const deleteSubabBtn = document.getElementById('deleteSubabBtn');
-const deleteSubabForm = document.getElementById('deleteSubabForm');
-
-if(subabDropdown){
-
-    subabDropdown.addEventListener('change', function(){
-
-        let id = this.value;
-
-        if(id){
-
-            editSubab.href = "/subab/" + id + "/edit";
-            deleteSubabForm.action = "/subab/" + id;
-
-        }
-
-    });
-
+function deleteBab(id) {
+    if(!confirm('Hapus bab ini?')) return;
+    
+    fetch('/api/bab/' + id, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(data => {
+            loadBab();
+        });
 }
 
-if(deleteSubabBtn){
-
-    deleteSubabBtn.addEventListener('click', function(){
-
-        if(confirm('Yakin ingin menghapus subab ini?')){
-            deleteSubabForm.submit();
-        }
-
-    });
-
+function deleteSubab(id) {
+    if(!confirm('Hapus subab?')) return;
+    
+    fetch('/api/subab/' + id, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(data => {
+            loadBab();
+        });
 }
 
+function attachSubabLinks() {
+    document.querySelectorAll('.subab-link').forEach(function(link){
+        link.addEventListener('click', function(e){
+            e.preventDefault();
+            let id = this.dataset.id;
+            subabAktif = id;
+
+            fetch('/api/materi?id_subbab=' + id)
+                .then(res => res.json())
+                .then(data => {
+                    if(data && data.length > 0) {
+                        const materi = data[0];
+                        document.getElementById('materiJudul').innerText = materi.judul_materi;
+                        document.getElementById('materiIsi').innerHTML = materi.isi;
+                        document.getElementById('editMateriBtn').href = "/admin/materi/" + materi.id_materi + "/edit?active_menu=" + activeMenu;
+                        document.getElementById('deleteMateriForm').action = "/admin/materi/" + materi.id_materi;
+                        document.getElementById('materiActions').classList.remove('hidden');
+                        document.getElementById('btnTambahMateri').classList.add('hidden');
+                    } else {
+                        document.getElementById('materiJudul').innerText = 'Belum ada materi';
+                        document.getElementById('materiIsi').innerHTML = '<p class="text-slate-400">Silakan tambahkan materi untuk subab ini.</p>';
+                        document.getElementById('materiActions').classList.add('hidden');
+                        document.getElementById('btnTambahMateri').classList.remove('hidden');
+                    }
+                });
+        });
+    });
+}
+
+// Inisialisasi
+loadBab();
 
 /* =========================
    MATERI
@@ -306,66 +356,16 @@ if(deleteSubabBtn){
 
 let subabAktif = null;
 
-
-/* klik subab → load materi */
-
-document.querySelectorAll('.subab-link').forEach(function(link){
-
-    link.addEventListener('click', function(e){
-
-        e.preventDefault();
-
-        let id = this.dataset.id;
-
-        subabAktif = id;
-
-        fetch('/materi/subab/' + id)
-
-        .then(res => res.json())
-
-        .then(data => {
-
-            if(data && data.id_materi) {
-                document.getElementById('materiJudul').innerText = data.judul_materi;
-                document.getElementById('materiIsi').innerHTML = data.isi;
-                document.getElementById('editMateriBtn').href = "/admin/materi/" + data.id_materi + "/edit?active_menu=" + activeMenu;
-                document.getElementById('deleteMateriForm').action = "/admin/materi/" + data.id_materi;
-                document.getElementById('materiActions').classList.remove('hidden');
-                document.getElementById('btnTambahMateri').classList.add('hidden');
-            } else {
-                document.getElementById('materiJudul').innerText = 'Belum ada materi';
-                document.getElementById('materiIsi').innerHTML = '<p class="text-slate-400">Silakan tambahkan materi untuk subab ini.</p>';
-                document.getElementById('materiActions').classList.add('hidden');
-                document.getElementById('btnTambahMateri').classList.remove('hidden');
-            }
-
-        });
-
-    });
-
-});
-
-
-/* tombol tambah materi */
-
 const btnTambahMateri = document.getElementById('btnTambahMateri');
 
 if(btnTambahMateri){
-
     btnTambahMateri.addEventListener('click', function(){
-
         if(!subabAktif){
-
             alert('Pilih subab terlebih dahulu');
             return;
-
         }
-
-        window.location.href =
-            "/admin/materi/create?id_subbab=" + subabAktif + "&active_menu=" + activeMenu;
-
+        window.location.href = "/admin/materi/create?id_subbab=" + subabAktif + "&active_menu=" + activeMenu;
     });
-
 }
 
 </script>
