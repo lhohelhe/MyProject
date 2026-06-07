@@ -8,6 +8,19 @@ use App\Models\Bab;
 
 class BabController extends Controller
 {
+    public function updateTitle(Request $request, $id)
+    {
+        $request->validate([
+            'judul_bab' => 'required|string|max:255'
+        ]);
+
+        $bab = Bab::findOrFail($id);
+        $bab->update([
+            'judul_bab' => $request->judul_bab
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Judul bab berhasil diperbarui']);
+    }
 
     public function index(Request $request)
     {

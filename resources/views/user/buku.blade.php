@@ -221,7 +221,7 @@
                                     {{ $subbab->judul_subbab ?? 'Subbab' }}
                                 </p>
                                 @forelse($subbab->materi as $materi)
-                                    <a href="{{ route('user.materi.show', $materi->id_materi) }}"
+                                    <a href="{{ route('user.materi.baca', $materi->id_materi) }}"
                                        class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[#E5F8FF] hover:text-[#F4922A] transition-all group">
                                         <i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-300 group-hover:text-[#F4922A] flex-shrink-0"></i>
                                         <span class="text-sm text-slate-700 group-hover:text-[#F4922A] group-hover:font-medium transition-all">

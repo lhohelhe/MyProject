@@ -34,16 +34,19 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('/dashboard-user', UserController::class);
 
     // Kelola buku
-    Route::get('/buku/{id}/konten', [BukuController::class, 'konten'])->name('buku.konten');
+    Route::match(['get','put'], '/buku/{id}/konten', [BukuController::class, 'konten'])->name('buku.konten');
     Route::post('/buku/{id}/parse-pdf', [BukuController::class, 'parsePdf'])->name('buku.parse-pdf');
+    Route::post('/buku/{id}/parse-ai', [BukuController::class, 'parseAi'])->name('buku.parse-ai');
     Route::resource('/dashboard-buku', BukuController::class);
 
     // Kelola bab
     Route::get('/bab/by-buku/{id_buku}', [BabController::class, 'byBuku']);
+    Route::put('/bab/{id}', [BabController::class, 'updateTitle'])->name('bab.update-title');
     Route::resource('/bab', BabController::class)->except(['show']);
 
     // Kelola subbab
     Route::get('/subab/by-bab/{id_bab}', [SubabController::class, 'byBab']);
+    Route::delete('/subbab/{id}', [SubabController::class, 'destroyWithMateri'])->name('subbab.destroy-with-materi');
     Route::resource('/subab', SubabController::class)->except(['show', 'index']);
 
     // Kelola materi
@@ -85,7 +88,7 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/buku/{id}', [App\Http\Controllers\User\BukuController::class, 'show'])->name('user.buku.show');
 
     // Materi buku
-    Route::get('/materi/{id}', [UserMateriController::class, 'show'])->name('user.materi.show');
+    Route::get('/materi/{id}', [UserMateriController::class, 'baca'])->name('user.materi.baca');
 
     // SIMULASI UJIAN (Perbaikan urutan: Submit & Result dulu sebelum {id})
     Route::get('/simulasi', [UserSimulasiController::class, 'index'])->name('user.simulasi.index');

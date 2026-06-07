@@ -8,6 +8,19 @@ use App\Models\Subab;
 
 class SubabController extends Controller
 {
+    public function destroyWithMateri($id)
+    {
+        $subab = Subab::findOrFail($id);
+        
+        \DB::transaction(function() use ($subab) {
+            // Delete associated materi
+            \DB::table('materi')->where('id_subbab', $subab->id_subbab)->delete();
+            // Delete subbab
+            $subab->delete();
+        });
+
+        return response()->json(['status' => 'success', 'message' => 'Subbab dan materinya berhasil dihapus']);
+    }
 
     public function create(Request $request)
     {

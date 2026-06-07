@@ -62,7 +62,7 @@
         </a>
 
         {{-- Kelola Materi --}}
-        <a href="{{ route('materi.index', ['active_menu' => 'materi']) }}"
+        <a href="{{ route('dashboard-buku.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-none text-sm font-semibold transition-all border border-transparent
                   {{ (request()->input('active_menu') === 'materi') ? 'bg-[#F4922A] text-white border-black shadow-[2px_2px_0px_#000]' : 'text-slate-300 hover:text-white hover:bg-white/10' }}"
         >
