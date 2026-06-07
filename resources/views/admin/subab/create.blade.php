@@ -7,7 +7,7 @@
     <h1 class="mb-6 text-3xl font-extrabold text-slate-800 font-jakarta">Tambah Subbab Baru</h1>
 
     <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
-        <form method="POST" action="{{ route('subab.store', ['active_menu' => request()->input('active_menu')]) }}" class="space-y-6">
+        <form id="subabForm" class="space-y-6">
             @csrf
             <input type="hidden" name="id_bab" value="{{ $id_bab }}">
 
@@ -21,9 +21,7 @@
                        placeholder="Contoh: 1.1"
                        required
                        class="w-full px-4 py-3 border border-slate-200 rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A] focus:border-transparent">
-                @error('nomor_subbab')
-                    <p class="mt-1 text-sm text-red-500 font-jakarta">{{ $message }}</p>
-                @enderror
+                <p id="errorNomorSubab" class="mt-1 text-sm text-red-500 hidden"></p>
             </div>
 
             {{-- Judul Subbab --}}
@@ -36,9 +34,11 @@
                        placeholder="Contoh: Pengenalan Aljabar"
                        required
                        class="w-full px-4 py-3 border border-slate-200 rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A] focus:border-transparent">
-                @error('judul_subbab')
-                    <p class="mt-1 text-sm text-red-500 font-jakarta">{{ $message }}</p>
-                @enderror
+                <p id="errorJudulSubab" class="mt-1 text-sm text-red-500 hidden"></p>
+            </div>
+
+            <div id="successMessage" class="hidden p-4 mb-4 text-green-800 bg-green-100 rounded-xl">
+                Subbab berhasil ditambahkan! Mengalihkan...
             </div>
 
             {{-- Action Buttons --}}
@@ -55,4 +55,58 @@
         </form>
     </div>
 </div>
+
+<script>
+document.getElementById('subabForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const nomorSubab = document.getElementById('nomor_subbab').value;
+    const judulSubab = document.getElementById('judul_subbab').value;
+    const idBab = document.querySelector('input[name="id_bab"]').value;
+    
+    document.getElementById('errorNomorSubab').classList.add('hidden');
+    document.getElementById('errorJudulSubab').classList.add('hidden');
+    
+    try {
+        const response = await fetch('/api/subab', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+            },
+            body: JSON.stringify({
+                id_bab: idBab,
+                nomor_subbab: nomorSubab,
+                judul_subbab: judulSubab
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            if (data.errors) {
+                if (data.errors.nomor_subbab) {
+                    document.getElementById('errorNomorSubab').textContent = data.errors.nomor_subbab[0];
+                    document.getElementById('errorNomorSubab').classList.remove('hidden');
+                }
+                if (data.errors.judul_subbab) {
+                    document.getElementById('errorJudulSubab').textContent = data.errors.judul_subbab[0];
+                    document.getElementById('errorJudulSubab').classList.remove('hidden');
+                }
+            }
+            return;
+        }
+        
+        document.getElementById('successMessage').classList.remove('hidden');
+        setTimeout(() => {
+            window.history.back();
+        }, 800);
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan. Silakan coba lagi.');
+    }
+});
+</script>
+
 @endsection
