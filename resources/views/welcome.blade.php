@@ -24,16 +24,6 @@
             white-space: nowrap;
         }
 
-        /* Card hover */
-        .card-hover {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.08);
-        }
-
-        /* Fade up on scroll */
         .fade-up {
             opacity: 0;
             transform: translateY(20px);
@@ -44,7 +34,6 @@
             transform: translateY(0);
         }
 
-        /* Turbo transition */
         [data-turbo-body] {
             opacity: 1;
             transition: opacity 0.2s ease;
@@ -54,7 +43,7 @@
         }
     </style>
 </head>
-<body class="overflow-x-hidden antialiased bg-white">
+<body class="overflow-x-hidden antialiased bg-[#E5F8FF]">
 
 <x-main-navbar />
 
@@ -66,30 +55,35 @@
 
         {{-- Left --}}
         <div class="space-y-8">
+            <div class="inline-block px-4 py-1.5 bg-[#F4922A] text-white text-xs font-black uppercase tracking-widest border-2 border-black rounded-full shadow-[3px_3px_0px_#000]">
+                Platform Belajar Siswa SMA
+            </div>
 
-            <h1 class="text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.08] tracking-tight">
+            <h1 class="text-5xl lg:text-6xl font-black text-black leading-[1.08] tracking-tight">
                 Belajar Langsung<br>
                 dari Buku Resmi<br>
                 <span class="text-[#F4922A]">Kemendikdasmen</span>
             </h1>
 
-            <p class="max-w-sm text-lg leading-relaxed text-slate-500">
-                Pendamping belajar menuju ujian.
+            <p class="max-w-sm text-base font-bold text-slate-600">
+                Pendamping belajar menuju ujian — lengkap dengan quiz, flashcard, simulasi, dan AI notes.
             </p>
 
             <div class="flex items-center gap-4">
                 <a href="{{ route('register') }}" data-turbo="true"
-                   class="bg-[#F4922A] text-white font-bold text-sm px-7 py-3.5 rounded-xl hover:bg-orange-600 transition-colors shadow-md shadow-orange-200">
+                   class="bg-[#F4922A] text-white font-black text-sm px-7 py-3.5 rounded-xl border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
                     Mulai Belajar Gratis
+                </a>
+                <a href="{{ route('login') }}" data-turbo="true"
+                   class="bg-white text-black font-black text-sm px-7 py-3.5 rounded-xl border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
+                    Masuk
                 </a>
             </div>
 
-            <div class="flex flex-wrap items-center gap-5 pt-1">
+            <div class="flex flex-wrap items-center gap-4 pt-1">
                 @foreach(['100% Buku Resmi', 'Gratis untuk semua siswa', 'Kelas 10–12'] as $item)
-                <div class="flex items-center gap-2 text-xs font-medium text-slate-500">
-                    <div class="w-4 h-4 rounded-full bg-[#F4922A]/15 flex items-center justify-center flex-shrink-0">
-                        <div class="w-1.5 h-1.5 rounded-full bg-[#F4922A]"></div>
-                    </div>
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-white border-2 border-black rounded-full shadow-[2px_2px_0px_#000] text-xs font-black text-black">
+                    <div class="w-2 h-2 rounded-full bg-[#F4922A]"></div>
                     {{ $item }}
                 </div>
                 @endforeach
@@ -98,35 +92,46 @@
 
         {{-- Right --}}
         <div class="relative">
-            <div class="absolute inset-0 bg-[#1E3A5F]/6 rounded-3xl rotate-1"></div>
+            <div class="absolute inset-0 bg-black rounded-3xl translate-x-2 translate-y-2"></div>
             <img src="{{ asset('images/kelas.jpeg') }}"
-                 class="relative z-10 w-full h-[460px] lg:h-[520px] object-cover rounded-3xl shadow-xl"
+                 class="relative z-10 w-full h-[460px] lg:h-[520px] object-cover rounded-3xl border-2 border-black"
                  alt="Siswa SMA belajar bersama">
 
-            {{-- Two clean info cards --}}
-            <div class="absolute z-20 px-4 py-3 bg-white border shadow-lg -left-5 top-10 rounded-2xl border-slate-100">
-                <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Sumber</p>
-                <p class="text-sm font-bold text-slate-800">Berbasis Kurikulum Resmi</p>
+            {{-- Info cards --}}
+            <div class="absolute z-20 px-4 py-3 bg-white border-2 border-black shadow-[3px_3px_0px_#000] -left-5 top-10 rounded-xl">
+                <p class="text-[10px] text-slate-500 font-black uppercase tracking-wider mb-0.5">Sumber</p>
+                <p class="text-sm font-black text-black">Berbasis Kurikulum Resmi</p>
             </div>
 
-            <div class="absolute -right-5 bottom-10 z-20 bg-[#1E3A5F] rounded-2xl px-4 py-3 shadow-lg">
-                <p class="text-[10px] text-blue-300 font-semibold uppercase tracking-wider mb-1">Gamifikasi</p>
-                <p class="text-sm font-bold text-white">XP & Level System</p>
+            <div class="absolute -right-5 bottom-10 z-20 bg-[#1E3A5F] border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl px-4 py-3">
+                <p class="text-[10px] text-blue-300 font-black uppercase tracking-wider mb-0.5">Gamifikasi</p>
+                <p class="text-sm font-black text-white">XP & Level System</p>
             </div>
         </div>
 
     </div>
 </section>
 
+{{-- ===== MARQUEE ===== --}}
+<div class="py-5 bg-[#F4922A] border-y-2 border-black overflow-hidden">
+    <div class="marquee-inner">
+        @foreach(array_fill(0, 8, ['Flashcard', 'Quiz Interaktif', 'Notes AI', 'Ujian Simulasi', 'XP & Level', 'Buku Resmi']) as $items)
+            @foreach($items as $item)
+            <span class="mx-6 text-white font-black text-sm uppercase tracking-widest">✦ {{ $item }}</span>
+            @endforeach
+        @endforeach
+    </div>
+</div>
 
 {{-- ===== FEATURES ===== --}}
-<section id="features" class="px-6 py-24 bg-white lg:px-8">
+<section id="features" class="px-6 py-24 bg-[#E5F8FF] lg:px-8">
     <div class="max-w-6xl mx-auto">
 
         {{-- Header --}}
-        <div class="mb-14 fade-up">
-            <h2 class="text-4xl font-extrabold tracking-tight text-slate-900">Nikmati Keragaman Fitur</h2>
-            <p class="max-w-md mt-3 text-base leading-relaxed text-slate-500">
+        <div class="mb-12 fade-up">
+            <p class="text-[#F4922A] text-xs font-black uppercase tracking-widest mb-3">Fitur Unggulan</p>
+            <h2 class="text-4xl font-black tracking-tight text-black">Nikmati Keragaman Fitur</h2>
+            <p class="max-w-md mt-3 text-sm font-bold leading-relaxed text-slate-600">
                 Semua yang kamu butuhkan untuk belajar terarah ada di sini.
             </p>
         </div>
@@ -134,64 +139,64 @@
         {{-- Bento Grid --}}
         <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
 
-            {{-- Card 1: Flashcard - light --}}
-            <div class="card-hover fade-up bg-[#E5F8FF] rounded-2xl p-7 flex flex-col justify-between min-h-[280px]">
+            {{-- Card 1: Flashcard --}}
+            <div class="fade-up bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-6 flex flex-col justify-between min-h-[260px] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
                 <div>
-                    <div class="w-11 h-11 rounded-xl bg-[#F4922A] flex items-center justify-center mb-5 shadow-sm shadow-orange-200">
+                    <div class="w-11 h-11 rounded-xl bg-[#F4922A] border-2 border-black flex items-center justify-center mb-4 shadow-[2px_2px_0px_#000]">
                         <i data-lucide="book-marked" class="w-5 h-5 text-white"></i>
                     </div>
-                    <p class="text-[#F4922A] text-[10px] font-bold uppercase tracking-widest mb-2">01</p>
-                    <h3 class="mb-2 text-lg font-extrabold text-slate-800">Flashcard</h3>
-                    <p class="text-sm leading-relaxed text-slate-500">
+                    <p class="text-[#F4922A] text-[10px] font-black uppercase tracking-widest mb-2">01</p>
+                    <h3 class="mb-2 text-lg font-black text-black">Flashcard</h3>
+                    <p class="text-sm font-bold leading-relaxed text-slate-600">
                         Istilah dan konsep penting dari materi buku tematik dibuat menjadi kartu belajar dua sisi.
                     </p>
                 </div>
-                <p class="text-[#F4922A] text-xs font-semibold mt-5">Otomatis dari konten buku →</p>
+                <p class="text-[#F4922A] text-xs font-black mt-5 uppercase tracking-wide">Otomatis dari konten buku →</p>
             </div>
 
-            {{-- Card 2: Quiz - dark --}}
-            <div class="card-hover fade-up md:col-span-2 bg-[#1E3A5F] rounded-2xl p-7 flex flex-col justify-between min-h-[280px]">
+            {{-- Card 2: Quiz --}}
+            <div class="fade-up md:col-span-2 bg-[#1E3A5F] border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-6 flex flex-col justify-between min-h-[260px] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
                 <div>
-                    <div class="flex items-center justify-center mb-5 w-11 h-11 rounded-xl bg-white/15">
+                    <div class="flex items-center justify-center mb-4 w-11 h-11 rounded-xl bg-white/15 border-2 border-white/30">
                         <i data-lucide="clipboard-list" class="w-5 h-5 text-white"></i>
                     </div>
-                    <p class="text-blue-300 text-[10px] font-bold uppercase tracking-widest mb-2">02</p>
-                    <h3 class="mb-2 text-lg font-extrabold text-white">Quiz Interaktif</h3>
-                    <p class="max-w-md text-sm leading-relaxed text-blue-200">
+                    <p class="text-blue-300 text-[10px] font-black uppercase tracking-widest mb-2">02</p>
+                    <h3 class="mb-2 text-lg font-black text-white">Quiz Interaktif</h3>
+                    <p class="max-w-md text-sm font-bold leading-relaxed text-blue-200">
                         Latihan soal dari bank soal yang dikurasi per bab buku. Feedback langsung setelah menjawab untuk memperkuat pemahaman.
                     </p>
                 </div>
-                <p class="mt-5 text-xs font-semibold text-blue-300">Adaptive difficulty system →</p>
+                <p class="mt-5 text-xs font-black text-blue-300 uppercase tracking-wide">Adaptive difficulty system →</p>
             </div>
 
-            {{-- Card 3: Notes AI - dark --}}
-            <div class="card-hover fade-up md:col-span-2 bg-[#1E3A5F] rounded-2xl p-7 flex flex-col justify-between min-h-[280px]">
+            {{-- Card 3: Notes AI --}}
+            <div class="fade-up md:col-span-2 bg-[#1E3A5F] border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-6 flex flex-col justify-between min-h-[260px] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
                 <div>
-                    <div class="flex items-center justify-center mb-5 w-11 h-11 rounded-xl bg-white/15">
+                    <div class="flex items-center justify-center mb-4 w-11 h-11 rounded-xl bg-white/15 border-2 border-white/30">
                         <i data-lucide="notebook-pen" class="w-5 h-5 text-white"></i>
                     </div>
-                    <p class="text-blue-300 text-[10px] font-bold uppercase tracking-widest mb-2">03</p>
-                    <h3 class="mb-2 text-lg font-extrabold text-white">Notes AI</h3>
-                    <p class="max-w-md text-sm leading-relaxed text-blue-200">
-                        Ringkasan poin inti dari buku dengan AI. Singkat, padat, dan mudah dicerna. Dilengkapi catatan manual pribadi siswa.
+                    <p class="text-blue-300 text-[10px] font-black uppercase tracking-widest mb-2">03</p>
+                    <h3 class="mb-2 text-lg font-black text-white">Notes AI</h3>
+                    <p class="max-w-md text-sm font-bold leading-relaxed text-blue-200">
+                        Ringkasan poin inti dari buku dengan AI. Singkat, padat, dan mudah dicerna.
                     </p>
                 </div>
-                <p class="mt-5 text-xs font-semibold text-blue-300">Catatan manual + AI summarizer →</p>
+                <p class="mt-5 text-xs font-black text-blue-300 uppercase tracking-wide">Catatan manual + AI summarizer →</p>
             </div>
 
-            {{-- Card 4: Simulasi - orange --}}
-            <div class="card-hover fade-up bg-[#F4922A] rounded-2xl p-7 flex flex-col justify-between min-h-[280px]">
+            {{-- Card 4: Simulasi --}}
+            <div class="fade-up bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-6 flex flex-col justify-between min-h-[260px] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
                 <div>
-                    <div class="flex items-center justify-center mb-5 w-11 h-11 rounded-xl bg-white/20">
+                    <div class="w-11 h-11 rounded-xl bg-[#F4922A] border-2 border-black flex items-center justify-center mb-4 shadow-[2px_2px_0px_#000]">
                         <i data-lucide="timer" class="w-5 h-5 text-white"></i>
                     </div>
-                    <p class="text-orange-100 text-[10px] font-bold uppercase tracking-widest mb-2">04</p>
-                    <h3 class="mb-2 text-lg font-extrabold text-white">Ujian Simulasi</h3>
-                    <p class="text-sm leading-relaxed text-orange-100">
+                    <p class="text-[#F4922A] text-[10px] font-black uppercase tracking-widest mb-2">04</p>
+                    <h3 class="mb-2 text-lg font-black text-black">Ujian Simulasi</h3>
+                    <p class="text-sm font-bold leading-relaxed text-slate-600">
                         Ujian multi bab bertimer dengan analisis performa. Siap PTS, PAS, dan UTBK.
                     </p>
                 </div>
-                <p class="mt-5 text-xs font-semibold text-white">Multi bab · Bertimer · Analisis →</p>
+                <p class="mt-5 text-xs font-black text-[#F4922A] uppercase tracking-wide">Multi bab · Bertimer · Analisis →</p>
             </div>
 
         </div>
@@ -200,17 +205,17 @@
 
 {{-- ===== CTA BANNER ===== --}}
 <section class="px-6 py-16 lg:px-8">
-    <div class="max-w-6xl mx-auto bg-[#1E3A5F] rounded-3xl p-10 lg:p-14 flex flex-col lg:flex-row items-center justify-between gap-8">
+    <div class="max-w-6xl mx-auto bg-[#1E3A5F] border-2 border-black shadow-[6px_6px_0px_#000] rounded-xl p-10 lg:p-14 flex flex-col lg:flex-row items-center justify-between gap-8">
         <div>
-            <p class="text-[#F4922A] text-xs font-bold uppercase tracking-widest mb-3">Bergabung Sekarang</p>
-            <h2 class="text-3xl font-extrabold leading-tight text-white">Siap Belajar Lebih Terarah?</h2>
-            <p class="max-w-md mt-3 text-sm leading-relaxed text-blue-200">
+            <p class="text-[#F4922A] text-xs font-black uppercase tracking-widest mb-3">Bergabung Sekarang</p>
+            <h2 class="text-3xl font-black leading-tight text-white">Siap Belajar Lebih Terarah?</h2>
+            <p class="max-w-md mt-3 text-sm font-bold leading-relaxed text-blue-200">
                 Mulai perjalanan belajarmu dari buku resmi Kemendikdasmen. Gratis untuk semua siswa SMA.
             </p>
         </div>
         <div class="flex-shrink-0">
             <a href="{{ route('register') }}" data-turbo="true"
-               class="inline-block bg-[#F4922A] text-white font-bold text-sm px-8 py-4 rounded-xl hover:bg-orange-600 transition-colors shadow-lg shadow-orange-900/20">
+               class="inline-block bg-[#F4922A] text-white font-black text-sm px-8 py-4 rounded-xl border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
                 Daftar Sekarang
             </a>
         </div>
@@ -218,32 +223,32 @@
 </section>
 
 {{-- ===== FOOTER ===== --}}
-<footer class="bg-[#1E3A5F] py-14 px-6 lg:px-8">
+<footer class="bg-[#1E3A5F] border-t-2 border-black py-14 px-6 lg:px-8">
     <div class="grid items-center max-w-6xl grid-cols-1 gap-12 mx-auto lg:grid-cols-2">
 
         {{-- Left --}}
         <div>
             <img src="{{ asset('images/logo_2.png') }}" class="h-8 mb-3" alt="SahabatBuku">
-            <p class="text-[#F4922A] text-sm font-semibold mb-6">Belajar di mana pun, kapanpun!</p>
-            <div class="w-32 h-px mb-6 bg-slate-600"></div>
-            <nav class="flex flex-wrap gap-5">
+            <p class="text-[#F4922A] text-sm font-black mb-6">Belajar di mana pun, kapanpun!</p>
+            <div class="w-32 h-0.5 mb-6 bg-slate-600"></div>
+            <nav class="flex flex-wrap gap-4">
                 @foreach(['About', 'Menu', 'Services', 'FAQ', 'Support'] as $link)
-                <a href="#" class="text-slate-400 hover:text-[#F4922A] text-sm font-medium transition-colors">{{ $link }}</a>
+                <a href="#" class="text-slate-400 hover:text-[#F4922A] text-sm font-bold transition-colors">{{ $link }}</a>
                 @endforeach
             </nav>
         </div>
 
         {{-- Right: Saran --}}
-        <div class="overflow-hidden bg-white shadow-lg rounded-2xl">
-            <div class="bg-[#F4922A] px-5 py-3 flex items-center gap-2">
+        <div class="overflow-hidden bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl">
+            <div class="bg-[#F4922A] border-b-2 border-black px-5 py-3 flex items-center gap-2">
                 <i data-lucide="bookmark" class="flex-shrink-0 w-4 h-4 text-white"></i>
-                <p class="text-sm font-semibold text-white">Beri saran agar kami semakin berkembang!</p>
+                <p class="text-sm font-black text-white">Beri saran agar kami semakin berkembang!</p>
             </div>
             <div class="px-5 py-5">
-                <p class="mb-4 text-sm font-bold text-slate-800">Kirimkan saran lewat sini!</p>
+                <p class="mb-4 text-sm font-black text-black">Kirimkan saran lewat sini!</p>
 
                 @if(session('saran_success'))
-                <div class="flex items-center gap-2 px-4 py-3 mb-4 text-xs text-green-700 border border-green-200 bg-green-50 rounded-xl">
+                <div class="flex items-center gap-2 px-4 py-3 mb-4 text-xs font-bold text-green-700 border-2 border-black bg-green-50 rounded-xl">
                     <i data-lucide="check-circle" class="flex-shrink-0 w-4 h-4"></i>
                     {{ session('saran_success') }}
                 </div>
@@ -254,14 +259,14 @@
                     <div class="flex gap-2">
                         <input type="text" name="isi" required
                                placeholder="Tulis saranmu di sini..."
-                               class="flex-1 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#F4922A] transition-colors">
+                               class="flex-1 border-2 border-black rounded-xl px-4 py-2.5 text-sm font-bold text-black placeholder-slate-400 focus:outline-none focus:border-[#F4922A] transition-colors">
                         <button type="submit" id="saran-btn"
-                                class="bg-[#F4922A] hover:bg-orange-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors flex-shrink-0 min-w-[80px]">
+                                class="bg-[#F4922A] text-white text-sm font-black px-5 py-2.5 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all flex-shrink-0 min-w-[80px]">
                             Submit
                         </button>
                     </div>
                     @error('isi')
-                    <p class="mt-2 text-xs text-red-400">{{ $message }}</p>
+                    <p class="mt-2 text-xs font-bold text-red-500">{{ $message }}</p>
                     @enderror
                 </form>
             </div>
@@ -271,13 +276,12 @@
 </footer>
 
 {{-- Copyright --}}
-<div class="py-4 text-center bg-white border-t border-slate-100">
-    <p class="text-xs text-slate-400">© 2026 SahabatBuku.</p>
+<div class="py-4 text-center bg-[#1E3A5F] border-t-2 border-black/30">
+    <p class="text-xs font-bold text-slate-400">© 2026 SahabatBuku.</p>
 </div>
 
-</div>{{-- end data-turbo-body --}}
+</div>
 
-{{-- Scripts --}}
 <script>
     function initLucide() {
         if (typeof lucide !== 'undefined') lucide.createIcons();

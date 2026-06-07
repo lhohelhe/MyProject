@@ -84,7 +84,7 @@
             <div class="w-full max-w-md py-8 mx-auto my-auto">
 
                 {{-- LOGIN FORM CARD --}}
-                <div id="login-form-card" class="bg-white rounded-[2rem] shadow-xl border-2 border-black p-8 sm:p-10">
+                <div id="login-form-card" class="bg-white border-2 border-black shadow-[6px_6px_0px_#000] rounded-2xl p-8 sm:p-10">
                     <div class="mb-8 text-center">
                         <img src="{{ asset('images/logo_1.png') }}" class="h-10 mx-auto mb-4" alt="SahabatBuku">
                     </div>
@@ -93,46 +93,46 @@
                         @csrf
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold tracking-widest uppercase text-slate-500">Email</label>
+                            <label class="text-xs font-black tracking-widest uppercase text-black">Email</label>
                             <div class="relative flex items-center">
                                 <i data-lucide="mail" class="absolute left-3.5 w-5 h-5 text-slate-400"></i>
                                 <input type="email" name="email" value="{{ old('email') }}" required
                                        placeholder="email yang kamu daftarkan"
-                                       class="w-full border border-slate-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm focus:outline-none focus:border-[#F4922A] focus:ring-1 focus:ring-[#F4922A] transition-all">
+                                       class="w-full border-2 border-black rounded-xl py-3.5 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-[#F4922A] transition-all">
                             </div>
-                            @error('email')<p class="text-xs font-semibold text-red-500">{{ $message }}</p>@enderror
+                            @error('email')<p class="text-xs font-bold text-red-500">{{ $message }}</p>@enderror
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold tracking-widest uppercase text-slate-500">Password</label>
+                            <label class="text-xs font-black tracking-widest uppercase text-black">Password</label>
                             <div class="relative flex items-center">
                                 <i data-lucide="lock" class="absolute left-3.5 w-5 h-5 text-slate-400"></i>
                                 <input type="password" name="password" required
                                        placeholder="••••••••"
-                                       class="w-full border border-slate-200 rounded-2xl py-3.5 pl-12 pr-4 text-sm focus:outline-none focus:border-[#F4922A] focus:ring-1 focus:ring-[#F4922A] transition-all">
+                                       class="w-full border-2 border-black rounded-xl py-3.5 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-[#F4922A] transition-all">
                             </div>
-                            @error('password')<p class="text-xs font-semibold text-red-500">{{ $message }}</p>@enderror
+                            @error('password')<p class="text-xs font-bold text-red-500">{{ $message }}</p>@enderror
                         </div>
 
-                        <div class="flex items-center justify-between text-xs font-medium text-slate-600">
+                        <div class="flex items-center justify-between text-xs font-bold text-black">
                             <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" name="remember" class="w-4 h-4 rounded text-[#F4922A] border-slate-300">
+                                <input type="checkbox" name="remember" class="w-4 h-4 rounded border-2 border-black text-[#F4922A]">
                                 <span>Ingat saya</span>
                             </label>
-                            <a href="{{ route('password.request') }}" class="text-[#F4922A] font-bold hover:text-orange-600 transition-colors">
+                            <a href="{{ route('password.request') }}" class="text-[#F4922A] font-black hover:text-orange-600 transition-colors">
                                 Lupa password?
                             </a>
                         </div>
 
                         <button type="submit"
-                                class="w-full bg-[#F4922A] text-white rounded-2xl py-4 font-bold hover:bg-orange-600 transition-all text-sm shadow-lg shadow-orange-200">
+                                class="w-full bg-[#F4922A] text-white rounded-xl py-3.5 font-black border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-sm">
                             Masuk
                         </button>
 
-                        <p class="pt-2 text-xs text-center text-slate-500">
+                        <p class="pt-2 text-xs text-center font-bold text-slate-600">
                             Belum punya akun?
                             <button type="button" onclick="switchToRegister()"
-                                    class="text-[#F4922A] font-bold hover:text-orange-600 ml-1">
+                                    class="text-[#F4922A] font-black hover:text-orange-600 ml-1">
                                 Daftar Gratis
                             </button>
                         </p>
@@ -140,43 +140,43 @@
                 </div>
 
                 {{-- REGISTER FORM CARD (hidden initially) --}}
-                <div id="register-form-card" class="bg-white rounded-[2rem] shadow-xl border-2 border-black p-8 sm:p-10" style="display:none;">
+                <div id="register-form-card" class="bg-white border-2 border-black shadow-[6px_6px_0px_#000] rounded-2xl p-8 sm:p-10" style="display:none;">
                     <div class="mb-6 text-center">
                         <img src="{{ asset('images/logo_1.png') }}" class="h-10 mx-auto mb-4" alt="SahabatBuku">
-                        <p class="text-sm text-slate-500">Mulai petualangan belajarmu di SahabatBuku</p>
+                        <p class="text-sm font-bold text-slate-600">Mulai petualangan belajarmu di SahabatBuku</p>
                     </div>
 
                     <form method="POST" action="{{ route('register') }}" data-turbo="false" class="space-y-4">
                         @csrf
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold tracking-widest uppercase text-slate-500">Nama</label>
+                            <label class="text-xs font-black tracking-widest uppercase text-black">Nama</label>
                             <div class="relative flex items-center">
                                 <i data-lucide="user" class="absolute left-3.5 w-5 h-5 text-slate-400"></i>
                                 <input type="text" name="name" value="{{ old('name') }}" required
                                        placeholder="Nama Lengkap"
-                                       class="w-full border border-slate-200 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-[#F4922A] focus:ring-1 focus:ring-[#F4922A] transition-all">
+                                       class="w-full border-2 border-black rounded-xl py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-[#F4922A] transition-all">
                             </div>
-                            @error('name')<p class="text-xs font-semibold text-red-500">{{ $message }}</p>@enderror
+                            @error('name')<p class="text-xs font-bold text-red-500">{{ $message }}</p>@enderror
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold tracking-widest uppercase text-slate-500">Email</label>
+                            <label class="text-xs font-black tracking-widest uppercase text-black">Email</label>
                             <div class="relative flex items-center">
                                 <i data-lucide="mail" class="absolute left-3.5 w-5 h-5 text-slate-400"></i>
                                 <input type="email" name="email" value="{{ old('email') }}" required
                                        placeholder="email yang kamu daftarkan"
-                                       class="w-full border border-slate-200 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-[#F4922A] focus:ring-1 focus:ring-[#F4922A] transition-all">
+                                       class="w-full border-2 border-black rounded-xl py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-[#F4922A] transition-all">
                             </div>
-                            @error('email')<p class="text-xs font-semibold text-red-500">{{ $message }}</p>@enderror
+                            @error('email')<p class="text-xs font-bold text-red-500">{{ $message }}</p>@enderror
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold tracking-widest uppercase text-slate-500">Kelas</label>
+                            <label class="text-xs font-black tracking-widest uppercase text-black">Kelas</label>
                             <div class="relative flex items-center">
                                 <i data-lucide="graduation-cap" class="absolute left-3.5 w-5 h-5 text-slate-400"></i>
                                 <select name="kelas" required
-                                        class="w-full border border-slate-200 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-[#F4922A] bg-white appearance-none">
+                                        class="w-full border-2 border-black rounded-xl py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-[#F4922A] bg-white appearance-none">
                                     <option value="" disabled selected>Pilih Kelas</option>
                                     <option value="10" {{ old('kelas') == '10' ? 'selected' : '' }}>Kelas 10</option>
                                     <option value="11" {{ old('kelas') == '11' ? 'selected' : '' }}>Kelas 11</option>
@@ -186,32 +186,32 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold tracking-widest uppercase text-slate-500">Password</label>
+                            <label class="text-xs font-black tracking-widest uppercase text-black">Password</label>
                             <div class="relative flex items-center">
                                 <i data-lucide="lock" class="absolute left-3.5 w-5 h-5 text-slate-400"></i>
                                 <input type="password" name="password" required placeholder="••••••••"
-                                       class="w-full border border-slate-200 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-[#F4922A] transition-all">
+                                       class="w-full border-2 border-black rounded-xl py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-[#F4922A] transition-all">
                             </div>
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold tracking-widest uppercase text-slate-500">Konfirmasi Password</label>
+                            <label class="text-xs font-black tracking-widest uppercase text-black">Konfirmasi Password</label>
                             <div class="relative flex items-center">
                                 <i data-lucide="lock" class="absolute left-3.5 h-5 w-5 text-slate-400"></i>
                                 <input type="password" name="password_confirmation" required placeholder="••••••••"
-                                       class="w-full border border-slate-200 rounded-2xl py-3 pl-12 pr-4 text-sm focus:outline-none focus:border-[#F4922A] transition-all">
+                                       class="w-full border-2 border-black rounded-xl py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-[#F4922A] transition-all">
                             </div>
                         </div>
 
                         <button type="submit"
-                                class="w-full bg-[#F4922A] text-white rounded-2xl py-4 font-bold hover:bg-orange-600 transition-all text-sm shadow-lg shadow-orange-200 mt-2">
+                                class="w-full bg-[#F4922A] text-white rounded-xl py-3.5 font-black border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-sm mt-2">
                             Daftar Sekarang
                         </button>
 
-                        <p class="pt-1 text-xs text-center text-slate-500">
+                        <p class="pt-1 text-xs text-center font-bold text-slate-600">
                             Sudah punya akun?
                             <button type="button" onclick="switchToLogin()"
-                                    class="text-[#F4922A] font-bold hover:text-orange-600 ml-1">
+                                    class="text-[#F4922A] font-black hover:text-orange-600 ml-1">
                                 Masuk di sini
                             </button>
                         </p>

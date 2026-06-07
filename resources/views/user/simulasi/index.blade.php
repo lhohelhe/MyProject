@@ -18,7 +18,7 @@
     <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- judul halaman --}}
-        <h1 class="mb-6 text-xl font-bold text-slate-800">Simulasi Ujian</h1>
+        <h1 class="mb-6 text-2xl font-black uppercase tracking-wider text-black border-b-4 border-black pb-2">Simulasi Ujian</h1>
 
         {{-- grid simulasi --}}
         @if($simulasi->isEmpty())
@@ -26,57 +26,57 @@
         @else
             <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
                 @foreach($simulasi as $sim)
-                <div class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-all">
+                <div class="flex flex-col bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl overflow-hidden hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
 
                     {{-- header card dengan badge status --}}
-                    <div class="relative px-4 py-4 bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
+                    <div class="relative px-4 py-4 bg-gradient-to-r from-blue-50 to-blue-100 border-b-2 border-black">
                         <div class="flex items-start justify-between gap-2 mb-2">
-                            <h3 class="flex-1 text-sm font-bold text-gray-800 line-clamp-2 font-jakarta">
+                            <h3 class="flex-1 text-sm font-black text-black line-clamp-2 font-jakarta">
                                 {{ $sim->judul_simulasi }}
                             </h3>
                             @if(in_array($sim->id_simulasi, $cooldowns))
-                                <span class="px-2 py-1 text-xs font-semibold text-gray-600 bg-gray-300 rounded-full whitespace-nowrap">
+                                <span class="px-2.5 py-0.5 text-xs font-bold text-white border-2 border-black rounded-full bg-slate-400 whitespace-nowrap shadow-[2px_2px_0px_#000]">
                                     Cooldown
                                 </span>
                             @else
-                                <span class="px-2 py-1 text-xs font-semibold text-white bg-[#F4922A] rounded-full whitespace-nowrap">
+                                <span class="px-2.5 py-0.5 text-xs font-bold text-white border-2 border-black rounded-full bg-[#F4922A] whitespace-nowrap shadow-[2px_2px_0px_#000]">
                                     Aktif
                                 </span>
                             @endif
                         </div>
-                        <p class="text-xs text-gray-600 font-jakarta">
+                        <p class="text-xs text-black font-bold font-jakarta">
                             {{ $sim->buku->judul_buku ?? 'Buku tidak tersedia' }}
                         </p>
                     </div>
 
                     {{-- info simulasi --}}
-                    <div class="flex-1 px-4 py-4 space-y-3">
+                    <div class="flex-1 px-4 py-4 space-y-2">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs text-gray-600 font-jakarta">Durasi</span>
-                            <span class="text-sm font-semibold text-gray-800 font-jakarta">{{ $sim->durasi_menit }} mnt</span>
+                            <span class="text-xs text-black font-bold font-jakarta">Durasi</span>
+                            <span class="text-sm font-black text-black font-jakarta">{{ $sim->durasi_menit }} mnt</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-xs text-gray-600 font-jakarta">Soal</span>
-                            <span class="text-sm font-semibold text-gray-800 font-jakarta">{{ $sim->jumlah_soal }} soal</span>
+                            <span class="text-xs text-black font-bold font-jakarta">Soal</span>
+                            <span class="text-sm font-black text-black font-jakarta">{{ $sim->jumlah_soal }} soal</span>
                         </div>
-                        
+
                         @if(in_array($sim->id_simulasi, $cooldowns))
-                        <div class="p-2 text-center bg-gray-100 rounded">
-                            <p class="text-xs text-gray-600 font-jakarta">Cooldown • Besok</p>
+                        <div class="p-2 text-center bg-slate-100 border-2 border-black rounded-lg">
+                            <p class="text-xs font-bold text-black font-jakarta">Cooldown • Besok</p>
                         </div>
                         @endif
                     </div>
 
                     {{-- tombol aksi --}}
-                    <div class="px-4 py-3 border-t border-gray-200">
+                    <div class="px-4 py-3 border-t-2 border-black bg-slate-50">
                         @if(in_array($sim->id_simulasi, $cooldowns))
-                            <button disabled 
-                                    class="w-full py-2 text-sm font-bold text-gray-400 bg-gray-200 rounded-xl cursor-not-allowed font-jakarta">
+                            <button disabled
+                                    class="w-full py-2 text-sm font-bold text-slate-400 bg-slate-200 border-2 border-black rounded-xl cursor-not-allowed font-jakarta">
                                 Mulai
                             </button>
                         @else
-                            <a href="{{ route('user.simulasi.show', $sim->id_simulasi) }}" 
-                               class="block w-full py-2 text-sm font-bold text-center text-white bg-[#F4922A] rounded-xl hover:bg-opacity-90 transition font-jakarta">
+                            <a href="{{ route('user.simulasi.show', $sim->id_simulasi) }}"
+                               class="block w-full py-2 text-sm font-bold text-center text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
                                 Mulai
                             </a>
                         @endif

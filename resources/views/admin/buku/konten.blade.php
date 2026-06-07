@@ -26,6 +26,44 @@
         </div>
     </div>
 
+
+    {{-- PDF UPLOAD --}}
+    <div class="bg-white rounded-xl border border-slate-200 p-5 mb-6 font-jakarta" x-data="pdfUploader({{ $buku->id_buku }})">
+        <p class="text-sm font-bold text-slate-700 mb-3">Upload PDF — Isi otomatis Bab, Subbab & Materi</p>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+            <input id="pdf-upload-{{ $buku->id_buku }}" type="file" accept="application/pdf"
+                   @change="handleFile($event)"
+                   class="flex-1 text-sm text-slate-600 border border-slate-200 rounded-lg px-3 py-2 cursor-pointer file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
+
+            <button @click="upload('pdf')" :disabled="!fileName || loading"
+                    class="px-4 py-2 text-sm font-semibold text-white bg-[#1e3a5f] hover:bg-[#162a45] rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all whitespace-nowrap">
+                <span x-text="(loading && mode==='pdf') ? 'Memproses...' : 'Parse PDF'"></span>
+            </button>
+
+            <button @click="upload('ai')" :disabled="!fileName || loading"
+                    class="px-4 py-2 text-sm font-semibold text-white bg-[#F4922A] hover:bg-[#d67b1b] rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all whitespace-nowrap">
+                <span x-text="(loading && mode==='ai') ? 'AI Berjalan...' : 'Parse AI'"></span>
+            </button>
+        </div>
+
+        <p class="text-xs text-slate-400 mt-2">
+            <span class="font-semibold text-slate-500">Parse PDF:</span> ekstrak berdasarkan format teks (BAB I, A. Judul).
+            &nbsp;|&nbsp;
+            <span class="font-semibold text-slate-500">Parse AI:</span> lebih akurat, butuh waktu lebih lama.
+        </p>
+
+        {{-- Result --}}
+        <div x-show="result" x-transition class="mt-3 p-3 rounded-lg text-sm"
+             :class="result && result.status === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'">
+            <p class="font-semibold" x-text="result && result.status === 'success' ? '✓ ' + result.message : '✗ ' + (result.error || 'Terjadi kesalahan')"></p>
+            <button x-show="result && result.status === 'success'" @click="window.location.reload()"
+                    class="mt-2 px-3 py-1 text-xs font-semibold bg-green-600 text-white rounded hover:bg-green-700 transition-all">
+                Reload untuk melihat hasil
+            </button>
+        </div>
+    </div>
+
     {{-- Bab & Subbab List with Inline Materi Editor --}}
     @if($babs->count() > 0)
         {{-- Card grid overview --}}
@@ -311,6 +349,53 @@
 </div>
 
 <script>
+function pdfUploader(bukuId) {
+    return {
+        bukuId: bukuId,
+        fileName: '',
+        file: null,
+        loading: false,
+        mode: '',
+        result: null,
+
+        handleFile(event) {
+            const f = event.target.files[0];
+            if (!f) return;
+            this.file = f;
+            this.fileName = f.name;
+            this.result = null;
+        },
+
+        async upload(mode) {
+            if (!this.file) return;
+            this.loading = true;
+            this.mode = mode;
+            this.result = null;
+
+            const formData = new FormData();
+            formData.append('pdf', this.file);
+            formData.append('_token', '{{ csrf_token() }}');
+
+            const endpoint = mode === 'ai'
+                ? `/admin/buku/${this.bukuId}/parse-ai`
+                : `/admin/buku/${this.bukuId}/parse-pdf`;
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                this.result = data;
+            } catch (e) {
+                this.result = { error: e.message };
+            } finally {
+                this.loading = false;
+            }
+        }
+    };
+}
+
 async function generateQuizAI(idBab, btnEl) {
     if (!confirm('Apakah Anda yakin ingin membuat 10 soal quiz dengan AI untuk Bab ini?')) return;
     
@@ -350,3 +435,4 @@ async function generateQuizAI(idBab, btnEl) {
 }
 </script>
 @endsection
+

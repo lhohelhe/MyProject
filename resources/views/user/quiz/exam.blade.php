@@ -13,7 +13,7 @@
 <div class="flex flex-col min-h-screen">
 
     {{-- header --}}
-    <div class="flex items-center justify-between p-6 bg-white border-b-2 border-black shadow-sm">
+    <div class="sticky top-0 z-30 flex items-center justify-between p-6 bg-white border-b-2 border-black shadow-sm">
         <div class="flex items-center gap-4">
             <h1 class="text-2xl font-black text-black font-jakarta">{{ $quiz->judul_quiz }}</h1>
             @php

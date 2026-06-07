@@ -301,7 +301,24 @@
 
                     {{-- Content --}}
                     <div class="px-8 lg:px-14 py-10 book-page" id="book-content">
-                        {!! $materi->isi !!}
+                        @php
+                            }
+                            if (!empty($current)) {
+                                $paragraphs[] = implode(' ', $current);
+                            }
+                            // Jika tidak ada paragraf terdeteksi, pecah per 4 baris
+                            if (count($paragraphs) <= 1 && count($lines) > 4) {
+                                $paragraphs = array_chunk($lines, 4);
+                                $paragraphs = array_map(fn($chunk) => implode(' ', array_filter($chunk, fn($l) => trim($l) !== '')), $paragraphs);
+                            }
+                        @endphp
+                        @foreach($paragraphs as $para)
+                            @if(trim($para))
+                                <p class="text-slate-700 text-base leading-relaxed mb-4">
+                                    {!! nl2br(e(trim($para))) !!}
+                                </p>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
 
