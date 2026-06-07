@@ -1,10 +1,10 @@
-<header class="fixed top-0 left-0 right-0 z-50 w-full bg-white border-b-2 border-black py-3 px-8 flex items-center justify-between" id="main-navbar">
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between w-full px-8 py-3 bg-white border-b-2 border-black" id="main-navbar">
     <a href="/" data-turbo="true" class="flex items-center">
-        <span class="font-black text-xl tracking-tight text-black border-2 border-black px-3 py-1">SahabatBuku</span>
+        <span class="px-3 py-1 text-xl font-black tracking-tight text-black border-2 border-black">SahabatBuku</span>
     </a>
 
     {{-- Center tagline marquee (optional on mobile, hidden by default, flex on lg) --}}
-    <div class="lg:flex hidden overflow-hidden w-64 border-l-2 border-r-2 border-black py-1">
+    <div class="hidden w-64 py-1 overflow-hidden border-l-2 border-r-2 border-black lg:flex">
         <div class="marquee-inner">
             <span class="text-[10px] font-bold uppercase tracking-widest text-black whitespace-nowrap">
                 BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · &nbsp;
@@ -18,13 +18,13 @@
     <div class="flex items-center gap-3">
         <a href="{{ route('login') }}"
            data-turbo="true"
-           class="border-2 border-black bg-white text-black font-bold text-sm px-5 py-2 rounded-xl hover:bg-black hover:text-white transition-colors duration-150">
+           class="px-5 py-2 text-sm font-bold text-black transition-colors duration-150 bg-white border-2 border-black rounded-xl hover:bg-black hover:text-white">
             Masuk
         </a>
         <a href="{{ route('register') }}"
            data-turbo="true"
            class="border-2 border-black bg-[#F4922A] text-black font-bold text-sm px-5 py-2 rounded-xl hover:bg-black hover:text-white hover:border-black transition-colors duration-150">
-            ✦ Daftar Gratis
+            Daftar Gratis
         </a>
     </div>
 </header>

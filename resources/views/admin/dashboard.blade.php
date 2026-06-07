@@ -23,8 +23,8 @@
                     <i data-lucide="users" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-500 font-medium font-jakarta">User</p>
-                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ \App\Models\User::where('role', 'user')->count() }}</p>
+                    <p class="text-xs text-slate-500 font-medium font-jakarta">Total User</p>
+                    <p class="text-2xl font-bold text-slate-800 font-jakarta">{{ \App\Models\User::count() }}</p>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
             {{-- 3. BookOpen (mapel) --}}
             <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
                 <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
-                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                    <i data-lucide="bookmark" class="w-5 h-5"></i>
                 </div>
                 <div>
                     <p class="text-xs text-slate-500 font-medium font-jakarta">Mapel</p>
@@ -53,7 +53,7 @@
             {{-- 4. Book (buku) --}}
             <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex items-center gap-4">
                 <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-orange-50 text-[#F4922A]">
-                    <i data-lucide="book" class="w-5 h-5"></i>
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
                 </div>
                 <div>
                     <p class="text-xs text-slate-500 font-medium font-jakarta">Buku</p>

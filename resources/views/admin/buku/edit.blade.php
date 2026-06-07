@@ -48,8 +48,8 @@
 
                                 <div>
                                     <label class="block mb-2 text-base font-jakarta">Kategori</label>
-                                    <select id="id_kategori"
-                                            class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta">
+                                    <select id="id_kategori" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta">
+                                        <option value="" disabled selected>-- Pilih Kategori --</option>
                                     </select>
                                 </div>
 
@@ -76,8 +76,27 @@
                                 <div>
                                     <label class="block mb-2 text-base font-jakarta">Deskripsi</label>
                                     <textarea id="deskripsi"
+                                              placeholder="Tambahkan deskripsi buku..."
                                               rows="4"
                                               class="w-full px-4 py-2 text-base border border-gray-300 rounded-lg font-jakarta focus:outline-none focus:ring-2 focus:ring-sahabat-blue"></textarea>
+                                </div>
+                                <div class="space-y-6">
+                                    <div>
+                                        <label class="block mb-2 text-base font-jakarta">Penulis</label>
+                                        <input type="text" id="penulis" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-2 text-base font-jakarta">Penerbit</label>
+                                        <input type="text" id="penerbit" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-2 text-base font-jakarta">ISBN</label>
+                                        <input type="text" id="isbn" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-2 text-base font-jakarta">Edisi</label>
+                                        <input type="text" id="edisi" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
+                                    </div>
                                 </div>
 
                                 <div class="flex gap-4 pt-8">
@@ -100,7 +119,8 @@
     </div>
 
 <script>
-const id = window.location.pathname.split('/').pop();
+const parts = window.location.pathname.split('/');
+const id = parts[parts.indexOf('dashboard-buku') + 1];
 
 async function loadBuku() {
     const res = await fetch(`/api/buku/${id}`);
@@ -111,23 +131,30 @@ async function loadBuku() {
     document.getElementById('kelas').value = data.kelas;
     document.getElementById('semester').value = data.semester;
     document.getElementById('deskripsi').value = data.deskripsi || '';
+    document.getElementById('penulis').value = data.penulis || '';
+    document.getElementById('penerbit').value = data.penerbit || '';
+    document.getElementById('isbn').value = data.isbn || '';
+    document.getElementById('edisi').value = data.edisi || '';
 
     if (data.gambar) {
-        document.getElementById('cover-preview').src = '/storage/' + data.gambar;
+        const storageBaseUrl = "{{ asset('storage') }}";
+        const imageUrl = `${storageBaseUrl}/${data.gambar}`;
+        document.getElementById('cover-preview').src = imageUrl;
         document.getElementById('cover-preview').style.display = 'block';
         document.getElementById('cover-preview-placeholder').style.display = 'none';
     }
 
     // kategori
     const kRes = await fetch('/api/kategori');
-    const kategori = await kRes.json();
+    const kData = await kRes.json();
+    const kategori = kData.data || kData;
 
     let html = '';
     kategori.forEach(k => {
         html += `<option value="${k.id_kategori}" ${k.id_kategori == data.id_kategori ? 'selected' : ''}>${k.nama_kategori}</option>`;
     });
 
-    document.getElementById('id_kategori').innerHTML = html;
+    document.getElementById('id_kategori').innerHTML = '<option value="" disabled selected>-- Pilih Kategori --</option>' + html;
 }
 
 document.getElementById('form-edit').addEventListener('submit', async function(e){
@@ -139,7 +166,12 @@ document.getElementById('form-edit').addEventListener('submit', async function(e
     formData.append('kelas', document.getElementById('kelas').value);
     formData.append('semester', document.getElementById('semester').value);
     formData.append('deskripsi', document.getElementById('deskripsi').value);
+    formData.append('penulis', document.getElementById('penulis').value);
+    formData.append('penerbit', document.getElementById('penerbit').value);
+    formData.append('isbn', document.getElementById('isbn').value);
+    formData.append('edisi', document.getElementById('edisi').value);
     formData.append('_method', 'PUT');
+
 
     const file = document.querySelector('input[name="gambar"]').files[0];
     if (file) formData.append('gambar', file);

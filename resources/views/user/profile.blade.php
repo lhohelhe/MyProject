@@ -44,7 +44,7 @@
                 <a href="{{ route('user.buku.show', $b->id_buku) }}" class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-all">
                     <div class="w-full overflow-hidden bg-slate-50" style="aspect-ratio: 3/4;">
                         @if($b->gambar)
-                            <img src="{{ Storage::url($b->gambar) }}" alt="{{ $b->judul_buku }}" class="object-cover w-full h-full">
+                            <img src="{{ asset('storage/' . $b->gambar) }}" alt="{{ $b->judul_buku }}" class="object-cover w-full h-full">
                         @else
                             <div class="flex items-center justify-center w-full h-full">
                                 <i data-lucide="book-open" class="w-10 h-10 text-slate-300"></i>
@@ -73,7 +73,7 @@
         {{-- Avatar --}}
         <div class="relative mb-6">
             @if(auth()->user()->foto)
-                <img src="{{ Storage::url(auth()->user()->foto) }}"
+                <img src="{{ asset('storage/' . auth()->user()->foto) }}"
                      id="avatar-img"
                      class="w-28 h-28 rounded-full object-cover border-4 border-orange-100">
             @else

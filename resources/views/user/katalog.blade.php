@@ -38,7 +38,7 @@
     {{-- cover buku --}}
     <div class="w-full overflow-hidden" style="aspect-ratio: 3/4;">
         @if($b->gambar)
-            <img src="{{ Storage::url($b->gambar) }}"
+            <img src="{{ asset('storage/' . $b->gambar) }}"
                  alt="{{ $b->judul_buku }}"
                  class="object-cover w-full h-full">
         @else

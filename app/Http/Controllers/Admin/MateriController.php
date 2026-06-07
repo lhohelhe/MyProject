@@ -42,6 +42,27 @@ class MateriController extends Controller
         return redirect()->back();
     }
 
+    // New endpoint to extract text from uploaded PDF
+    public function extractPdf(Request $request)
+    {
+        $request->validate([
+            'pdf' => 'required|file|mimes:pdf'
+        ]);
+
+        $pdf = $request->file('pdf');
+        $parser = new \Smalot\PdfParser\Parser();
+        $pdfDocument = $parser->parseFile($pdf->getPathname());
+        $text = $pdfDocument->getText();
+
+        return response()->json(['text' => $text]);
+    }
+
+    public function getMateri($id)
+    {
+        $materi = Materi::where('id_subbab', $id)->first();
+        return response()->json($materi);
+    }
+
     public function edit($id)
     {
         $materi = Materi::findOrFail($id);
@@ -81,11 +102,14 @@ class MateriController extends Controller
     }
 
 
-    public function getMateri($id)
+    /**
+    * Display a paginated list of materi with related subbab, bab, and buku.
+    */
+    public function index()
     {
-        $materi = Materi::where('id_subbab',$id)->first();
-
-        return response()->json($materi);
+        $materi = Materi::with('subbab.bab.buku')->paginate(15);
+        return view('admin.materi.index', compact('materi'));
     }
+
 
 }

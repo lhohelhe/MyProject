@@ -28,7 +28,7 @@
                 {{-- Cover --}}
                 <div class="flex-shrink-0">
                     @if($buku->gambar)
-                        <img src="{{ Storage::url($buku->gambar) }}"
+                        <img src="{{ asset('storage/' . $buku->gambar) }}"
                              alt="{{ $buku->judul_buku }}"
                              class="w-[120px] h-[160px] object-cover rounded-xl shadow-md">
                     @else

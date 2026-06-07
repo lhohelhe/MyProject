@@ -19,7 +19,11 @@ class Buku extends Model
         'gambar',
         'semester',
         'kelas',
-        'deskripsi'  
+        'deskripsi',
+        'penulis',
+        'penerbit',
+        'isbn',
+        'edisi'
     ];
 
     // Relasi

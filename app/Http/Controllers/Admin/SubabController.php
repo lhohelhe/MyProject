@@ -69,4 +69,10 @@ class SubabController extends Controller
 
         return redirect()->back();
     }
+
+    public function byBab($id_bab)
+    {
+        $subab = Subab::where('id_bab', $id_bab)->orderBy('nomor_subbab')->get();
+        return response()->json($subab);
+    }
 }

@@ -23,7 +23,8 @@
             border: 1.5px solid #000;
         }
         .sidebar-link-active i { color: #fff !important; }
-    </style>
+        css[x-cloak] { display: none !important; }
+</style>
 </head>
 <body class="bg-[#F8FAFC] antialiased">
     <div class="flex min-h-screen">

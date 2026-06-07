@@ -78,4 +78,10 @@ class BabController extends Controller
 
         return redirect()->route('bab.index',['id_buku'=>$id_buku, 'active_menu' => $request->active_menu]);
     }
+
+    public function byBuku($id_buku)
+    {
+        $bab = Bab::where('id_buku', $id_buku)->orderBy('nomor_bab')->get();
+        return response()->json($bab);
+    }
 }

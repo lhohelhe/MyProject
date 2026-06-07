@@ -34,17 +34,22 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('/dashboard-user', UserController::class);
 
     // Kelola buku
+    Route::get('/buku/{id}/konten', [BukuController::class, 'konten'])->name('buku.konten');
+    Route::post('/buku/{id}/parse-pdf', [BukuController::class, 'parsePdf'])->name('buku.parse-pdf');
     Route::resource('/dashboard-buku', BukuController::class);
 
     // Kelola bab
+    Route::get('/bab/by-buku/{id_buku}', [BabController::class, 'byBuku']);
     Route::resource('/bab', BabController::class)->except(['show']);
 
     // Kelola subbab
+    Route::get('/subab/by-bab/{id_bab}', [SubabController::class, 'byBab']);
     Route::resource('/subab', SubabController::class)->except(['show', 'index']);
 
     // Kelola materi
+    Route::post('/materi/extract-pdf', [MateriController::class, 'extractPdf'])->name('materi.extract-pdf');
     Route::get('/materi/subab/{id}', [MateriController::class, 'getMateri']);
-    Route::resource('/materi', MateriController::class)->except(['show', 'index']);
+    Route::resource('/materi', MateriController::class)->except(['show']);
 
     // Kelola simulasi
     Route::resource('/simulasi', SimulasiController::class);

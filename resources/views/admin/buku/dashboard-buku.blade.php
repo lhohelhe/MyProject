@@ -24,12 +24,16 @@
 
         <!-- Header Tabel -->
         <div class="hidden p-4 mb-4 bg-white shadow-md lg:block rounded-2xl">
-            <div class="grid grid-cols-6 gap-4 text-xl font-semibold text-center font-jakarta">
+            <div class="grid grid-cols-10 gap-4 text-xl font-semibold text-center font-jakarta">
                 <div>Gambar</div>
                 <div class="pl-2 text-left">Judul Buku</div>
                 <div>Kategori</div>
                 <div>Kelas</div>
                 <div>Semester</div>
+                <div>Penulis</div>
+                <div>Penerbit</div>
+                <div>ISBN</div>
+                <div>Edisi</div>
                 <div>Aksi</div>
             </div>
         </div>
@@ -78,12 +82,12 @@ async function loadBuku() {
 
                 html += `
                 <div class="p-4 mb-4 bg-white shadow-md rounded-xl">
-                    <div class="grid items-center grid-cols-6 gap-4 text-center font-jakarta">
+                    <div class="grid items-center grid-cols-10 gap-4 text-center font-jakarta">
 
                         <!-- Gambar -->
                         <div class="flex justify-center">
                             ${b.gambar 
-                                ? `<img src="/storage/${b.gambar}" class="object-cover w-24 h-32 rounded-xl border">`
+                                ? `<img src="{{ asset('storage') }}/${b.gambar}" class="object-cover w-24 h-32 rounded-xl border">`
                                 : `<div class="flex items-center justify-center w-24 h-32 bg-gray-200 rounded-xl">!</div>`
                             }
                         </div>
@@ -100,8 +104,25 @@ async function loadBuku() {
                         <!-- Semester -->
                         <div>${b.semester}</div>
 
+                        <!-- Penulis -->
+                        <div>${b.penulis ?? '-'}</div>
+                        <!-- Penerbit -->
+                        <div>${b.penerbit ?? '-'}</div>
+                        <!-- ISBN -->
+                        <div>${b.isbn ?? '-'}</div>
+                        <!-- Edisi -->
+                        <div>${b.edisi ?? '-'}</div>
                         <!-- Action -->
                         <div class="flex justify-center items-center gap-4 flex-wrap">
+                            <a href="/admin/buku/${b.id_buku}/konten" class="transition-opacity hover:opacity-80" title="Kelola Konten & PDF">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                            </a>
                             <a href="/admin/bab?id_buku=${b.id_buku}&active_menu=${activeMenu}" class="transition-opacity hover:opacity-80" title="${actionTitle}">
                                 ${actionIcon}
                             </a>

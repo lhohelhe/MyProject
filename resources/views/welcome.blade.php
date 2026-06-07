@@ -14,7 +14,6 @@
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
         html { scroll-behavior: smooth; }
 
-        /* Marquee */
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -83,10 +82,6 @@
                    class="bg-[#F4922A] text-white font-bold text-sm px-7 py-3.5 rounded-xl hover:bg-orange-600 transition-colors shadow-md shadow-orange-200">
                     Mulai Belajar Gratis
                 </a>
-                <a href="#features"
-                   class="text-slate-600 font-semibold text-sm hover:text-[#F4922A] transition-colors">
-                    Lihat Fitur →
-                </a>
             </div>
 
             <div class="flex flex-wrap items-center gap-5 pt-1">
@@ -104,7 +99,7 @@
         {{-- Right --}}
         <div class="relative">
             <div class="absolute inset-0 bg-[#1E3A5F]/6 rounded-3xl rotate-1"></div>
-            <img src="{{ asset('images/hero_student.png') }}"
+            <img src="{{ asset('images/kelas.jpeg') }}"
                  class="relative z-10 w-full h-[460px] lg:h-[520px] object-cover rounded-3xl shadow-xl"
                  alt="Siswa SMA belajar bersama">
 
@@ -123,22 +118,6 @@
     </div>
 </section>
 
-{{-- ===== STATS BAR ===== --}}
-<section class="bg-[#1E3A5F] py-10 px-6">
-    <div class="grid max-w-4xl grid-cols-2 gap-8 mx-auto text-center lg:grid-cols-4">
-        @foreach([
-            ['4+', 'Fitur Belajar'],
-            ['100%', 'Buku Resmi'],
-            ['3', 'Kelas (X–XII)'],
-            ['∞', 'Akses Gratis'],
-        ] as [$num, $label])
-        <div class="space-y-1.5">
-            <p class="text-4xl font-extrabold text-white">{{ $num }}</p>
-            <p class="text-xs font-semibold tracking-widest text-blue-300 uppercase">{{ $label }}</p>
-        </div>
-        @endforeach
-    </div>
-</section>
 
 {{-- ===== FEATURES ===== --}}
 <section id="features" class="px-6 py-24 bg-white lg:px-8">

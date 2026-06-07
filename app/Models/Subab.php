@@ -28,4 +28,9 @@ class Subab extends Model
     {
         return $this->hasMany(Flashcard::class, 'id_subbab', 'id_subbab');
     }
+
+    public function materi()
+    {
+        return $this->hasMany(Materi::class, 'id_subbab', 'id_subbab')->orderBy('id_materi');
+    }
 }
