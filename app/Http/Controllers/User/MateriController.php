@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Materi;
 use App\Models\Subab;
 use App\Models\UserFlashcard;
+use App\Models\UserMateriProgress;
 use App\Models\UserQuizProgress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,8 +59,9 @@ class MateriController extends Controller
     // Display material reading page
     public function baca($id)
     {
-        $materi = Materi::with('subab.bab')->findOrFail($id);
-        $bab = $materi->subab->bab;
+        $materi = Materi::with('subab.bab.buku')->findOrFail($id);
+        $bab    = $materi->subab->bab;
+        $buku   = $bab->buku;
 
         // All subbab in this bab with their first materi (to support easy linking)
         $subbabList = Subab::with(['materi' => function($q) {
@@ -96,18 +98,37 @@ class MateriController extends Controller
         $prev = $prevId ? Materi::find($prevId) : null;
         $next = $nextId ? Materi::find($nextId) : null;
 
-        // Calculate progress: count of distinct subbab with at least one materi viewed / total subbab in bab
-        // Since we don't have a direct viewed table/relation loaded, we can approximate that the current subbab is viewed, 
-        // or calculate it based on how many subbabs we have traversed up to current. Let's make it the index of the current subbab + 1 / total subbabs.
-        $totalSubbab = $subbabList->count();
+        // --- Persistent progress (never goes backward) ---
+        $totalSubbab        = $subbabList->count();
         $currentSubbabIndex = $subbabList->search(fn($s) => $s->id_subbab == $materi->id_subbab);
-        $progress = $totalSubbab > 0 ? round((($currentSubbabIndex !== false ? $currentSubbabIndex + 1 : 1) / $totalSubbab) * 100) : 0;
+        $currentSubbabIndex = $currentSubbabIndex !== false ? (int) $currentSubbabIndex : 0;
+
+        $userId = Auth::id();
+        $babId  = $bab->id_bab;
+
+        // Fetch or create the progress record for this user + bab
+        $progressRecord = UserMateriProgress::firstOrNew(
+            ['user_id' => $userId, 'id_bab' => $babId],
+            ['max_subbab_index' => 0]
+        );
+
+        // Only advance — never go backward
+        if ($currentSubbabIndex > $progressRecord->max_subbab_index) {
+            $progressRecord->max_subbab_index = $currentSubbabIndex;
+        }
+        $progressRecord->save();
+
+        // Convert saved max index to a percentage (index is 0-based, so +1 for count)
+        $progress = $totalSubbab > 0
+            ? round((($progressRecord->max_subbab_index + 1) / $totalSubbab) * 100)
+            : 0;
 
         $userXp = Auth::user()->total_xp ?? 0;
 
         return view('user.materi-baca', compact(
             'materi',
             'bab',
+            'buku',
             'subbabList',
             'prev',
             'next',

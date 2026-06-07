@@ -113,9 +113,15 @@
                             </div>
                             <div class="flex items-center gap-2 shrink-0">
                                 <template x-if="!editing">
-                                    <button @click="editing = true" class="px-4 py-2 text-xs font-bold text-blue-600 hover:bg-blue-50 border border-blue-100 rounded-xl transition-all">
-                                        Edit Nama Bab
-                                    </button>
+                                    <div class="flex items-center gap-2">
+                                        <button @click="editing = true" class="px-4 py-2 text-xs font-bold text-blue-600 hover:bg-blue-50 border border-blue-100 rounded-xl transition-all">
+                                            Edit Nama Bab
+                                        </button>
+                                        <button @click="generateQuizAI({{ $bab->id_bab }}, $el)" 
+                                                class="px-4 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-xl shadow-sm transition-all inline-flex items-center gap-1">
+                                            <span>Generate Quiz AI</span>
+                                        </button>
+                                    </div>
                                 </template>
                                 <template x-if="editing">
                                     <div class="flex items-center gap-2">
@@ -303,4 +309,44 @@
         </div>
     @endif
 </div>
+
+<script>
+async function generateQuizAI(idBab, btnEl) {
+    if (!confirm('Apakah Anda yakin ingin membuat 10 soal quiz dengan AI untuk Bab ini?')) return;
+    
+    const originalText = btnEl.innerHTML;
+    btnEl.disabled = true;
+    btnEl.innerHTML = `
+        <svg class="animate-spin h-3.5 w-3.5 text-white inline-block mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Generating...</span>
+    `;
+
+    try {
+        const res = await fetch('/admin/quiz/generate-ai', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ id_bab: idBab })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+            alert('Quiz berhasil digenerate oleh AI!');
+            window.location.href = '/admin/quiz';
+        } else {
+            alert('Gagal: ' + (data.error || 'Terjadi kesalahan.'));
+        }
+    } catch (e) {
+        alert('Terjadi kesalahan: ' + e.message);
+    } finally {
+        btnEl.disabled = false;
+        btnEl.innerHTML = originalText;
+    }
+}
+</script>
 @endsection

@@ -18,7 +18,7 @@
     <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- judul halaman --}}
-        <h1 class="mb-6 text-xl font-bold text-slate-800">Katalog Buku</h1>
+        <h1 class="mb-6 text-2xl font-black uppercase tracking-wider text-black border-b-4 border-black pb-2">Katalog Buku</h1>
 
         {{-- grid buku --}}
         @if($buku->isEmpty())
@@ -26,17 +26,17 @@
         @else
             <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 @foreach($buku as $b)
-<a href="{{ route('user.buku.show', $b->id_buku) }}" class="relative flex flex-col items-center bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden cursor-pointer hover:shadow-md transition-all">
+<a href="{{ route('user.buku.show', $b->id_buku) }}" class="relative flex flex-col items-center bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl overflow-hidden cursor-pointer hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
 
     {{-- badge kelas — pojok kiri atas --}}
-    <div class="absolute z-10 top-2 left-2 bg-[#F4922A] text-white rounded-[8px] px-2 py-1 shadow-sm">
+    <div class="absolute z-10 top-2 left-2 bg-[#F4922A] text-white border-2 border-black rounded-full px-3 py-0.5 shadow-[2px_2px_0px_#000]">
         <span class="text-[11px] font-bold font-jakarta">
-            {{ $b->kelas }}
+            Kelas {{ $b->kelas }}
         </span>
     </div>
 
     {{-- cover buku --}}
-    <div class="w-full overflow-hidden" style="aspect-ratio: 3/4;">
+    <div class="w-full overflow-hidden border-b-2 border-black" style="aspect-ratio: 3/4;">
         @if($b->gambar)
             <img src="{{ asset('storage/' . $b->gambar) }}"
                  alt="{{ $b->judul_buku }}"
@@ -49,8 +49,8 @@
     </div>
 
     {{-- judul buku --}}
-    <div class="w-full px-3 py-3 text-center">
-        <p class="text-[11px] font-light leading-tight text-black font-jakarta">
+    <div class="w-full px-3 py-3 text-center bg-white">
+        <p class="text-[11px] font-bold leading-tight text-black font-jakarta">
             {{ $b->judul_buku }}
         </p>
     </div>

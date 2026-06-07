@@ -18,12 +18,12 @@
     <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- judul halaman --}}
-        <h1 class="mb-6 text-xl font-bold text-slate-800">Quiz Harian — {{ $bab->judul_bab }}</h1>
+        <h1 class="mb-6 text-2xl font-black uppercase tracking-wider text-black border-b-4 border-black pb-2">Quiz Harian — {{ $bab->judul_bab }}</h1>
 
         {{-- info bar --}}
-        <div class="flex flex-col items-start justify-between gap-4 p-4 mb-8 bg-white rounded-2xl shadow-sm border border-slate-100 sm:flex-row sm:items-center">
+        <div class="flex flex-col items-start justify-between gap-4 p-4 mb-8 bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl sm:flex-row sm:items-center">
             <div class="flex items-center gap-4">
-                <span class="text-sm font-semibold text-gray-600 font-jakarta">Kesulitan Saat Ini:</span>
+                <span class="text-sm font-bold text-black font-jakarta">Kesulitan Saat Ini:</span>
                 @php
                     $diffLevel = $progress?->difficulty_level ?? 'easy';
                     $difficultyLabel = [
@@ -37,13 +37,13 @@
                         'hard' => 'bg-red-500'
                     ][$diffLevel] ?? 'bg-green-500';
                 @endphp
-                <span class="px-3 py-1 text-sm font-bold text-white rounded-full {{ $difficultyColor }} font-jakarta">
+                <span class="px-3 py-0.5 text-sm font-bold text-white border-2 border-black rounded-full {{ $difficultyColor }} font-jakarta shadow-[2px_2px_0px_#000]">
                     {{ $difficultyLabel }}
                 </span>
             </div>
             <div class="flex items-center gap-2">
-                <span class="text-sm font-semibold text-gray-600 font-jakarta">Streak Hari:</span>
-                <span class="text-2xl font-bold text-[#F4922A] font-jakarta">
+                <span class="text-sm font-bold text-black font-jakarta">Streak Hari:</span>
+                <span class="text-2xl font-black text-[#F4922A] font-jakarta">
                     {{ $progress?->streak_hari ?? 0 }} <i data-lucide="flame" class="w-6 h-6 inline-block mb-1"></i>
                 </span>
             </div>
@@ -55,12 +55,12 @@
         @else
             <div class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
                 @foreach($quizList as $quiz)
-                <div class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-all">
+                <div class="flex flex-col bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl overflow-hidden hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
 
                     {{-- header card dengan difficulty badge --}}
-                    <div class="relative px-4 py-4 bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
+                    <div class="relative px-4 py-4 bg-gradient-to-r from-blue-50 to-blue-100 border-b-2 border-black">
                         <div class="flex items-start justify-between gap-2 mb-2">
-                            <h3 class="flex-1 text-sm font-bold text-gray-800 line-clamp-2 font-jakarta">
+                            <h3 class="flex-1 text-sm font-black text-black line-clamp-2 font-jakarta">
                                 {{ $quiz->judul_quiz }}
                             </h3>
                             @php
@@ -76,7 +76,7 @@
                                     'hard' => 'bg-red-500'
                                 ][$qDifficulty] ?? 'bg-green-500';
                             @endphp
-                            <span class="px-2 py-1 text-xs font-semibold text-white rounded-full {{ $qDifficultyBg }} whitespace-nowrap">
+                            <span class="px-2.5 py-0.5 text-xs font-bold text-white border-2 border-black rounded-full {{ $qDifficultyBg }} whitespace-nowrap shadow-[2px_2px_0px_#000]">
                                 {{ $qDifficultyLabel }}
                             </span>
                         </div>
@@ -85,15 +85,15 @@
                     {{-- info quiz --}}
                     <div class="flex-1 px-4 py-4">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs text-gray-600 font-jakarta">Jumlah Soal</span>
-                            <span class="text-sm font-semibold text-gray-800 font-jakarta">{{ $quiz->jumlah_soal }} soal</span>
+                            <span class="text-xs text-black font-bold font-jakarta">Jumlah Soal</span>
+                            <span class="text-sm font-black text-black font-jakarta">{{ $quiz->jumlah_soal }} soal</span>
                         </div>
                     </div>
 
                     {{-- tombol aksi --}}
-                    <div class="px-4 py-3 border-t border-gray-200">
+                    <div class="px-4 py-3 border-t-2 border-black bg-slate-50">
                         <a href="{{ route('user.quiz.start', $quiz->id_quiz) }}" 
-                           class="block w-full py-2 text-sm font-bold text-center text-white bg-[#F4922A] rounded-xl hover:bg-opacity-90 transition font-jakarta">
+                           class="block w-full py-2 text-sm font-bold text-center text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
                             Mulai Quiz
                         </a>
                     </div>

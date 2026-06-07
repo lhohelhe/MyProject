@@ -11,8 +11,18 @@
         <div class="flex-1 w-full mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8 h-screen overflow-hidden">
             
             {{-- Left Sidebar: Chapter map --}}
-            <aside class="w-full lg:w-[240px] shrink-0 h-[calc(100vh-4rem)] flex flex-col">
-                <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex flex-col max-h-full">
+            <aside class="w-full lg:w-[240px] shrink-0 h-[calc(100vh-4rem)] flex flex-col gap-3">
+                {{-- Back to Book button --}}
+                <a href="{{ route('user.buku.show', $buku->id_buku) }}"
+                   class="flex items-center gap-2 px-4 py-2.5 bg-white rounded-xl border border-slate-100 shadow-sm text-xs font-bold text-slate-600 hover:text-[#F4922A] hover:border-[#F4922A]/30 hover:bg-orange-50/50 transition-all shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span class="truncate">{{ $buku->judul_buku }}</span>
+                </a>
+
+                <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex flex-col max-h-full flex-1 min-h-0">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 shrink-0">Daftar Subbab</p>
                     <div class="overflow-y-auto flex-1 pr-1 space-y-1 scrollbar-thin">
                         <ul class="space-y-1">
@@ -35,6 +45,7 @@
                     </div>
                 </div>
             </aside>
+
 
             {{-- Center Column: Reading View --}}
             <main class="flex-1 max-w-[720px] mx-auto w-full h-screen overflow-y-auto pb-24">

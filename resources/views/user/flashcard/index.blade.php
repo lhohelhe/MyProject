@@ -18,18 +18,18 @@
     <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- judul halaman --}}
-        <h1 class="mb-6 text-xl font-bold text-slate-800">Flashcard — {{ $subbab->judul_subbab }}</h1>
+        <h1 class="mb-6 text-2xl font-black uppercase tracking-wider text-black border-b-4 border-black pb-2">Flashcard — {{ $subbab->judul_subbab }}</h1>
 
         {{-- progress bar --}}
         <div class="mb-8">
             <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-semibold text-gray-600 font-jakarta">Progres Belajar</span>
-                <span class="text-sm font-semibold text-gray-600 font-jakarta" id="progressText">
+                <span class="text-sm font-bold text-black font-jakarta">Progres Belajar</span>
+                <span class="text-sm font-bold text-black font-jakarta" id="progressText">
                     {{ $sudahDikerjakan }} / {{ $totalFlashcard }} selesai
                 </span>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-3">
-                <div id="progressBar" class="bg-green-500 h-3 rounded-full transition-all duration-300" style="width: {{ $progressPercent }}%;"></div>
+            <div class="w-full bg-white border-2 border-black rounded-full h-4 overflow-hidden">
+                <div id="progressBar" class="bg-green-500 h-full rounded-full transition-all duration-300" style="width: {{ $progressPercent }}%;"></div>
             </div>
         </div>
 
@@ -41,18 +41,18 @@
                     <div class="relative w-full h-full transition-transform duration-500" id="cardInner" style="transform-style: preserve-3d;">
                         
                         {{-- kartu depan (pertanyaan) --}}
-                        <div class="absolute w-full h-full p-8 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center" style="backface-visibility: hidden;">
+                        <div class="absolute w-full h-full p-8 bg-white border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center" style="backface-visibility: hidden;">
                             <div class="text-center">
-                                <p class="text-3xl text-gray-400 mb-4 font-jakarta">
+                                <p class="text-3xl text-black mb-4 font-jakarta">
                                     <i data-lucide="circle-help" class="w-12 h-12 mx-auto"></i>
                                 </p>
-                                <p id="frontText" class="text-2xl font-bold text-gray-800 font-jakarta"></p>
+                                <p id="frontText" class="text-2xl font-bold text-black font-jakarta"></p>
                             </div>
-                            <p class="mt-6 text-xs text-gray-500 font-jakarta">Klik untuk melihat jawaban</p>
+                            <p class="mt-6 text-xs text-slate-500 font-bold font-jakarta">Klik untuk melihat jawaban</p>
                         </div>
 
                         {{-- kartu belakang (jawaban) --}}
-                        <div class="absolute w-full h-full p-8 bg-[#F4922A] rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center" style="backface-visibility: hidden; transform: rotateY(180deg);">
+                        <div class="absolute w-full h-full p-8 bg-[#F4922A] border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center" style="backface-visibility: hidden; transform: rotateY(180deg);">
                             <div class="text-center">
                                 <p class="text-3xl text-white mb-4 font-jakarta">
                                     <i data-lucide="check-circle" class="w-12 h-12 mx-auto"></i>
@@ -67,7 +67,7 @@
 
             {{-- counter --}}
             <div class="mb-8 text-center">
-                <p class="text-lg font-semibold text-gray-600 font-jakarta">
+                <p class="text-lg font-black text-black font-jakarta">
                     Kartu <span id="cardNumber">1</span> dari {{ $totalFlashcard }}
                 </p>
             </div>
@@ -76,12 +76,12 @@
             <div class="flex gap-4 mb-8">
                 <button onclick="previousCard()" 
                         id="prevBtn"
-                        class="px-6 py-2 text-lg font-bold text-[#F4922A] border-2 border-[#F4922A] rounded-xl hover:bg-orange-50 transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
+                        class="px-6 py-2 text-lg font-bold text-black bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
                     <i data-lucide="arrow-left" class="w-5 h-5 inline-block mb-1"></i> Sebelumnya
                 </button>
                 <button onclick="nextCard()" 
                         id="nextBtn"
-                        class="px-6 py-2 text-lg font-bold text-white bg-[#F4922A] rounded-xl hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
+                        class="px-6 py-2 text-lg font-bold text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
                     Selanjutnya <i data-lucide="arrow-right" class="w-5 h-5 inline-block mb-1"></i>
                 </button>
             </div>
@@ -92,7 +92,7 @@
                         id="sudahPahamBtn"
                         onclick="toggleSudahPaham()"
                         class="px-8 py-3 text-lg font-bold transition-all duration-300 rounded-xl font-jakarta">
-                    Sudah Paham
+                    Belum Paham
                 </button>
             </div>
 
@@ -100,7 +100,7 @@
             <form action="{{ route('user.flashcard.reset', $subbab->id_subbab) }}" method="POST" class="w-full max-w-sm">
                 @csrf
                 <button type="submit" 
-                        class="w-full px-6 py-2 text-lg font-bold text-gray-600 border-2 border-gray-300 rounded-xl hover:bg-gray-100 transition font-jakarta">
+                        class="w-full px-6 py-2 text-lg font-bold text-red-600 bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
                     Reset Semua Progres
                 </button>
             </form>
@@ -143,10 +143,10 @@ function updatePahamButtonState(isSudah) {
     const btn = document.getElementById('sudahPahamBtn');
     if (isSudah) {
         btn.innerHTML = '<i data-lucide="check" class="w-5 h-5 inline-block mb-1"></i> Sudah Paham';
-        btn.className = 'px-8 py-3 text-lg font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition font-jakarta';
+        btn.className = 'px-8 py-3 text-lg font-bold text-white bg-green-600 border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all font-jakarta';
     } else {
         btn.innerHTML = 'Belum Paham';
-        btn.className = 'px-8 py-3 text-lg font-bold text-gray-700 bg-gray-300 rounded-xl hover:bg-gray-400 transition font-jakarta';
+        btn.className = 'px-8 py-3 text-lg font-bold text-black bg-white border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all font-jakarta';
     }
     if (window.lucide) lucide.createIcons();
 }

@@ -12,8 +12,8 @@
     <main class="flex-1 px-8 py-6">
 
         {{-- Motivation Card --}}
-        <div class="flex items-center w-full gap-6 px-8 py-6 mb-8 rounded-2xl shadow-sm" style="background-color: #F4922A; min-height: 120px;">
-            <button onclick="toggleEdit()" class="flex-shrink-0 transition-opacity hover:opacity-70 text-white" title="Klik untuk edit">
+                <div class="flex items-center w-full gap-6 px-8 py-6 mb-8 border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl" style="background-color: #F4922A; min-height: 120px;">
+                        <button onclick="toggleEdit()" class="flex-shrink-0 transition-opacity hover:opacity-70 text-white border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl" title="Klik untuk edit">
                 <i data-lucide="notebook-pen" class="w-8 h-8"></i>
             </button>
             <div class="flex-1">
@@ -41,7 +41,7 @@
         @else
             <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 @foreach($bukuProgress as $b)
-                <a href="{{ route('user.buku.show', $b->id_buku) }}" class="flex flex-col bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-all">
+                <a href="{{ route('user.buku.show', $b->id_buku) }}" class="flex flex-col bg-white rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] overflow-hidden hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all">
                     <div class="w-full overflow-hidden bg-slate-50" style="aspect-ratio: 3/4;">
                         @if($b->gambar)
                             <img src="{{ asset('storage/' . $b->gambar) }}" alt="{{ $b->judul_buku }}" class="object-cover w-full h-full">
@@ -94,7 +94,7 @@
             <button onclick="enableEdit('name')" class="hidden text-slate-400 hover:text-slate-600 edit-btn transition-colors">
                 <i data-lucide="edit-3" class="w-4 h-4"></i>
             </button>
-            <input id="input-name" type="text" value="{{ auth()->user()->name }}" class="hidden border-b-2 border-orange-400 bg-transparent font-bold text-lg text-slate-800 focus:outline-none w-32">
+            <input id="input-name" type="text" value="{{ auth()->user()->name }}" class="hidden bg-transparent font-bold text-lg text-slate-800 focus:outline-none w-32">
         </div>
 
         {{-- Tagline --}}
@@ -103,23 +103,23 @@
         </div>
 
         {{-- Email --}}
-        <div class="flex items-center w-full gap-3 mb-4 p-2 bg-slate-50 rounded-xl border border-slate-100">
+        <div class="flex items-center w-full gap-3 mb-4 p-2 bg-slate-50 border-2 border-black rounded-xl shadow-[2px_2px_0px_#000]">
             <i data-lucide="mail" class="w-4 h-4 text-slate-400 flex-shrink-0"></i>
             <span id="display-email" class="text-xs text-slate-600 flex-1 truncate">{{ auth()->user()->email }}</span>
             <button onclick="enableEdit('email')" class="hidden text-slate-400 hover:text-slate-600 edit-btn transition-colors">
                 <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             </button>
-            <input id="input-email" type="email" value="{{ auth()->user()->email }}" class="hidden border-b-2 border-orange-400 bg-transparent text-xs text-slate-600 focus:outline-none flex-1 w-24">
+            <input id="input-email" type="email" value="{{ auth()->user()->email }}" class="hidden bg-transparent text-xs text-slate-600 focus:outline-none flex-1 w-24">
         </div>
 
         {{-- Kelas --}}
-        <div class="flex items-center w-full gap-3 mb-8 p-2 bg-slate-50 rounded-xl border border-slate-100">
+        <div class="flex items-center w-full gap-3 mb-8 p-2 bg-slate-50 border-2 border-black rounded-xl shadow-[2px_2px_0px_#000]">
             <i data-lucide="graduation-cap" class="w-4 h-4 text-slate-400 flex-shrink-0"></i>
             <span id="display-kelas" class="text-xs text-slate-600 flex-1">Kelas {{ auth()->user()->kelas }}</span>
             <button onclick="enableEdit('kelas')" class="hidden text-slate-400 hover:text-slate-600 edit-btn transition-colors">
                 <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             </button>
-            <select id="input-kelas" class="hidden border-b-2 border-orange-400 bg-transparent text-xs text-slate-600 focus:outline-none flex-1">
+            <select id="input-kelas" class="hidden bg-transparent text-xs text-slate-600 focus:outline-none flex-1">
                 <option value="10" {{ auth()->user()->kelas == '10' ? 'selected' : '' }}>Kelas 10</option>
                 <option value="11" {{ auth()->user()->kelas == '11' ? 'selected' : '' }}>Kelas 11</option>
                 <option value="12" {{ auth()->user()->kelas == '12' ? 'selected' : '' }}>Kelas 12</option>
@@ -127,12 +127,12 @@
         </div>
 
         {{-- Simpan Button --}}
-        <button id="btn-simpan" onclick="simpanProfile()" class="hidden rounded-xl px-5 py-2 font-semibold text-sm text-white w-full mb-3 shadow-sm hover:bg-orange-600 transition-all bg-[#F4922A]">
+                <button id="btn-simpan" onclick="simpanProfile()" class="hidden rounded-xl px-5 py-2 font-semibold text-sm text-white w-full mb-3 border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all bg-[#F4922A]">
             Simpan
         </button>
 
         {{-- Edit Button --}}
-        <button id="btn-edit" onclick="toggleEditMode()" class="rounded-xl px-5 py-2 font-semibold text-sm text-white w-full shadow-sm hover:bg-orange-600 transition-all bg-[#F4922A]">
+                <button id="btn-edit" onclick="toggleEditMode()" class="rounded-xl px-5 py-2 font-semibold text-sm text-white w-full border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all bg-[#F4922A]">
             Edit
         </button>
 

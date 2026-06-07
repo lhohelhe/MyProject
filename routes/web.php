@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SubabController;
 use App\Http\Controllers\Admin\MateriController;
 use App\Http\Controllers\Admin\SimulasiController;
 use App\Http\Controllers\Admin\SoalSimulasiController;
+use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\User\KatalogController;
 use App\Http\Controllers\User\SimulasiController as UserSimulasiController;
@@ -61,11 +62,18 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::put('/simulasi/soal/{id}', [SoalSimulasiController::class, 'update'])->name('soal-simulasi.update');
     Route::delete('/simulasi/soal/{id}', [SoalSimulasiController::class, 'destroy'])->name('soal-simulasi.destroy');
 
+    // Kelola quiz
+    Route::get('/quiz', [QuizController::class, 'index'])->name('admin.quiz.index');
+    Route::post('/quiz/generate-ai', [QuizController::class, 'generateAi'])->name('admin.quiz.generateAi');
+
     // Admin - kelola saran
     Route::get('/saran', [App\Http\Controllers\SaranController::class, 'index'])->name('admin.saran.index');
     Route::patch('/saran/{id}/read', [App\Http\Controllers\SaranController::class, 'markRead'])->name('admin.saran.read');
     Route::delete('/saran/{id}', [App\Http\Controllers\SaranController::class, 'destroy'])->name('admin.saran.destroy');
-});
+    Route::get('/flashcard', [App\Http\Controllers\Admin\FlashcardController::class, 'index'])->name('admin.flashcard.index');
+    Route::post('/flashcard/generate', [App\Http\Controllers\Admin\FlashcardController::class, 'generate'])->name('admin.flashcard.generate');
+    Route::delete('/flashcard/{id}', [App\Http\Controllers\Admin\FlashcardController::class, 'destroy'])->name('admin.flashcard.destroy');
+    });
 
 // ROUTE USER BIASA — harus sudah login
 Route::middleware(['auth'])->prefix('user')->group(function () {
@@ -87,6 +95,10 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     // Detail buku
     Route::get('/buku/{id}', [App\Http\Controllers\User\BukuController::class, 'show'])->name('user.buku.show');
 
+    // Notes AI & Ringkasan per bab
+    Route::post('/buku/{id}/notes-ai', [App\Http\Controllers\User\NotesAiController::class, 'generate'])->name('user.buku.notes-ai');
+    Route::get('/buku/{id}/ringkasan/{id_bab}', [App\Http\Controllers\User\NotesAiController::class, 'ringkasan'])->name('user.buku.ringkasan');
+
     // Materi buku
     Route::get('/materi/{id}', [UserMateriController::class, 'baca'])->name('user.materi.baca');
 
@@ -95,8 +107,8 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::post('/simulasi/submit', [UserSimulasiController::class, 'submit'])->name('user.simulasi.submit');
     Route::get('/simulasi/result/{id}', [UserSimulasiController::class, 'result'])->name('user.simulasi.result');
     Route::get('/simulasi/{id}', [UserSimulasiController::class, 'show'])->name('user.simulasi.show');
-    Route::post('/simulasi/{id}/start', [UserSimulasiController::class, 'start'])->name('user.simulasi.start');
 
+    Route::match(['get','post'], '/simulasi/{id}/start', [UserSimulasiController::class, 'start'])->name('user.simulasi.start');
     // QUIZ HARIAN ADAPTIF (Perbaikan urutan: Submit & Result dulu sebelum {id})
     Route::get('/quiz/bab/{id_bab}', [UserQuizController::class, 'index'])->name('user.quiz.index');
     Route::post('/quiz/submit', [UserQuizController::class, 'submit'])->name('user.quiz.submit');

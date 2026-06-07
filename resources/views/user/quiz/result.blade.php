@@ -18,32 +18,32 @@
     <main class="flex-1 px-8 py-6 overflow-y-auto">
 
         {{-- judul --}}
-        <h1 class="mb-8 text-xl font-bold text-slate-800">Hasil Quiz</h1>
+        <h1 class="mb-8 text-2xl font-black uppercase tracking-wider text-black border-b-4 border-black pb-2">Hasil Quiz</h1>
 
         {{-- skor besar --}}
-        <div class="flex flex-col items-center justify-center p-12 mb-8 bg-white rounded-2xl shadow-sm border border-slate-100">
-            <div class="mb-6 text-7xl font-bold text-[#F4922A] font-jakarta">
+        <div class="flex flex-col items-center justify-center p-8 mb-6 bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl">
+            <div class="mb-3 text-5xl font-black text-[#F4922A] font-jakarta">
                 {{ $hasil->skor }}%
             </div>
-            <p class="text-lg text-gray-600 font-jakarta">{{ $quiz->judul_quiz }}</p>
+            <p class="text-base font-bold text-black font-jakarta">{{ $quiz->judul_quiz }}</p>
         </div>
 
         {{-- XP badge dengan animasi --}}
-        <div class="flex justify-center mb-12">
-            <div class="relative inline-block px-6 py-3 text-2xl font-bold text-white bg-[#F4922A] rounded-full shadow-sm" style="animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
-                <i data-lucide="star" class="w-5 h-5 inline-block mb-1"></i> +{{ $xpDapat }} XP
+        <div class="flex justify-center mb-8">
+            <div class="relative inline-block px-5 py-2 text-base font-bold text-white bg-[#F4922A] border-2 border-black rounded-full shadow-[3px_3px_0px_#000]" style="animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                <i data-lucide="star" class="w-4 h-4 inline-block mb-0.5"></i> +{{ $xpDapat }} XP
             </div>
         </div>
 
         {{-- info difficulty dan streak --}}
-        <div class="grid grid-cols-1 gap-6 mb-12 md:grid-cols-2">
+        <div class="grid grid-cols-1 gap-4 mb-8 md:grid-cols-2">
             {{-- difficulty --}}
-            <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-                <p class="text-sm font-semibold text-gray-600 mb-4 font-jakarta">Tingkat Kesulitan</p>
+            <div class="p-4 bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl">
+                <p class="text-sm font-bold text-black mb-3 font-jakarta">Tingkat Kesulitan</p>
                 <div class="flex items-center justify-center gap-4">
                     {{-- difficulty sebelumnya --}}
                     <div class="flex flex-col items-center">
-                        <p class="text-xs text-gray-600 mb-2 font-jakarta">Sebelumnya</p>
+                        <p class="text-xs text-slate-500 mb-2 font-bold font-jakarta">Sebelumnya</p>
                         @php
                             $difficultySebelum = $hasil->difficulty_sebelum ?? 'easy';
                             $difficultyLabel = [
@@ -57,7 +57,7 @@
                                 'hard' => 'bg-red-500'
                             ][$difficultySebelum] ?? 'bg-green-500';
                         @endphp
-                        <span class="px-3 py-1 text-sm font-bold text-white rounded-full {{ $difficultyColor }} font-jakarta">
+                        <span class="px-3 py-0.5 text-sm font-bold text-white border-2 border-black rounded-full {{ $difficultyColor }} font-jakarta shadow-[2px_2px_0px_#000]">
                             {{ $difficultyLabel }}
                         </span>
                     </div>
@@ -70,11 +70,11 @@
                             $arrowIcon = $difficultyOrder[$difficultyBaru] > $difficultyOrder[$difficultySebelum] ? 'arrow-up-right' : 'arrow-down-left';
                         }
                     @endphp
-                    <div class="text-3xl text-gray-400 font-jakarta"><i data-lucide="{{ $arrowIcon }}" class="w-8 h-8"></i></div>
+                    <div class="text-3xl text-black font-jakarta"><i data-lucide="{{ $arrowIcon }}" class="w-5 h-5"></i></div>
 
                     {{-- difficulty baru --}}
                     <div class="flex flex-col items-center">
-                        <p class="text-xs text-gray-600 mb-2 font-jakarta">Sesudah</p>
+                        <p class="text-xs text-slate-500 mb-2 font-bold font-jakarta">Sesudah</p>
                         @php
                             $difficultyNewLabel = [
                                 'easy' => 'Mudah',
@@ -87,7 +87,7 @@
                                 'hard' => 'bg-red-500'
                                 ][$difficultyBaru] ?? 'bg-green-500';
                         @endphp
-                        <span class="px-3 py-1 text-sm font-bold text-white rounded-full {{ $difficultyNewColor }} font-jakarta">
+                        <span class="px-3 py-0.5 text-sm font-bold text-white border-2 border-black rounded-full {{ $difficultyNewColor }} font-jakarta shadow-[2px_2px_0px_#000]">
                             {{ $difficultyNewLabel }}
                         </span>
                     </div>
@@ -95,11 +95,11 @@
             </div>
 
             {{-- streak --}}
-            <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-                <p class="text-sm font-semibold text-gray-600 mb-4 font-jakarta">Streak Hari</p>
+            <div class="p-4 bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl">
+                <p class="text-sm font-bold text-black mb-3 font-jakarta">Streak Hari</p>
                 <div class="flex items-center justify-center">
-                    <p class="text-3xl font-bold text-[#F4922A] font-jakarta">
-                        <i data-lucide="flame" class="w-8 h-8 inline-block mb-1"></i> {{ $streakHari }} hari berturut-turut
+                    <p class="text-2xl font-black text-[#F4922A] font-jakarta">
+                        <i data-lucide="flame" class="w-6 h-6 inline-block mb-1"></i> {{ $streakHari }} hari
                     </p>
                 </div>
             </div>
@@ -108,11 +108,11 @@
         {{-- tombol aksi --}}
         <div class="flex flex-col justify-center gap-4 sm:flex-row sm:justify-center mb-8">
             <a href="{{ route('user.quiz.start', $quiz->id_quiz) }}" 
-               class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-white bg-[#F4922A] rounded-xl hover:bg-opacity-90 transition font-jakarta">
+               class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
                 Ulangi Quiz
             </a>
             <a href="{{ route('user.buku.show', $quiz->bab->id_buku) }}" 
-               class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-gray-700 bg-gray-300 rounded-xl hover:bg-opacity-90 transition font-jakarta">
+               class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-black bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
                 Kembali ke Bab
             </a>
         </div>

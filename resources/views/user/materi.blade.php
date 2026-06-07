@@ -13,7 +13,7 @@
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
 
         /* ─── Layout shell ─────────────────────────────────── */
-        html, body { height: 100%; overflow: hidden; background: #f1f5f9; }
+        html, body { height: 100%; overflow: hidden; background: #E5F8FF; }
 
         #reading-shell {
             display: grid;
@@ -196,7 +196,7 @@
 
         {{-- ═══════ LEFT SIDEBAR — Chapter Map ═══════ --}}
         <aside id="left-sidebar"
-               class="sidebar bg-white border-r border-slate-100 overflow-y-auto lg:static"
+               class="sidebar bg-white border-r-2 border-black overflow-y-auto lg:static"
                :class="{ 'open': leftOpen }">
 
             <div class="p-5">
@@ -288,7 +288,7 @@
                 </h1>
 
                 {{-- ─── Book Page ─── --}}
-                <div class="bg-white rounded-2xl shadow-[0_4px_40px_rgba(0,0,0,0.10)] border border-slate-100">
+                <div class="bg-white rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000]">
 
                     {{-- Cover image --}}
                     @if($materi->gambar)
@@ -309,8 +309,8 @@
                 <div class="flex items-center gap-4 mt-10">
                     @if($prev)
                         <a href="{{ route('user.materi.show', $prev->id_materi) }}"
-                           class="flex-1 flex items-center gap-3 px-5 py-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-[#F4922A] hover:shadow-md transition-all group">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-[#fff7ed] flex items-center justify-center transition">
+                           class="flex-1 flex items-center gap-3 px-5 py-4 bg-white rounded-2xl border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all group">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-xl bg-slate-100 border-2 border-black group-hover:bg-[#fff7ed] flex items-center justify-center transition">
                                 <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500 group-hover:text-[#F4922A]"></i>
                             </div>
                             <div class="min-w-0">
@@ -324,12 +324,12 @@
 
                     @if($next)
                         <a href="{{ route('user.materi.show', $next->id_materi) }}"
-                           class="flex-1 flex items-center gap-3 px-5 py-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-[#F4922A] hover:shadow-md transition-all group text-right">
+                           class="flex-1 flex items-center gap-3 px-5 py-4 bg-white rounded-2xl border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all group text-right">
                             <div class="min-w-0 flex-1">
                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Selanjutnya</p>
                                 <p class="text-sm font-semibold text-slate-700 group-hover:text-[#F4922A] truncate transition">{{ $next->judul_materi }}</p>
                             </div>
-                            <div class="flex-shrink-0 w-8 h-8 rounded-xl bg-[#F4922A] group-hover:bg-orange-600 flex items-center justify-center transition">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-xl bg-[#F4922A] border-2 border-black shadow-[2px_2px_0px_#000] group-hover:shadow-none group-hover:translate-x-[2px] group-hover:translate-y-[2px] flex items-center justify-center transition">
                                 <i data-lucide="arrow-right" class="w-4 h-4 text-white"></i>
                             </div>
                         </a>
@@ -343,7 +343,7 @@
 
         {{-- ═══════ RIGHT SIDEBAR — Progress & Tools ═══════ --}}
         <aside id="right-sidebar"
-               class="sidebar bg-white border-l border-slate-100 overflow-y-auto lg:static"
+               class="sidebar bg-white border-l-2 border-black overflow-y-auto lg:static"
                :class="{ 'open': rightOpen }">
 
             <div class="p-5">
@@ -402,8 +402,8 @@
 
                 {{-- Flashcard shortcut --}}
                 <a href="{{ route('user.flashcard', $materi->id_subbab) }}"
-                   class="flex items-center gap-3 w-full px-4 py-3 bg-white rounded-xl border border-slate-100 shadow-sm hover:border-purple-300 hover:shadow-md transition-all group mb-2">
-                    <div class="w-8 h-8 rounded-lg bg-purple-50 group-hover:bg-purple-100 flex items-center justify-center transition flex-shrink-0">
+                   class="flex items-center gap-3 w-full px-4 py-3 bg-white rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all group mb-3">
+                    <div class="w-8 h-8 rounded-lg bg-purple-50 border-2 border-black flex items-center justify-center flex-shrink-0">
                         <i data-lucide="book-marked" class="w-4 h-4 text-purple-500"></i>
                     </div>
                     <div class="flex-1 min-w-0">
@@ -415,8 +415,8 @@
 
                 {{-- Quiz shortcut --}}
                 <a href="{{ route('user.quiz.index', $bab->id_bab) }}"
-                   class="flex items-center gap-3 w-full px-4 py-3 bg-white rounded-xl border border-slate-100 shadow-sm hover:border-blue-300 hover:shadow-md transition-all group mb-5">
-                    <div class="w-8 h-8 rounded-lg bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition flex-shrink-0">
+                   class="flex items-center gap-3 w-full px-4 py-3 bg-white rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all group mb-5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 border-2 border-black flex items-center justify-center flex-shrink-0">
                         <i data-lucide="clipboard-list" class="w-4 h-4 text-blue-500"></i>
                     </div>
                     <div class="flex-1 min-w-0">
@@ -428,7 +428,7 @@
 
                 {{-- Reading tip --}}
                 <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Tips Belajar</p>
+                    <p class="text-xs font-black text-black uppercase tracking-wider mb-3">Fitur Belajar</p>
                     <p class="text-xs text-slate-500 leading-relaxed">
                         Arahkan kursor ke kata bergaris bawah oranye untuk melihat definisinya.
                     </p>

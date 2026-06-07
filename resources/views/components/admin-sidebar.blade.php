@@ -83,11 +83,19 @@
         </a>
 
         {{-- Data Quiz --}}
-        <a href="/admin/quiz"
+        <a href="{{ route('admin.quiz.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-none text-sm font-semibold transition-all border border-transparent
                   {{ request()->is('admin/quiz*') ? 'bg-[#F4922A] text-white border-black shadow-[2px_2px_0px_#000]' : 'text-slate-300 hover:text-white hover:bg-white/10' }}">
             <i data-lucide="clipboard-list" class="w-4 h-4 flex-shrink-0"></i>
             <span>Data Quiz</span>
+        </a>
+
+        {{-- Flashcard --}}
+        <a href="{{ route('admin.flashcard.index') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-none text-sm font-semibold transition-all border border-transparent
+                  {{ request()->is('admin/flashcard*') ? 'bg-[#F4922A] text-white border-black shadow-[2px_2px_0px_#000]' : 'text-slate-300 hover:text-white hover:bg-white/10' }}">
+            <i data-lucide="list" class="w-4 h-4 flex-shrink-0"></i>
+            <span>Flashcard</span>
         </a>
 
         <div class="pt-4 pb-1">

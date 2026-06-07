@@ -13,9 +13,9 @@
 <div class="flex flex-col min-h-screen">
 
     {{-- header --}}
-    <div class="flex items-center justify-between p-6 bg-white border-b border-gray-200 shadow-sm">
+    <div class="flex items-center justify-between p-6 bg-white border-b-2 border-black shadow-sm">
         <div class="flex items-center gap-4">
-            <h1 class="text-2xl font-bold text-gray-800 font-jakarta">{{ $quiz->judul_quiz }}</h1>
+            <h1 class="text-2xl font-black text-black font-jakarta">{{ $quiz->judul_quiz }}</h1>
             @php
                 $difficultyLabel = [
                     'easy' => 'Mudah',
@@ -28,13 +28,13 @@
                     'hard' => 'bg-red-500'
                 ][$difficulty] ?? 'bg-green-500';
             @endphp
-            <span class="px-3 py-1 text-sm font-bold text-white rounded-full {{ $difficultyColor }} font-jakarta">
+            <span class="px-3 py-0.5 text-sm font-bold text-white border-2 border-black rounded-full {{ $difficultyColor }} font-jakarta shadow-[2px_2px_0px_#000]">
                 {{ $difficultyLabel }}
             </span>
         </div>
         
         {{-- timer --}}
-        <div class="font-mono text-3xl font-bold" id="timer" style="color: #333;">
+        <div class="font-mono text-3xl font-black text-black" id="timer">
             10:00
         </div>
     </div>
@@ -44,19 +44,20 @@
         <div class="w-full max-w-2xl">
             <form id="quizForm" action="{{ route('user.quiz.submit') }}" method="POST" class="space-y-8">
                 @csrf
+                <input type="hidden" name="id_quiz" value="{{ $quiz->id_quiz }}">
 
                 {{-- progress bar --}}
                 <div class="mb-8">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-semibold text-gray-600 font-jakarta" id="progressText">
+                        <span class="text-sm font-bold text-black font-jakarta" id="progressText">
                             Soal 1 dari {{ $soal->count() }}
                         </span>
-                        <span class="text-sm font-semibold text-gray-600 font-jakarta" id="progressPercent">
+                        <span class="text-sm font-bold text-black font-jakarta" id="progressPercent">
                             10%
                         </span>
                     </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div id="progressBar" class="bg-[#F4922A] h-2 rounded-full transition-all duration-300" style="width: 10%;"></div>
+                    <div class="w-full bg-white border-2 border-black rounded-full h-4 overflow-hidden">
+                        <div id="progressBar" class="bg-[#F4922A] h-full rounded-full transition-all duration-300" style="width: 10%;"></div>
                     </div>
                 </div>
 
@@ -64,44 +65,66 @@
                 @foreach($soal as $index => $s)
                 <div id="question-{{ $index }}" class="question-container hidden">
                     {{-- teks pertanyaan --}}
-                    <div class="mb-8 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-                        <p class="text-2xl font-bold text-gray-800 font-jakarta">{{ $s->pertanyaan }}</p>
+                    <div class="mb-8 p-6 bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl">
+                        <p class="text-2xl font-bold text-black font-jakarta">{{ $s->pertanyaan }}</p>
                     </div>
 
                     {{-- pilihan jawaban sebagai button --}}
                     <div class="space-y-3 mb-8">
-                        @foreach(['a', 'b', 'c', 'd'] as $option)
+                        @foreach(['a', 'b', 'c', 'd', 'e'] as $option)
+                        @php
+                            $columnName = 'opsi_' . $option;
+                            $optionValue = $s->$columnName;
+                        @endphp
+                        @if(!empty($optionValue))
                         <button type="button" 
-                                class="answer-btn w-full p-4 text-left bg-white border-2 border-gray-200 rounded-xl transition-all hover:border-[#F4922A] hover:bg-orange-50 font-jakarta"
+                                class="answer-btn w-full p-4 text-left bg-white border-2 border-black rounded-xl hover:shadow-[2px_2px_0px_#000] transition-all font-jakarta"
                                 onclick="selectAnswer('{{ $s->id_soal_quiz }}', '{{ $option }}', this, {{ $index }})"
                                 data-soal="{{ $s->id_soal_quiz }}"
                                 data-option="{{ $option }}"
                                 data-question="{{ $index }}">
                             <div class="flex items-start gap-3">
-                                <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center font-bold text-gray-700 bg-gray-100 rounded-full">
+                                <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center font-bold text-black bg-gray-100 border-2 border-black rounded-full">
                                     {{ strtoupper($option) }}
                                 </span>
-                                <span class="flex-1 text-gray-700">
-                                    @php
-                                        $columnName = 'opsi_' . $option;
-                                        echo $s->$columnName;
-                                    @endphp
+                                <span class="flex-1 text-black font-bold">
+                                    {{ $optionValue }}
                                 </span>
                             </div>
                         </button>
+                        @endif
                         @endforeach
                     </div>
                 </div>
                 @endforeach
 
-                {{-- tombol navigasi --}}
-                <div class="pt-4">
-                    <button type="button" 
-                            id="submitBtn"
-                            onclick="showConfirmModal()"
-                            class="w-full py-3 text-lg font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition font-jakarta">
-                        Selanjutnya
-                    </button>
+                <!-- tombol navigasi -->
+                <div class="flex flex-col gap-4 items-center pt-4">
+                    <div class="flex justify-between items-center w-full gap-4">
+                        <button type="button" 
+                                id="prevBtn"
+                                onclick="prevQuestion()"
+                                class="flex-1 py-3 text-lg font-bold text-black bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
+                            &larr; Sebelumnya
+                        </button>
+                        <button type="button" 
+                                id="nextBtn"
+                                onclick="nextQuestion()"
+                                class="flex-1 py-3 text-lg font-bold text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
+                            Selanjutnya &rarr;
+                        </button>
+                        <button type="button" 
+                                id="submitBtn"
+                                onclick="showConfirmModal()"
+                                class="flex-1 py-3 text-lg font-bold text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta hidden">
+                            Submit Quiz
+                        </button>
+                    </div>
+
+                    {{-- Question number indicator --}}
+                    <div id="questionIndicator" class="text-sm font-black text-black font-jakarta mt-2">
+                        1 / 10
+                    </div>
                 </div>
             </form>
         </div>
@@ -110,18 +133,18 @@
 
 {{-- modal konfirmasi submit --}}
 <div id="confirmModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-2xl p-6 max-w-sm shadow-xl border border-slate-100">
-        <h2 class="mb-4 text-xl font-bold text-gray-800 font-jakarta">Konfirmasi Submit</h2>
-        <p class="mb-6 text-gray-700 font-jakarta">Apakah Anda yakin ingin mengirimkan jawaban? Anda tidak dapat mengubahnya lagi.</p>
+    <div class="bg-white border-2 border-black p-6 max-w-sm shadow-[4px_4px_0px_#000] rounded-xl">
+        <h2 class="mb-4 text-xl font-black text-black font-jakarta">Konfirmasi Submit</h2>
+        <p class="mb-6 text-black font-jakarta">Apakah Anda yakin ingin mengirimkan jawaban? Anda tidak dapat mengubahnya lagi.</p>
         <div class="flex gap-4">
             <button type="button" 
                     onclick="closeConfirmModal()"
-                    class="flex-1 py-2 text-lg font-bold text-gray-700 border-2 border-gray-300 rounded-xl hover:bg-gray-50 transition font-jakarta">
+                    class="flex-1 py-2 text-lg font-bold text-black bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
                 Batal
             </button>
             <button type="button" 
                     onclick="submitQuiz()"
-                    class="flex-1 py-2 text-lg font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition font-jakarta">
+                    class="flex-1 py-2 text-lg font-bold text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
                 Submit
             </button>
         </div>
@@ -168,6 +191,7 @@ function startTimer() {
 
 // Show question
 function showQuestion(index) {
+    currentQuestion = index;
     document.querySelectorAll('.question-container').forEach(el => el.classList.add('hidden'));
     document.getElementById('question-' + index).classList.remove('hidden');
     
@@ -177,31 +201,59 @@ function showQuestion(index) {
     document.getElementById('progressText').textContent = 'Soal ' + (index + 1) + ' dari ' + totalQuestions;
     document.getElementById('progressPercent').textContent = progress + '%';
     
-    // Update submit button
+    // Update button visibilities
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     const submitBtn = document.getElementById('submitBtn');
-    if (index === totalQuestions - 1) {
-        submitBtn.textContent = 'Submit';
-        submitBtn.style.backgroundColor = '#16a34a';
+    const questionIndicator = document.getElementById('questionIndicator');
+    
+    if (index === 0) {
+        prevBtn.classList.add('invisible');
     } else {
-        submitBtn.textContent = 'Selanjutnya';
-        submitBtn.style.backgroundColor = '#16a34a';
+        prevBtn.classList.remove('invisible');
+    }
+    
+    if (index === totalQuestions - 1) {
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+    }
+    
+    if (questionIndicator) {
+        questionIndicator.textContent = (index + 1) + ' / ' + totalQuestions;
     }
     
     // Restore selected answer
-    const selectedBtn = document.querySelector(`[data-question="${index}"][data-option]`);
     document.querySelectorAll(`[data-question="${index}"]`).forEach(btn => {
-        btn.classList.remove('border-[#F4922A]', 'bg-orange-100', 'border-2');
-        btn.classList.add('border-gray-200', 'bg-white');
+        btn.classList.remove('border-[#F4922A]', 'bg-orange-100');
+        btn.classList.add('border-black', 'bg-white');
     });
     
-    // Highlight previously selected answer if exists
     for (let soalId in selectedAnswers) {
         const answeredOption = selectedAnswers[soalId];
         const answeredBtn = document.querySelector(`[data-question="${index}"][data-option="${answeredOption}"]`);
         if (answeredBtn) {
-            answeredBtn.classList.remove('border-gray-200', 'bg-white');
-            answeredBtn.classList.add('border-[#F4922A]', 'bg-orange-100', 'border-2');
+            answeredBtn.classList.remove('border-black', 'bg-white');
+            answeredBtn.classList.add('border-[#F4922A]', 'bg-orange-100');
         }
+    }
+}
+
+// Navigation functions
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion(currentQuestion);
+    }
+}
+
+// Navigation functions
+function nextQuestion() {
+    if (currentQuestion < totalQuestions - 1) {
+        currentQuestion++;
+        showQuestion(currentQuestion);
     }
 }
 
@@ -211,35 +263,18 @@ function selectAnswer(soalId, option, button, questionIndex) {
     
     // Remove highlight from other buttons for this question
     document.querySelectorAll(`[data-question="${questionIndex}"]`).forEach(btn => {
-        btn.classList.remove('border-[#F4922A]', 'bg-orange-100', 'border-2');
-        btn.classList.add('border-gray-200', 'bg-white');
+        btn.classList.remove('border-[#F4922A]', 'bg-orange-100');
+        btn.classList.add('border-black', 'bg-white');
     });
     
     // Highlight selected button
-    button.classList.remove('border-gray-200', 'bg-white');
-    button.classList.add('border-[#F4922A]', 'bg-orange-100', 'border-2');
-    
-    // Auto-next to next question
-    if (currentQuestion < totalQuestions - 1) {
-        setTimeout(() => {
-            currentQuestion++;
-            showQuestion(currentQuestion);
-        }, 300);
-    }
+    button.classList.remove('border-black', 'bg-white');
+    button.classList.add('border-[#F4922A]', 'bg-orange-100');
 }
 
 // Submit
-// Submit
 function showConfirmModal() {
-    if (currentQuestion === totalQuestions - 1) {
-        document.getElementById('confirmModal').classList.remove('hidden');
-    } else {
-        currentQuestion++;
-        if (currentQuestion >= totalQuestions) {
-            currentQuestion = totalQuestions - 1;
-        }
-        showQuestion(currentQuestion);
-    }
+    document.getElementById('confirmModal').classList.remove('hidden');
 }
 
 function closeConfirmModal() {

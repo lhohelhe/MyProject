@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Buku;
 use App\Models\HasilQuiz;
 use App\Models\UserFlashcard;
+use App\Models\UserMateriProgress;
 use Illuminate\Support\Facades\Auth;
 
 class BukuController extends Controller
@@ -24,6 +25,12 @@ class BukuController extends Controller
             'bab.quiz',
             'bab.subab.flashcard',
         ])->findOrFail($id);
+
+        // Load semua materi reading progress user untuk buku ini (hindari N+1)
+        $babIds = $buku->bab->pluck('id_bab');
+        $materiProgressMap = UserMateriProgress::where('user_id', $user->id)
+            ->whereIn('id_bab', $babIds)
+            ->pluck('max_subbab_index', 'id_bab');
 
         // Hitung progress per bab
         $babProgress = [];
@@ -46,13 +53,21 @@ class BukuController extends Controller
                     ->where('status', 'sudah')->count()
                 : 0;
 
-            // Hitung overall progress per bab (rata-rata quiz + flashcard)
-            $quizPct = $totalQuiz > 0 ? round(($doneQuiz / $totalQuiz) * 100) : 0;
-            $flashPct = $totalFlashcard > 0 ? round(($doneFlashcard / $totalFlashcard) * 100) : 0;
-
-            $overallPct = ($totalQuiz + $totalFlashcard) > 0
-                ? round((($doneQuiz + $doneFlashcard) / ($totalQuiz + $totalFlashcard)) * 100)
+            // Progress membaca materi dari UserMateriProgress
+            $totalSubbab  = $bab->subab->count();
+            $maxReached   = isset($materiProgressMap[$bab->id_bab]) ? (int) $materiProgressMap[$bab->id_bab] : -1;
+            $materiPct    = $totalSubbab > 0 && $maxReached >= 0
+                ? round((($maxReached + 1) / $totalSubbab) * 100)
                 : 0;
+
+            $quizPct   = $totalQuiz > 0 ? round(($doneQuiz / $totalQuiz) * 100) : 0;
+            $flashPct  = $totalFlashcard > 0 ? round(($doneFlashcard / $totalFlashcard) * 100) : 0;
+
+            // Hitung overall progress per bab (rata-rata materi + quiz + flashcard)
+            $components   = [$materiPct];
+            if ($totalQuiz > 0)       $components[] = $quizPct;
+            if ($totalFlashcard > 0)  $components[] = $flashPct;
+            $overallPct   = round(array_sum($components) / count($components));
 
             $babProgress[$bab->id_bab] = [
                 'quiz_pct'      => $quizPct,

@@ -15,6 +15,11 @@ class Bab extends Model
         'judul_bab'
     ];
 
+    public function buku()
+    {
+        return $this->belongsTo(Buku::class, 'id_buku', 'id_buku');
+    }
+
     public function subab()
     {
         return $this->hasMany(Subab::class,'id_bab','id_bab')
