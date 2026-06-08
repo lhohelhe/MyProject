@@ -12,6 +12,28 @@ use Illuminate\Support\Facades\Http;
 class QuizController extends Controller
 {
     /**
+     * Tampilkan detail soal quiz
+     */
+    public function show($id)
+    {
+        $quiz = Quiz::with(['bab.buku', 'soal'])->findOrFail($id);
+        return view('admin.quiz.show', compact('quiz'));
+    }
+
+    /**
+     * Hapus quiz beserta semua soalnya
+     */
+    public function destroy($id)
+    {
+        $quiz = Quiz::findOrFail($id);
+        SoalQuiz::where('id_quiz', $id)->delete();
+        $quiz->delete();
+
+        return redirect()->route('admin.quiz.index')
+                         ->with('success', 'Quiz berhasil dihapus!');
+    }
+
+    /**
      * Tampilkan daftar quiz untuk Admin
      */
     public function index()

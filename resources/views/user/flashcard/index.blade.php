@@ -7,212 +7,265 @@
     @vite('resources/css/app.css')
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>* { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+    <style>
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .card-flip { perspective: 1200px; }
+        .card-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.45s cubic-bezier(.4,0,.2,1);
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .card-inner.flipped { transform: rotateY(180deg); }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .card-back-face { transform: rotateY(180deg); }
+    </style>
 </head>
-<body class="antialiased font-jakarta" style="background-color: #E5F8FF;">
-<div class="flex min-h-screen">
+<body class="antialiased font-jakarta bg-[#E5F8FF]">
+<div class="flex h-screen overflow-hidden">
 
     <x-user-sidebar />
 
-    {{-- konten utama --}}
-    <main class="flex-1 px-8 py-6 overflow-y-auto">
+    <main class="flex-1 flex flex-col h-screen overflow-hidden">
 
-        {{-- judul halaman --}}
-        <h1 class="mb-6 text-2xl font-black uppercase tracking-wider text-black border-b-4 border-black pb-2">Flashcard — {{ $subbab->judul_subbab }}</h1>
-
-        {{-- progress bar --}}
-        <div class="mb-8">
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-bold text-black font-jakarta">Progres Belajar</span>
-                <span class="text-sm font-bold text-black font-jakarta" id="progressText">
-                    {{ $sudahDikerjakan }} / {{ $totalFlashcard }} selesai
-                </span>
+        {{-- Top bar --}}
+        <div class="flex-shrink-0 flex items-center justify-between px-8 py-4 bg-white border-b-2 border-black">
+            <div>
+                <a href="{{ route('user.buku.show', $subbab->bab->id_buku) }}"
+                   class="inline-flex items-center gap-1.5 text-xs font-black text-slate-400 hover:text-[#F4922A] uppercase tracking-widest mb-1 transition">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Kembali
+                </a>
+                <h1 class="text-lg font-black text-black uppercase tracking-wider leading-tight">
+                    {{ $subbab->judul_subbab }}
+                </h1>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+                    {{ $subbab->bab->judul_bab ?? '' }}
+                </p>
             </div>
-            <div class="w-full bg-white border-2 border-black rounded-full h-4 overflow-hidden">
-                <div id="progressBar" class="bg-green-500 h-full rounded-full transition-all duration-300" style="width: {{ $progressPercent }}%;"></div>
-            </div>
+            <span class="text-xs font-black text-slate-400 uppercase tracking-widest" id="cardCounter">
+                Kartu 1 dari {{ $totalFlashcard }}
+            </span>
         </div>
 
-        {{-- main content --}}
-        <div class="flex flex-col items-center justify-center mb-12">
-            {{-- flip card --}}
-            <div class="w-full max-w-2xl mb-8">
-                <div id="flipCard" class="relative w-full h-64 cursor-pointer" style="perspective: 1000px;">
-                    <div class="relative w-full h-full transition-transform duration-500" id="cardInner" style="transform-style: preserve-3d;">
-                        
-                        {{-- kartu depan (pertanyaan) --}}
-                        <div class="absolute w-full h-full p-8 bg-white border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center" style="backface-visibility: hidden;">
-                            <div class="text-center">
-                                <p class="text-3xl text-black mb-4 font-jakarta">
-                                    <i data-lucide="circle-help" class="w-12 h-12 mx-auto"></i>
-                                </p>
-                                <p id="frontText" class="text-2xl font-bold text-black font-jakarta"></p>
-                            </div>
-                            <p class="mt-6 text-xs text-slate-500 font-bold font-jakarta">Klik untuk melihat jawaban</p>
-                        </div>
+        {{-- ===== CARD AREA ===== --}}
+        <div id="cardArea" class="flex-1 flex flex-col items-center justify-center px-8 py-6 overflow-hidden">
 
-                        {{-- kartu belakang (jawaban) --}}
-                        <div class="absolute w-full h-full p-8 bg-[#F4922A] border-2 border-black rounded-xl shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center" style="backface-visibility: hidden; transform: rotateY(180deg);">
-                            <div class="text-center">
-                                <p class="text-3xl text-white mb-4 font-jakarta">
-                                    <i data-lucide="check-circle" class="w-12 h-12 mx-auto"></i>
-                                </p>
-                                <p id="backText" class="text-2xl font-bold text-white font-jakarta"></p>
-                            </div>
-                        </div>
+            {{-- Flip card — ukuran besar memenuhi ruang --}}
+            <div class="card-flip w-full max-w-3xl mb-6" style="height: 340px;">
+                <div class="card-inner" id="cardInner">
 
+                    {{-- Depan: pertanyaan --}}
+                    <div class="card-face bg-white border-2 border-black shadow-[6px_6px_0px_#000] rounded-2xl flex flex-col items-center justify-center p-10 cursor-pointer"
+                         onclick="flipCard()">
+                        <i data-lucide="help-circle" class="w-10 h-10 text-slate-200 mb-5 flex-shrink-0"></i>
+                        <p id="frontText" class="text-2xl font-black text-black text-center leading-snug max-w-lg"></p>
+                        <p class="mt-6 text-[10px] font-black text-slate-300 uppercase tracking-widest">Klik kartu untuk lihat jawaban</p>
                     </div>
+
+                    {{-- Belakang: jawaban --}}
+                    <div class="card-back-face card-face bg-[#1E3A5F] border-2 border-black shadow-[6px_6px_0px_#000] rounded-2xl flex flex-col items-center justify-center p-10 cursor-pointer"
+                         onclick="flipCard()">
+                        <i data-lucide="check-circle" class="w-10 h-10 text-[#F4922A] mb-5 flex-shrink-0"></i>
+                        <p id="backText" class="text-2xl font-black text-white text-center leading-snug max-w-lg"></p>
+                        <p class="mt-6 text-[10px] font-black text-white/30 uppercase tracking-widest">Klik untuk balik kembali</p>
+                    </div>
+
                 </div>
             </div>
 
-            {{-- counter --}}
-            <div class="mb-8 text-center">
-                <p class="text-lg font-black text-black font-jakarta">
-                    Kartu <span id="cardNumber">1</span> dari {{ $totalFlashcard }}
-                </p>
-            </div>
-
-            {{-- tombol navigasi --}}
-            <div class="flex gap-4 mb-8">
-                <button onclick="previousCard()" 
-                        id="prevBtn"
-                        class="px-6 py-2 text-lg font-bold text-black bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
-                    <i data-lucide="arrow-left" class="w-5 h-5 inline-block mb-1"></i> Sebelumnya
+            {{-- Tombol Paham / Ulangi — muncul hanya setelah dibalik --}}
+            <div id="actionButtons" class="hidden w-full max-w-3xl grid grid-cols-2 gap-4 mb-4">
+                <button onclick="markAndNext('belum')"
+                        class="py-4 text-sm font-black text-black bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    Ulangi Nanti
                 </button>
-                <button onclick="nextCard()" 
-                        id="nextBtn"
-                        class="px-6 py-2 text-lg font-bold text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition disabled:opacity-50 disabled:cursor-not-allowed font-jakarta">
-                    Selanjutnya <i data-lucide="arrow-right" class="w-5 h-5 inline-block mb-1"></i>
+                <button onclick="markAndNext('sudah')"
+                        class="py-4 text-sm font-black text-white bg-[#F4922A] border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    Sudah Paham
                 </button>
             </div>
 
-            {{-- tombol sudah paham --}}
-            <div class="mb-6">
-                <button type="button" 
-                        id="sudahPahamBtn"
-                        onclick="toggleSudahPaham()"
-                        class="px-8 py-3 text-lg font-bold transition-all duration-300 rounded-xl font-jakarta">
-                    Belum Paham
+            {{-- Navigasi lewati --}}
+            <div class="w-full max-w-3xl flex gap-3">
+                <button onclick="prevCard()" id="prevBtn"
+                        class="flex-1 py-3 text-sm font-bold text-black bg-white border-2 border-black rounded-xl shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Sebelumnya
+                </button>
+                <button onclick="nextCard()" id="nextBtn"
+                        class="flex-1 py-3 text-sm font-bold text-black bg-white border-2 border-black rounded-xl shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                    Lewati <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
             </div>
 
-            {{-- tombol reset semua --}}
-            <form action="{{ route('user.flashcard.reset', $subbab->id_subbab) }}" method="POST" class="w-full max-w-sm">
+        </div>
+
+        {{-- ===== LAYAR SELESAI ===== --}}
+        <div id="doneScreen" class="hidden flex-1 flex flex-col items-center justify-center px-8 py-6">
+
+            <div class="w-full max-w-lg bg-white border-2 border-black shadow-[6px_6px_0px_#000] rounded-2xl p-10 text-center mb-5">
+
+                {{-- Icon hasil --}}
+                <div class="w-16 h-16 rounded-2xl border-2 border-black bg-[#F4922A] flex items-center justify-center mx-auto mb-5 shadow-[3px_3px_0px_#000]">
+                    <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                </div>
+
+                <h2 class="text-2xl font-black text-black mb-2 uppercase tracking-wider">Sesi Selesai</h2>
+                <p class="text-sm font-bold text-slate-500 mb-8 leading-relaxed" id="doneMessage"></p>
+
+                <div class="space-y-3" id="doneActions"></div>
+            </div>
+
+            <form action="{{ route('user.flashcard.reset', $subbab->id_subbab) }}" method="POST">
                 @csrf
-                <button type="submit" 
-                        class="w-full px-6 py-2 text-lg font-bold text-red-600 bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
-                    Reset Semua Progres
+                <button type="submit"
+                        class="text-xs font-black text-slate-400 hover:text-red-500 uppercase tracking-widest transition flex items-center gap-1.5">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Reset semua &amp; mulai ulang
                 </button>
             </form>
+
         </div>
 
     </main>
 </div>
 
 <script>
-const flashcards = @json($flashcards);
-let currentIndex = 0;
-let flipped = false;
+const FLASHCARDS = @json($flashcards);
+const CSRF       = '{{ csrf_token() }}';
+const ROUTE_DONE = "{{ route('user.flashcard.done', ':id') }}";
+const BACK_URL   = "{{ route('user.buku.show', $subbab->bab->id_buku) }}";
 
-document.addEventListener('DOMContentLoaded', function() {
-    showCard(0);
-});
+let currentIndex = 0;
+let isFlipped    = false;
+const sesiPilihan = {};
 
 function showCard(index) {
     currentIndex = index;
-    const card = flashcards[index];
-    
-    // Update text
-    document.getElementById('frontText').textContent = card.pertanyaan;
-    document.getElementById('backText').textContent = card.jawaban;
-    document.getElementById('cardNumber').textContent = index + 1;
-    
-    // Reset flip
-    flipped = false;
-    document.getElementById('cardInner').style.transform = 'rotateY(0deg)';
-    
-    // Update button states
-    document.getElementById('prevBtn').disabled = index === 0;
-    document.getElementById('nextBtn').disabled = index === flashcards.length - 1;
-    
-    // Update sudah paham button
-    updatePahamButtonState(card.user_status === 'sudah');
-}
+    isFlipped    = false;
 
-function updatePahamButtonState(isSudah) {
-    const btn = document.getElementById('sudahPahamBtn');
-    if (isSudah) {
-        btn.innerHTML = '<i data-lucide="check" class="w-5 h-5 inline-block mb-1"></i> Sudah Paham';
-        btn.className = 'px-8 py-3 text-lg font-bold text-white bg-green-600 border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all font-jakarta';
-    } else {
-        btn.innerHTML = 'Belum Paham';
-        btn.className = 'px-8 py-3 text-lg font-bold text-black bg-white border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all font-jakarta';
-    }
+    const card = FLASHCARDS[index];
+    document.getElementById('frontText').textContent  = card.pertanyaan;
+    document.getElementById('backText').textContent   = card.jawaban;
+    document.getElementById('cardCounter').textContent = `Kartu ${index + 1} dari ${FLASHCARDS.length}`;
+
+    document.getElementById('cardInner').classList.remove('flipped');
+
+    const ab = document.getElementById('actionButtons');
+    ab.classList.add('hidden');
+    ab.classList.remove('grid');
+
+    document.getElementById('prevBtn').disabled = index === 0;
+    document.getElementById('nextBtn').disabled = index === FLASHCARDS.length - 1;
+
     if (window.lucide) lucide.createIcons();
 }
 
 function flipCard() {
-    if (flipped) {
-        document.getElementById('cardInner').style.transform = 'rotateY(0deg)';
+    isFlipped = !isFlipped;
+    document.getElementById('cardInner').classList.toggle('flipped', isFlipped);
+
+    const ab = document.getElementById('actionButtons');
+    if (isFlipped) {
+        ab.classList.remove('hidden');
+        ab.classList.add('grid');
     } else {
-        document.getElementById('cardInner').style.transform = 'rotateY(180deg)';
+        ab.classList.add('hidden');
+        ab.classList.remove('grid');
     }
-    flipped = !flipped;
+    if (window.lucide) lucide.createIcons();
 }
 
-function previousCard() {
-    if (currentIndex > 0) {
-        showCard(currentIndex - 1);
-    }
-}
+async function markAndNext(status) {
+    const card = FLASHCARDS[currentIndex];
+    sesiPilihan[card.id_flashcard] = status;
 
-function nextCard() {
-    if (currentIndex < flashcards.length - 1) {
-        showCard(currentIndex + 1);
-    }
-}
-
-async function toggleSudahPaham() {
-    const card = flashcards[currentIndex];
-    const url = "{{ route('user.flashcard.done', ':id') }}".replace(':id', card.id_flashcard);
-    
+    const url = ROUTE_DONE.replace(':id', card.id_flashcard);
     try {
-        const response = await fetch(url, {
+        await fetch(url, {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'X-CSRF-TOKEN': CSRF,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             }
         });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            // Update local state
-            card.user_status = data.status;
-            
-            // Update UI
-            updatePahamButtonState(data.status === 'sudah');
-            
-            // Update progress bar & text
-            document.getElementById('progressBar').style.width = data.progress + '%';
-            document.getElementById('progressText').textContent = `${data.sudah_dikerjakan} / ${data.total} selesai`;
-            
-            // Auto-next after short delay if marked as done
-            if (data.status === 'sudah' && currentIndex < flashcards.length - 1) {
-                setTimeout(nextCard, 500);
-            }
-        }
-    } catch (error) {
-        console.error('Error toggling flashcard status:', error);
+    } catch(e) {}
+
+    if (currentIndex < FLASHCARDS.length - 1) {
+        showCard(currentIndex + 1);
+    } else {
+        showDoneScreen();
     }
 }
 
-// Flip card on click
-document.getElementById('flipCard').addEventListener('click', flipCard);
+function prevCard() { if (currentIndex > 0) showCard(currentIndex - 1); }
+function nextCard() { if (currentIndex < FLASHCARDS.length - 1) showCard(currentIndex + 1); }
 
-if (typeof lucide !== 'undefined') lucide.createIcons();
+function showDoneScreen() {
+    document.getElementById('cardArea').classList.add('hidden');
+    document.getElementById('doneScreen').classList.remove('hidden');
+    document.getElementById('doneScreen').classList.add('flex');
+
+    const sudahCount = Object.values(sesiPilihan).filter(v => v === 'sudah').length;
+    const belumCount = Object.values(sesiPilihan).filter(v => v === 'belum').length;
+
+    let msg = sudahCount === FLASHCARDS.length
+        ? `Seluruh ${FLASHCARDS.length} flashcard berhasil kamu kuasai dalam sesi ini.`
+        : `${sudahCount} dari ${FLASHCARDS.length} flashcard sudah kamu pahami.` +
+          (belumCount > 0 ? ` ${belumCount} kartu masih perlu diulang.` : '');
+
+    document.getElementById('doneMessage').textContent = msg;
+
+    const actEl = document.getElementById('doneActions');
+    actEl.innerHTML = '';
+
+    if (belumCount > 0) {
+        const btn = document.createElement('button');
+        btn.className = 'w-full py-4 text-sm font-black text-white bg-[#F4922A] border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all flex items-center justify-center gap-2';
+        btn.innerHTML = `<span>Ulangi ${belumCount} Kartu yang Belum Paham</span>`;
+        btn.onclick = startRepeat;
+        actEl.appendChild(btn);
+    }
+
+    const backBtn = document.createElement('a');
+    backBtn.href      = BACK_URL;
+    backBtn.className = 'block w-full py-4 text-sm font-black text-black bg-white border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all text-center';
+    backBtn.textContent = 'Kembali ke Buku';
+    actEl.appendChild(backBtn);
+
+    if (window.lucide) lucide.createIcons();
+}
+
+function startRepeat() {
+    const belumIds = Object.entries(sesiPilihan)
+        .filter(([,v]) => v === 'belum')
+        .map(([id]) => parseInt(id));
+
+    belumIds.forEach(id => delete sesiPilihan[id]);
+
+    const repeatCards = FLASHCARDS.filter(fc => belumIds.includes(fc.id_flashcard));
+    FLASHCARDS.length = 0;
+    repeatCards.forEach(fc => FLASHCARDS.push(fc));
+
+    document.getElementById('doneScreen').classList.add('hidden');
+    document.getElementById('doneScreen').classList.remove('flex');
+    document.getElementById('cardArea').classList.remove('hidden');
+
+    showCard(0);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    showCard(0);
+    if (window.lucide) lucide.createIcons();
+});
 </script>
 </body>
 </html>

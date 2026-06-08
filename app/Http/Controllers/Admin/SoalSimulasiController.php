@@ -28,7 +28,7 @@ class SoalSimulasiController extends Controller
             'opsi_b' => 'required|string',
             'opsi_c' => 'required|string',
             'opsi_d' => 'required|string',
-            'kunci_jawaban' => 'required|in:a,b,c,d',
+            'kunci_jawaban' => 'required|in:A,B,C,D',
             'pembahasan' => 'nullable|string',
         ]);
 
@@ -59,7 +59,7 @@ class SoalSimulasiController extends Controller
             'opsi_b' => 'required|string',
             'opsi_c' => 'required|string',
             'opsi_d' => 'required|string',
-            'kunci_jawaban' => 'required|in:a,b,c,d',
+            'kunci_jawaban' => 'required|in:A,B,C,D',
             'pembahasan' => 'nullable|string',
         ]);
 

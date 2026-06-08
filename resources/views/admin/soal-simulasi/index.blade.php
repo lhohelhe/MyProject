@@ -3,248 +3,153 @@
 @section('title', 'Kelola Soal Simulasi - SahabatBuku')
 
 @section('content')
-        <h1 class="mb-6 text-3xl font-extrabold sm:text-3xl lg:text-4xl font-jakarta lg:mb-10">
-            Kelola Soal — {{ $simulasi->judul_simulasi }}
-        </h1>
+<div class="max-w-5xl mx-auto">
 
-        <!-- Info Soal -->
-        <div class="p-4 mb-8 bg-white shadow-md rounded-xl lg:p-4">
-            <p class="text-xl font-semibold text-gray-800 font-jakarta">
-                Total Soal: <span class="ml-2">{{ $soal->total() }}</span>
-            </p>
-        </div>
+    <h1 class="mb-2 text-2xl font-black text-black uppercase tracking-wider font-jakarta">
+        Kelola Soal
+    </h1>
+    <p class="text-sm font-bold text-[#F4922A] mb-6">{{ $simulasi->judul_simulasi }}</p>
 
-        <!-- Form Tambah Soal -->
-        <div class="p-6 mb-8 bg-white shadow-md rounded-2xl sm:p-8">
-            <h2 class="mb-6 text-2xl font-bold text-gray-800 font-jakarta">Tambah Soal Baru</h2>
-            
-            <form action="/admin/simulasi/{{ $simulasi->id_simulasi }}/soal" method="POST" class="space-y-6">
-                @csrf
-                <input type="hidden" name="id_simulasi" value="{{ $simulasi->id_simulasi }}">
+    {{-- Stat bar --}}
+    <div class="flex items-center p-4 mb-6 bg-white border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl font-jakarta">
+        <p class="text-sm font-black text-black uppercase tracking-wider">
+            Total Soal: <span class="text-[#F4922A]">{{ $soal->total() }}</span>
+        </p>
+    </div>
 
-                <!-- Pertanyaan -->
-                <div>
-                    <label for="pertanyaan" class="block mb-2 text-lg font-semibold text-gray-800 font-jakarta">
-                        Pertanyaan
-                    </label>
-                    <textarea id="pertanyaan" 
-                              name="pertanyaan" 
-                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-admin-orange"
-                              placeholder="Masukkan pertanyaan soal"
-                              rows="4"
-                              value="{{ old('pertanyaan') }}"
-                              required></textarea>
-                    @error('pertanyaan')
-                        <span class="block mt-2 text-sm text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
+    {{-- Form Tambah Soal --}}
+    <div class="p-6 mb-6 bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl sm:p-8">
+        <h2 class="mb-5 text-sm font-black text-black uppercase tracking-wider font-jakarta">Tambah Soal Baru</h2>
 
-                <!-- Grid Opsi -->
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <!-- Opsi A -->
-                    <div>
-                        <label for="opsi_a" class="block mb-2 text-lg font-semibold text-gray-800 font-jakarta">
-                            Opsi A
-                        </label>
-                        <input type="text" 
-                               id="opsi_a" 
-                               name="opsi_a" 
-                               class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-admin-orange"
-                               placeholder="Masukkan opsi A"
-                               value="{{ old('opsi_a') }}"
-                               required>
-                        @error('opsi_a')
-                            <span class="block mt-2 text-sm text-red-500">{{ $message }}</span>
-                        @enderror
-                    </div>
+        <form action="/admin/simulasi/{{ $simulasi->id_simulasi }}/soal" method="POST" class="space-y-5">
+            @csrf
+            <input type="hidden" name="id_simulasi" value="{{ $simulasi->id_simulasi }}">
 
-                    <!-- Opsi B -->
-                    <div>
-                        <label for="opsi_b" class="block mb-2 text-lg font-semibold text-gray-800 font-jakarta">
-                            Opsi B
-                        </label>
-                        <input type="text" 
-                               id="opsi_b" 
-                               name="opsi_b" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-admin-orange"
-                               placeholder="Masukkan opsi B"
-                               value="{{ old('opsi_b') }}"
-                               required>
-                        @error('opsi_b')
-                            <span class="block mt-2 text-sm text-red-500">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Opsi C -->
-                    <div>
-                        <label for="opsi_c" class="block mb-2 text-lg font-semibold text-gray-800 font-jakarta">
-                            Opsi C
-                        </label>
-                        <input type="text" 
-                               id="opsi_c" 
-                               name="opsi_c" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-admin-orange"
-                               placeholder="Masukkan opsi C"
-                               value="{{ old('opsi_c') }}"
-                               required>
-                        @error('opsi_c')
-                            <span class="block mt-2 text-sm text-red-500">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- Opsi D -->
-                    <div>
-                        <label for="opsi_d" class="block mb-2 text-lg font-semibold text-gray-800 font-jakarta">
-                            Opsi D
-                        </label>
-                        <input type="text" 
-                               id="opsi_d" 
-                               name="opsi_d" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-admin-orange"
-                               placeholder="Masukkan opsi D"
-                               value="{{ old('opsi_d') }}"
-                               required>
-                        @error('opsi_d')
-                            <span class="block mt-2 text-sm text-red-500">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Kunci Jawaban -->
-                <div>
-                    <label for="kunci_jawaban" class="block mb-2 text-lg font-semibold text-gray-800 font-jakarta">
-                        Kunci Jawaban
-                    </label>
-                    <select id="kunci_jawaban" 
-                            name="kunci_jawaban" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-admin-orange"
-                            required>
-                        <option value="">-- Pilih Jawaban Benar --</option>
-                        <option value="a" {{ old('kunci_jawaban') === 'a' ? 'selected' : '' }}>A</option>
-                        <option value="b" {{ old('kunci_jawaban') === 'b' ? 'selected' : '' }}>B</option>
-                        <option value="c" {{ old('kunci_jawaban') === 'c' ? 'selected' : '' }}>C</option>
-                        <option value="d" {{ old('kunci_jawaban') === 'd' ? 'selected' : '' }}>D</option>
-                    </select>
-                    @error('kunci_jawaban')
-                        <span class="block mt-2 text-sm text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Pembahasan -->
-                <div>
-                    <label for="pembahasan" class="block mb-2 text-lg font-semibold text-gray-800 font-jakarta">
-                        Pembahasan <span class="text-gray-500">(Opsional)</span>
-                    </label>
-                    <textarea id="pembahasan" 
-                              name="pembahasan" 
-                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-admin-orange"
-                              placeholder="Masukkan pembahasan soal"
-                              rows="4"
-                              value="{{ old('pembahasan') }}"></textarea>
-                    @error('pembahasan')
-                        <span class="block mt-2 text-sm text-red-500">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Tombol Submit -->
-                <div class="flex justify-end">
-                    <button type="submit" 
-                            class="px-6 py-3 text-lg font-bold text-black transition rounded-lg bg-admin-orange hover:bg-opacity-90 font-jakarta">
-                        Tambah Soal
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Daftar Soal -->
-        <div class="overflow-hidden bg-white shadow-md rounded-2xl">
-            <div class="p-6">
-                <h2 class="mb-6 text-2xl font-bold text-gray-800 font-jakarta">Daftar Soal</h2>
-
-                <!-- Header Tabel Desktop -->
-                <div class="hidden p-4 mb-4 rounded-lg bg-gray-50 lg:block">
-                    <div class="grid grid-cols-12 gap-4 text-lg font-semibold text-center font-jakarta">
-                        <div>No</div>
-                        <div class="col-span-7 text-left">Pertanyaan</div>
-                        <div>Kunci</div>
-                        <div class="col-span-3">Aksi</div>
-                    </div>
-                </div>
-
-                <!-- List Soal -->
-                @forelse($soal as $index => $s)
-                <div class="p-4 mb-4 border border-gray-200 rounded-lg">
-                    
-                    <!-- Mobile View -->
-                    <div class="space-y-3 lg:hidden">
-                        <div class="flex items-center justify-between">
-                            <span class="font-medium text-gray-600">No:</span>
-                            <span class="font-medium">{{ $loop->iteration }}</span>
-                        </div>
-                        <div class="flex items-start justify-between">
-                            <span class="font-medium text-gray-600">Pertanyaan:</span>
-                            <span class="max-w-xs text-right">{{ Str::limit($s->pertanyaan, 50) }}</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="font-medium text-gray-600">Kunci:</span>
-                            <span class="px-3 py-1 text-sm font-bold text-white rounded-full bg-admin-green">{{ strtoupper($s->kunci_jawaban) }}</span>
-                        </div>
-                        <div class="flex justify-center pt-4 mt-4 border-t">
-                            <form action="/admin/simulasi/soal/{{ $s->id_soal_simulasi }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus soal ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button class="transition-opacity hover:opacity-80">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                         class="text-admin-red fill-admin-red">
-                                        <path d="M3 6h18"/>
-                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Desktop View -->
-                    <div class="items-center hidden grid-cols-12 gap-4 text-center lg:grid font-jakarta">
-                        <div class="font-medium">{{ $loop->iteration }}</div>
-                        <div class="col-span-7 font-medium text-left">{{ Str::limit($s->pertanyaan, 50) }}</div>
-                        <div>
-                            <span class="px-3 py-1 text-sm font-bold text-white rounded-full bg-admin-green">{{ strtoupper($s->kunci_jawaban) }}</span>
-                        </div>
-                        <div class="flex justify-center col-span-3">
-                            <form action="/admin/simulasi/soal/{{ $s->id_soal_simulasi }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus soal ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button class="transition-opacity hover:opacity-80">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                         class="text-admin-red fill-admin-red">
-                                        <path d="M3 6h18"/>
-                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="p-8 text-center">
-                    <p class="text-lg text-gray-500 font-jakarta">Belum ada soal terdaftar</p>
-                </div>
-                @endforelse
+            <div>
+                <label class="block mb-1.5 text-xs font-black text-black uppercase tracking-wider font-jakarta">Pertanyaan</label>
+                <textarea name="pertanyaan" rows="3" required
+                          class="w-full px-4 py-3 text-sm border-2 border-black rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A]"
+                          placeholder="Masukkan pertanyaan soal">{{ old('pertanyaan') }}</textarea>
+                @error('pertanyaan')<p class="mt-1 text-xs font-bold text-red-500">{{ $message }}</p>@enderror
             </div>
+
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                @foreach(['a' => 'A', 'b' => 'B', 'c' => 'C', 'd' => 'D'] as $key => $label)
+                <div>
+                    <label class="block mb-1.5 text-xs font-black text-black uppercase tracking-wider font-jakarta">Opsi {{ $label }}</label>
+                    <input type="text" name="opsi_{{ $key }}" value="{{ old('opsi_' . $key) }}" required
+                           class="w-full px-4 py-3 text-sm border-2 border-black rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A]"
+                           placeholder="Masukkan opsi {{ $label }}">
+                    @error('opsi_' . $key)<p class="mt-1 text-xs font-bold text-red-500">{{ $message }}</p>@enderror
+                </div>
+                @endforeach
+            </div>
+
+            <div>
+                <label class="block mb-1.5 text-xs font-black text-black uppercase tracking-wider font-jakarta">Kunci Jawaban</label>
+                <select name="kunci_jawaban" required
+                        class="w-full px-4 py-3 text-sm border-2 border-black rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A]">
+                    <option value="">-- Pilih Jawaban Benar --</option>
+                    @foreach(['A','B','C','D'] as $opt)
+                    <option value="{{ $opt }}" {{ old('kunci_jawaban') === $opt ? 'selected' : '' }}>{{ $opt }}</option>
+                    @endforeach
+                </select>
+                @error('kunci_jawaban')<p class="mt-1 text-xs font-bold text-red-500">{{ $message }}</p>@enderror
+            </div>
+
+            <div>
+                <label class="block mb-1.5 text-xs font-black text-black uppercase tracking-wider font-jakarta">Pembahasan <span class="text-slate-400 normal-case font-bold">(opsional)</span></label>
+                <textarea name="pembahasan" rows="3"
+                          class="w-full px-4 py-3 text-sm border-2 border-black rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A]"
+                          placeholder="Masukkan pembahasan soal">{{ old('pembahasan') }}</textarea>
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit"
+                        class="px-6 py-3 text-sm font-black text-white bg-[#F4922A] border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all font-jakarta">
+                    Tambah Soal
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {{-- Daftar Soal --}}
+    <div class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl overflow-hidden">
+        <div class="px-6 py-4 border-b-2 border-black">
+            <h2 class="text-sm font-black text-black uppercase tracking-wider font-jakarta">Daftar Soal</h2>
         </div>
 
-        <!-- Tombol Kembali -->
-        <div class="mt-8 text-center">
-            <a href="{{ route('simulasi.index') }}" 
-               class="inline-block px-8 py-3 text-lg font-bold text-gray-700 transition bg-gray-300 rounded-lg hover:bg-opacity-90 font-jakarta">
-                Kembali
-            </a>
+        <div class="p-4 space-y-3">
+            {{-- Header desktop --}}
+            <div class="hidden p-3 bg-slate-50 border-2 border-black rounded-xl lg:block">
+                <div class="grid grid-cols-12 gap-4 text-xs font-black text-black uppercase tracking-wider text-center font-jakarta">
+                    <div>No</div>
+                    <div class="col-span-7 text-left">Pertanyaan</div>
+                    <div>Kunci</div>
+                    <div class="col-span-3">Aksi</div>
+                </div>
+            </div>
+
+            @forelse($soal as $s)
+            <div class="p-4 bg-white border-2 border-black rounded-xl font-jakarta">
+
+                {{-- Desktop --}}
+                <div class="items-center hidden grid-cols-12 gap-4 text-center lg:grid">
+                    <div class="font-black text-black">{{ $loop->iteration }}</div>
+                    <div class="col-span-7 font-bold text-black text-left text-sm">{{ Str::limit($s->pertanyaan, 80) }}</div>
+                    <div>
+                        <span class="w-7 h-7 inline-flex items-center justify-center font-black text-white bg-[#F4922A] border-2 border-black rounded-lg text-xs">
+                            {{ strtoupper($s->kunci_jawaban) }}
+                        </span>
+                    </div>
+                    <div class="col-span-3 flex justify-center">
+                        <form action="/admin/simulasi/soal/{{ $s->id_soal }}" method="POST"
+                              onsubmit="return confirm('Hapus soal ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    class="px-3 py-1.5 text-xs font-black text-white bg-red-500 border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                                Hapus
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                {{-- Mobile --}}
+                <div class="space-y-2 lg:hidden">
+                    <p class="text-sm font-bold text-black">{{ Str::limit($s->pertanyaan, 80) }}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-black text-slate-400 uppercase tracking-wider">Kunci:</span>
+                        <span class="w-6 h-6 inline-flex items-center justify-center font-black text-white bg-[#F4922A] border-2 border-black rounded-lg text-xs">
+                            {{ strtoupper($s->kunci_jawaban) }}
+                        </span>
+                    </div>
+                    <form action="/admin/simulasi/soal/{{ $s->id_soal }}" method="POST"
+                          onsubmit="return confirm('Hapus soal ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="w-full py-2 text-xs font-black text-white bg-red-500 border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                            Hapus
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+            @empty
+            <div class="p-8 text-center">
+                <p class="font-bold text-slate-400 text-sm">Belum ada soal terdaftar</p>
+            </div>
+            @endforelse
         </div>
+    </div>
+
+    <div class="mt-6">
+        <a href="{{ route('simulasi.index') }}"
+           class="inline-block px-6 py-3 text-sm font-black text-black bg-white border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all font-jakarta">
+            ← Kembali ke Simulasi
+        </a>
+    </div>
+
+</div>
 @endsection

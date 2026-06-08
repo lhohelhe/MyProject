@@ -34,12 +34,16 @@ class MateriController extends Controller
 
         Materi::create([
             'judul_materi' => $request->judul_materi,
-            'isi' => $request->isi,
-            'gambar' => $gambar,
-            'id_subbab' => $request->id_subbab
+            'isi'          => $request->isi,
+            'gambar'       => $gambar,
+            'id_subbab'    => $request->id_subbab
         ]);
 
-        return redirect()->back();
+        if ($request->expectsJson()) {
+            return response()->json(['status' => 'success']);
+        }
+
+        return redirect()->route('materi.index')->with('success', 'Materi berhasil ditambahkan!');
     }
 
     // New endpoint to extract text from uploaded PDF
@@ -73,6 +77,12 @@ class MateriController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'judul_materi' => 'required|string|max:255',
+            'isi'          => 'required|string',
+            'gambar'       => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
         $materi = Materi::findOrFail($id);
 
         $gambar = $materi->gambar;
@@ -88,17 +98,15 @@ class MateriController extends Controller
             'gambar' => $gambar
         ]);
 
-        return redirect()->back();
+        return redirect()->route('materi.index')->with('success', 'Materi berhasil diperbarui!');
     }
 
 
     public function destroy($id)
     {
         $materi = Materi::findOrFail($id);
-
         $materi->delete();
-
-        return redirect()->back();
+        return redirect()->route('materi.index')->with('success', 'Materi berhasil dihapus!');
     }
 
 
@@ -107,7 +115,7 @@ class MateriController extends Controller
     */
     public function index()
     {
-        $materi = Materi::with('subbab.bab.buku')->paginate(15);
+        $materi = Materi::with('subab.bab.buku')->paginate(15);
         return view('admin.materi.index', compact('materi'));
     }
 

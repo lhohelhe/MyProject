@@ -4,8 +4,8 @@
 
 @section('content')
             <div class="w-full max-w-5xl mx-auto">
-                <div class="bg-white rounded-3xl shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] p-8 md:p-16 lg:p-20">
-                    <h1 class="mb-12 text-3xl font-normal text-center md:text-4xl lg:text-5xl md:mb-16 font-jakarta">
+                <div class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-8 md:p-16 lg:p-20">
+                    <h1 class="mb-12 text-3xl font-black text-black uppercase tracking-wider text-center md:text-4xl lg:text-5xl md:mb-16 font-jakarta">
                         Tambah Pengguna
                     </h1>
 
@@ -24,7 +24,7 @@
 
                         <!-- Foto Field -->
                         <div>
-                            <label class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">
+                            <label class="block mb-3 text-base font-bold text-black md:text-lg lg:text-xl md:mb-4 font-jakarta">
                                 Foto Profil (opsional)
                             </label>
                             <div class="flex items-center gap-6 mb-4">
@@ -41,21 +41,21 @@
 
                         <!-- Username Field -->
                         <div>
-                            <label for="name" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Username</label>
+                            <label for="name" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-xl md:mb-4 font-jakarta">Username</label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" required
                                 class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                         </div>
 
                         <!-- Email Field -->
                         <div>
-                            <label for="email" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Email</label>
+                            <label for="email" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-xl md:mb-4 font-jakarta">Email</label>
                             <input type="email" id="email" name="email" value="{{ old('email') }}" required
                                 class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                         </div>
 
                         <!-- Kelas Field -->
                         <div>
-                            <label for="kelas" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Kelas</label>
+                            <label for="kelas" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-xl md:mb-4 font-jakarta">Kelas</label>
                             <select id="kelas" name="kelas" class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta">
                                 <option value="">-- Pilih Kelas --</option>
                                 <option value="10" {{ old('kelas') == '10' ? 'selected' : '' }}>10</option>
@@ -66,14 +66,14 @@
 
                         <!-- Password Field -->
                         <div>
-                            <label for="password" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Buat Kata Sandi</label>
+                            <label for="password" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-xl md:mb-4 font-jakarta">Buat Kata Sandi</label>
                             <input type="text" id="password" name="password" required
                                 class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                         </div>
 
                         <!-- Role Field -->
                         <div>
-                            <label for="role" class="block mb-3 text-base md:text-lg lg:text-xl md:mb-4 font-jakarta">Role</label>
+                            <label for="role" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-xl md:mb-4 font-jakarta">Role</label>
                             <select id="role" name="role" class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta">
                                 <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>user</option>
                                 <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>admin</option>
@@ -82,10 +82,10 @@
 
                         <!-- Submit Buttons -->
                         <div class="flex gap-4 pt-6 md:pt-8">
-                            <a href="{{ route('dashboard-user.index') }}" class="flex-1 py-4 text-xl font-medium text-center text-white transition-all bg-gray-400 hover:bg-gray-500 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-jakarta">
+                            <a href="{{ route('dashboard-user.index') }}" class="flex-1 py-4 text-xl font-bold text-center text-black bg-white border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all md:text-2xl lg:text-3xl md:py-5 font-jakarta">
                                 Batal
                             </a>
-                            <button type="submit" class="flex-1 py-4 text-xl font-medium text-white transition-all bg-sahabat-orange hover:bg-opacity-90 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-jakarta">
+                            <button type="submit" class="flex-1 py-4 text-xl font-bold text-white bg-[#F4922A] border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all md:text-2xl lg:text-3xl md:py-5 font-jakarta">
                                 Lanjut
                             </button>
                         </div>

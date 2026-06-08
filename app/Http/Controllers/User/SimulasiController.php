@@ -80,8 +80,20 @@ class SimulasiController extends Controller
 
         $user        = Auth::user();
         $id_simulasi = $request->id_simulasi;
-        $soal        = SoalSimulasi::where('id_simulasi', $id_simulasi)->get();
-        $totalSoal   = $soal->count();
+
+        // Guard: cek apakah sudah submit hari ini (cegah double submit dari dua tab)
+        $sudahHariIni = \App\Models\HasilSimulasi::where('user_id', $user->id)
+            ->where('id_simulasi', $id_simulasi)
+            ->whereDate('created_at', \Carbon\Carbon::today())
+            ->exists();
+
+        if ($sudahHariIni) {
+            return redirect()->route('user.simulasi.index')
+                             ->with('info', 'Kamu sudah mengerjakan simulasi ini hari ini.');
+        }
+
+        $soal      = SoalSimulasi::where('id_simulasi', $id_simulasi)->get();
+        $totalSoal = $soal->count();
 
         $jumlahBenar  = 0;
         $jumlahSalah  = 0;

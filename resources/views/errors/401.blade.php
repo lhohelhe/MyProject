@@ -1,0 +1,5 @@
+@extends('errors.layout')
+@section('title', 'Belum Masuk')
+@section('code', '401')
+@section('heading', 'Perlu Masuk Terlebih Dahulu')
+@section('message', 'Kamu harus masuk ke akun SahabatBuku untuk mengakses halaman ini.')

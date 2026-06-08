@@ -4,8 +4,8 @@
 
 @section('content')
             <div class="w-full max-w-2xl mx-auto">
-                <div class="bg-white rounded-3xl shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] p-8 md:p-16 lg:p-20">
-                    <h1 class="mb-10 text-2xl font-bold text-center md:text-2xl lg:text-4xl md:mb-10 font-jakarta">
+                <div class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-8 md:p-16 lg:p-20">
+                    <h1 class="mb-10 text-2xl font-black text-black uppercase tracking-wider text-center md:text-2xl lg:text-4xl md:mb-10 font-jakarta">
                         Edit Pengguna
                     </h1>
 
@@ -25,12 +25,12 @@
 
                         <!-- Foto Field -->
                         <div>
-                            <label class="block mb-3 text-base md:text-lg lg:text-l md:mb-4 font-jakarta">
+                            <label class="block mb-3 text-base font-bold text-black md:text-lg lg:text-l md:mb-4 font-jakarta">
                                 Foto Profil
                             </label>
                             <div class="flex items-center gap-4 mb-4">
                                 @if($user->foto)
-                                    <img src="{{ asset('storage/' . $user->foto) }}" id="foto-preview" class="object-cover w-40 h-40 border-2 border-gray-200 rounded-full">
+                                    <img src="{{ asset('storage/' . $user->foto) }}" id="foto-preview" class="object-cover w-40 h-40 border-2 border-black rounded-full">
                                 @else
                                     <div id="foto-preview-placeholder" class="flex items-center justify-center w-40 h-40 text-2xl text-gray-400 bg-gray-200 rounded-full">kosong</div>
                                 @endif
@@ -47,21 +47,21 @@
 
                         <!-- Username Field -->
                         <div>
-                            <label for="name" class="block mb-3 text-base md:text-lg lg:text-l md:mb-4 font-jakarta">Username</label>
+                            <label for="name" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-l md:mb-4 font-jakarta">Username</label>
                             <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required
                                 class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                         </div>
 
                         <!-- Email Field -->
                         <div>
-                            <label for="email" class="block mb-3 text-base md:text-lg lg:text-l md:mb-4 font-jakarta">Email</label>
+                            <label for="email" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-l md:mb-4 font-jakarta">Email</label>
                             <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required
                                 class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                         </div>
 
                         <!-- Kelas Field -->
                         <div>
-                            <label for="kelas" class="block mb-3 text-base md:text-lg lg:text-l md:mb-4 font-jakarta">Kelas</label>
+                            <label for="kelas" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-l md:mb-4 font-jakarta">Kelas</label>
                             <select id="kelas" name="kelas" class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta">
                                 <option value="">-- Pilih Kelas --</option>
                                 <option value="10" {{ old('kelas', $user->kelas) == '10' ? 'selected' : '' }}>10</option>
@@ -72,7 +72,7 @@
 
                         <!-- Password Field -->
                         <div>
-                            <label for="password" class="block mb-3 text-base md:text-lg lg:text-l md:mb-4 font-jakarta">
+                            <label for="password" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-l md:mb-4 font-jakarta">
                                 Kata Sandi Baru (kosongin aja kalau tidak diubah)
                             </label>
                             <input type="text" id="password" name="password" placeholder="kosongkan jika tidak ingin mengubah password"
@@ -81,7 +81,7 @@
 
                         <!-- Role Field -->
                         <div>
-                            <label for="role" class="block mb-3 text-base md:text-lg lg:text-l md:mb-4 font-jakarta">Role</label>
+                            <label for="role" class="block mb-3 text-base font-bold text-black md:text-lg lg:text-l md:mb-4 font-jakarta">Role</label>
                             <select id="role" name="role" class="w-full pb-2 text-base transition-colors bg-transparent border-0 border-b-2 border-black md:text-lg focus:outline-none focus:border-sahabat-blue font-jakarta">
                                 <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>user</option>
                                 <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>admin</option>
@@ -90,10 +90,10 @@
 
                         <!-- Submit Buttons -->
                         <div class="flex gap-4 pt-6 md:pt-8">
-                            <a href="{{ route('dashboard-user.index') }}" class="flex-1 py-4 font-medium text-center text-white transition-all bg-gray-400 text-l hover:bg-gray-500 md:text-2xl lg:text-3xl md:py-5 rounded-xl hover:shadow-lg font-jakarta">
+                            <a href="{{ route('dashboard-user.index') }}" class="flex-1 py-4 font-bold text-center text-black bg-white border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all text-l md:text-2xl lg:text-3xl md:py-5 font-jakarta">
                                 Batal
                             </a>
-                            <button type="submit" class="flex-1 py-4 font-medium text-white transition-all text-l bg-sahabat-orange hover:bg-opacity-90 md:text-2xl lg:text-3xl md:py-3 rounded-xl hover:shadow-lg font-jakarta">
+                            <button type="submit" class="flex-1 py-4 font-bold text-white bg-[#F4922A] border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all text-l md:text-2xl lg:text-3xl md:py-3 font-jakarta">
                                 Simpan
                             </button>
                         </div>

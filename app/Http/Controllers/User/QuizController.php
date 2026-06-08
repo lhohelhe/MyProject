@@ -75,23 +75,19 @@ class QuizController extends Controller
         // Bangun koleksi SoalQuiz-like objects agar view exam.blade kompatibel
         $soal = collect($rawSoal)->map(function ($item, $idx) use ($id_bab) {
             $s = new SoalQuiz();
-            $s->exists = false; // pastikan tidak dianggap persisted record
-            // Set PK sebagai string agar tidak di-cast ke integer (yang menghasilkan 0)
-            $s->setKeyType('string');
-            $s->setKeyName('id_soal_quiz');
-            $s->setAttribute('id_soal_quiz', 'ai_' . $id_bab . '_' . $idx);
-            $s->setAttribute('pertanyaan',    $item['pertanyaan'] ?? '');
-            $s->setAttribute('opsi_a',        $item['opsi']['A'] ?? '');
-            $s->setAttribute('opsi_b',        $item['opsi']['B'] ?? '');
-            $s->setAttribute('opsi_c',        $item['opsi']['C'] ?? '');
-            $s->setAttribute('opsi_d',        $item['opsi']['D'] ?? '');
-            $s->setAttribute('kunci_jawaban', strtolower($item['jawaban'] ?? 'a'));
-            $s->setAttribute('tingkat',       $item['tingkat'] ?? null);
-            $s->setAttribute('difficulty',    match(strtolower($item['tingkat'] ?? '')) {
+            $s->id_soal_quiz  = 'ai_' . $id_bab . '_' . $idx; // id virtual
+            $s->pertanyaan    = $item['pertanyaan'] ?? '';
+            $s->opsi_a        = $item['opsi']['A'] ?? '';
+            $s->opsi_b        = $item['opsi']['B'] ?? '';
+            $s->opsi_c        = $item['opsi']['C'] ?? '';
+            $s->opsi_d        = $item['opsi']['D'] ?? '';
+            $s->kunci_jawaban = strtolower($item['jawaban'] ?? 'a');
+            $s->tingkat       = $item['tingkat'] ?? null;
+            $s->difficulty    = match(strtolower($item['tingkat'] ?? '')) {
                 'sedang' => 'medium',
                 'sulit'  => 'hard',
                 default  => 'easy',
-            });
+            };
             return $s;
         });
 

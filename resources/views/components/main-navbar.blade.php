@@ -3,18 +3,6 @@
         <span class="px-3 py-1 text-xl font-black tracking-tight text-black border-2 border-black">SahabatBuku</span>
     </a>
 
-    {{-- Center tagline marquee (optional on mobile, hidden by default, flex on lg) --}}
-    <div class="hidden w-64 py-1 overflow-hidden border-l-2 border-r-2 border-black lg:flex">
-        <div class="marquee-inner">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-black whitespace-nowrap">
-                BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · &nbsp;
-            </span>
-            <span class="text-[10px] font-bold uppercase tracking-widest text-black whitespace-nowrap">
-                BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · BELAJAR RESMI · SIAP UJIAN · XP & LEVEL · &nbsp;
-            </span>
-        </div>
-    </div>
-
     <div class="flex items-center gap-3">
         <a href="{{ route('login') }}"
            data-turbo="true"

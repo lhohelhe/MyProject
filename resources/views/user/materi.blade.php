@@ -241,7 +241,7 @@
                             <div class="ml-5 border-l-2 border-slate-100 pl-3 space-y-0.5 mt-1">
                                 @foreach($subbab->materi as $m)
                                     @php $isActive = $m->id_materi === $materi->id_materi; @endphp
-                                    <a href="{{ route('user.materi.show', $m->id_materi) }}"
+                                    <a href="{{ route('user.materi.baca', $m->id_materi) }}"
                                        class="flex items-start gap-2 px-2 py-1.5 rounded-lg text-xs transition-all group
                                               {{ $isActive ? 'chapter-item-active' : 'text-slate-600 hover:text-[#F4922A] hover:bg-slate-50' }}">
                                         @if($isActive)
@@ -325,7 +325,7 @@
                 {{-- ─── Prev / Next Navigation ─── --}}
                 <div class="flex items-center gap-4 mt-10">
                     @if($prev)
-                        <a href="{{ route('user.materi.show', $prev->id_materi) }}"
+                        <a href="{{ route('user.materi.baca', $prev->id_materi) }}"
                            class="flex-1 flex items-center gap-3 px-5 py-4 bg-white rounded-2xl border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all group">
                             <div class="flex-shrink-0 w-8 h-8 rounded-xl bg-slate-100 border-2 border-black group-hover:bg-[#fff7ed] flex items-center justify-center transition">
                                 <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500 group-hover:text-[#F4922A]"></i>
@@ -340,7 +340,7 @@
                     @endif
 
                     @if($next)
-                        <a href="{{ route('user.materi.show', $next->id_materi) }}"
+                        <a href="{{ route('user.materi.baca', $next->id_materi) }}"
                            class="flex-1 flex items-center gap-3 px-5 py-4 bg-white rounded-2xl border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all group text-right">
                             <div class="min-w-0 flex-1">
                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Selanjutnya</p>
@@ -420,14 +420,14 @@
                 {{-- Flashcard shortcut --}}
                 <a href="{{ route('user.flashcard', $materi->id_subbab) }}"
                    class="flex items-center gap-3 w-full px-4 py-3 bg-white rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all group mb-3">
-                    <div class="w-8 h-8 rounded-lg bg-purple-50 border-2 border-black flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="book-marked" class="w-4 h-4 text-purple-500"></i>
+                    <div class="w-8 h-8 rounded-lg bg-orange-50 border-2 border-black flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="book-marked" class="w-4 h-4 text-[#F4922A]"></i>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-bold text-slate-700 group-hover:text-purple-600 transition">Flashcard</p>
+                        <p class="text-sm font-bold text-slate-700 group-hover:text-[#F4922A] transition">Flashcard</p>
                         <p class="text-[10px] text-slate-400">Hafalan istilah subbab ini</p>
                     </div>
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-300 group-hover:text-purple-400 transition"></i>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-300 group-hover:text-[#F4922A] transition"></i>
                 </a>
 
                 {{-- Quiz shortcut --}}
@@ -485,9 +485,8 @@
 
                 onMouseMove(e) {
                     if (this.popover.visible) {
-                        // Keep popover above cursor, anchored left or right of screen edge
                         const pad = 12;
-                        const pw  = 270; // approx max-width
+                        const pw  = 270;
                         let x = e.clientX + pad;
                         let y = e.clientY - 80;
 
@@ -524,7 +523,6 @@
 
     <script>
         document.addEventListener('alpine:init', () => {
-            // lucide re-run after Alpine hydrates DOM
         });
         window.addEventListener('load', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();

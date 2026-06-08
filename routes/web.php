@@ -37,16 +37,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Kelola buku
     Route::match(['get','put'], '/buku/{id}/konten', [BukuController::class, 'konten'])->name('buku.konten');
     Route::post('/buku/{id}/parse-pdf', [BukuController::class, 'parsePdf'])->name('buku.parse-pdf');
-    Route::post('/buku/{id}/parse-ai', [BukuController::class, 'parseAi'])->name('buku.parse-ai');
     Route::resource('/dashboard-buku', BukuController::class);
 
     // Kelola bab
     Route::get('/bab/by-buku/{id_buku}', [BabController::class, 'byBuku']);
-    Route::put('/bab/{id}', [BabController::class, 'updateTitle'])->name('bab.update-title');
+    Route::patch('/bab/{id}/title', [BabController::class, 'updateTitle'])->name('bab.update-title');
     Route::resource('/bab', BabController::class)->except(['show']);
 
     // Kelola subbab
     Route::get('/subab/by-bab/{id_bab}', [SubabController::class, 'byBab']);
+    Route::get('/subab', [SubabController::class, 'index'])->name('subab.index');
     Route::delete('/subbab/{id}', [SubabController::class, 'destroyWithMateri'])->name('subbab.destroy-with-materi');
     Route::resource('/subab', SubabController::class)->except(['show', 'index']);
 
@@ -64,6 +64,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Kelola quiz
     Route::get('/quiz', [QuizController::class, 'index'])->name('admin.quiz.index');
+    Route::get('/quiz/{id}', [QuizController::class, 'show'])->name('admin.quiz.show');
+    Route::delete('/quiz/{id}', [QuizController::class, 'destroy'])->name('admin.quiz.destroy');
     Route::post('/quiz/generate-ai', [QuizController::class, 'generateAi'])->name('admin.quiz.generateAi');
 
     // Admin - kelola saran
@@ -72,6 +74,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::delete('/saran/{id}', [App\Http\Controllers\SaranController::class, 'destroy'])->name('admin.saran.destroy');
     Route::get('/flashcard', [App\Http\Controllers\Admin\FlashcardController::class, 'index'])->name('admin.flashcard.index');
     Route::post('/flashcard/generate', [App\Http\Controllers\Admin\FlashcardController::class, 'generate'])->name('admin.flashcard.generate');
+    Route::get('/flashcard/{id}/edit', [App\Http\Controllers\Admin\FlashcardController::class, 'edit'])->name('admin.flashcard.edit');
+    Route::put('/flashcard/{id}', [App\Http\Controllers\Admin\FlashcardController::class, 'update'])->name('admin.flashcard.update');
     Route::delete('/flashcard/{id}', [App\Http\Controllers\Admin\FlashcardController::class, 'destroy'])->name('admin.flashcard.destroy');
     });
 

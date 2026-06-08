@@ -1,0 +1,5 @@
+@extends('errors.layout')
+@section('title', 'Sesi Kedaluwarsa')
+@section('code', '419')
+@section('heading', 'Sesi Kedaluwarsa')
+@section('message', 'Sesimu sudah habis atau token keamanan tidak valid. Kembali ke halaman sebelumnya dan coba lagi.')

@@ -26,11 +26,23 @@ class BabController extends Controller
     {
         $id_buku = $request->id_buku;
 
-        $bab = Bab::where('id_buku',$id_buku)
-                    ->orderBy('nomor_bab')
-                    ->get();
+        // Jika id_buku ada → tampilkan bab milik buku itu (dari shortcut Data Buku)
+        // Jika tidak → tampilkan SEMUA bab lintas buku (dari menu sidebar)
+        if ($id_buku) {
+            $buku = \App\Models\Buku::findOrFail($id_buku);
+            $bab  = Bab::with(['subab.materi'])
+                        ->where('id_buku', $id_buku)
+                        ->orderBy('nomor_bab')
+                        ->get();
+        } else {
+            $buku = null;
+            $bab  = Bab::with(['buku', 'subab.materi'])
+                        ->orderBy('id_buku')
+                        ->orderBy('nomor_bab')
+                        ->get();
+        }
 
-        return view('admin.bab.index',compact('bab','id_buku'));
+        return view('admin.bab.index', compact('bab', 'id_buku', 'buku'));
     }
 
     public function create(Request $request)
@@ -43,9 +55,9 @@ class BabController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_buku' => 'required',
-            'nomor_bab' => 'required',
-            'judul_bab' => 'required'
+            'id_buku'   => 'required|exists:buku,id_buku',
+            'nomor_bab' => 'required|integer|min:1',
+            'judul_bab' => 'required|string|max:255',
         ]);
 
         Bab::create([
@@ -87,7 +99,12 @@ class BabController extends Controller
 
         $id_buku = $bab->id_buku;
 
-        $bab->delete();
+        \DB::transaction(function () use ($bab) {
+            $subbabIds = \DB::table('subbab')->where('id_bab', $bab->id_bab)->pluck('id_subbab');
+            \DB::table('materi')->whereIn('id_subbab', $subbabIds)->delete();
+            \DB::table('subbab')->where('id_bab', $bab->id_bab)->delete();
+            $bab->delete();
+        });
 
         return redirect()->route('bab.index',['id_buku'=>$id_buku, 'active_menu' => $request->active_menu]);
     }

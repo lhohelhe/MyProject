@@ -4,7 +4,7 @@
 
 @section('content')
         <div class="max-w-2xl mx-auto">
-            <h1 class="mb-8 text-3xl font-extrabold sm:text-3xl lg:text-4xl font-jakarta">
+            <h1 class="mb-8 text-3xl font-black text-black uppercase tracking-wider sm:text-3xl lg:text-4xl font-jakarta">
                 Edit Subbab
             </h1>
 
@@ -18,43 +18,43 @@
             </div>
             @endif
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8">
+            <div class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-6 sm:p-8">
                 <form method="POST" action="{{ route('subab.update', ['subab' => $subab->id_subbab, 'active_menu' => request()->input('active_menu')]) }}" class="space-y-6">
                     @csrf
                     @method('PUT')
 
                     <!-- Nomor Subbab Field -->
                     <div>
-                        <label for="nomor_subbab" class="block mb-2 text-sm font-semibold text-slate-700 font-jakarta">Nomor Subbab</label>
+                        <label for="nomor_subbab" class="block mb-2 text-sm font-bold text-black font-jakarta">Nomor Subbab</label>
                         <input 
                             type="text" 
                             id="nomor_subbab"
                             name="nomor_subbab" 
                             value="{{ old('nomor_subbab', $subab->nomor_subbab) }}"
                             required
-                            class="w-full px-4 py-3 border border-slate-200 rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A] focus:border-transparent"
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A] focus:border-transparent"
                         />
                     </div>
 
                     <!-- Judul Subbab Field -->
                     <div>
-                        <label for="judul_subbab" class="block mb-2 text-sm font-semibold text-slate-700 font-jakarta">Judul Subbab</label>
+                        <label for="judul_subbab" class="block mb-2 text-sm font-bold text-black font-jakarta">Judul Subbab</label>
                         <input 
                             type="text" 
                             id="judul_subbab"
                             name="judul_subbab" 
                             value="{{ old('judul_subbab', $subab->judul_subbab) }}"
                             required
-                            class="w-full px-4 py-3 border border-slate-200 rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A] focus:border-transparent"
+                            class="w-full px-4 py-3 border-2 border-black rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A] focus:border-transparent"
                         />
                     </div>
 
                     <!-- Action Buttons -->
                     <div class="flex gap-4 pt-6">
-                        <button type="submit" class="flex-1 py-3 text-lg font-bold text-white bg-admin-orange hover:bg-opacity-90 rounded-xl transition-all font-jakarta">
+                        <button type="submit" class="flex-1 py-3 text-lg font-bold text-white bg-[#F4922A] border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all font-jakarta">
                             Simpan
                         </button>
-                        <a href="{{ url()->previous() }}" class="flex-1 py-3 text-lg font-bold text-center text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all font-jakarta">
+                        <a href="{{ url()->previous() }}" class="flex-1 py-3 text-lg font-bold text-center text-black bg-white border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all font-jakarta">
                             Batal
                         </a>
                     </div>

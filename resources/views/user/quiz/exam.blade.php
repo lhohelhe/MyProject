@@ -32,10 +32,44 @@
                 {{ $difficultyLabel }}
             </span>
         </div>
-        
-        {{-- timer --}}
-        <div class="font-mono text-3xl font-black text-black" id="timer">
-            10:00
+
+        <div class="flex items-center gap-4">
+            {{-- Tombol Keluar --}}
+            <button type="button" onclick="showExitModal()"
+                    class="flex items-center gap-1.5 px-3 py-2 text-xs font-black text-black bg-white border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                Keluar
+            </button>
+            {{-- timer --}}
+            <div class="font-mono text-3xl font-black text-black" id="timer">
+                10:00
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Konfirmasi Keluar --}}
+    <div id="exitModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+        <div class="bg-white border-2 border-black shadow-[6px_6px_0px_#000] rounded-xl p-6 max-w-sm w-full mx-4">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-red-50 border-2 border-black rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="alert-triangle" class="w-5 h-5 text-red-500"></i>
+                </div>
+                <h3 class="text-base font-black text-black">Keluar dari Quiz?</h3>
+            </div>
+            <p class="text-sm font-bold text-slate-500 mb-6 leading-relaxed">
+                Progres quiz akan hilang. Jawaban yang sudah kamu isi tidak akan disimpan.
+                Kamu bisa kembali mengerjakan quiz ini kapan saja.
+            </p>
+            <div class="flex gap-3">
+                <button onclick="closeExitModal()"
+                        class="flex-1 py-2.5 text-sm font-black text-black bg-white border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                    Lanjutkan Quiz
+                </button>
+                <a href="{{ route('user.buku.show', $quiz->bab->id_buku ?? 0) }}"
+                   class="flex-1 py-2.5 text-sm font-black text-center text-white bg-red-500 border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                    Keluar
+                </a>
+            </div>
         </div>
     </div>
 
@@ -325,10 +359,18 @@ function autoSubmitQuiz() {
     submitQuiz();
 }
 
-// Close modal on escape
+function showExitModal() {
+    document.getElementById('exitModal').classList.remove('hidden');
+}
+
+function closeExitModal() {
+    document.getElementById('exitModal').classList.add('hidden');
+}
+
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeConfirmModal();
+        closeExitModal();
     }
 });
 

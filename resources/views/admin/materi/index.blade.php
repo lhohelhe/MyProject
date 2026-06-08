@@ -3,65 +3,116 @@
 @section('title', 'Data Materi - SahabatBuku')
 
 @section('content')
-    <h1 class="mb-6 text-3xl font-extrabold lg:text-4xl font-jakarta lg:mb-10">
-        Data Materi
-    </h1>
+<div class="max-w-5xl mx-auto">
 
-    <!-- Header -->
-    <div class="flex flex-col items-start justify-between gap-4 p-2 mb-6 bg-white shadow-md rounded-xl lg:flex-row lg:items-center">
-        <div class="text-2xl font-semibold font-jakarta">
-            Total Materi: <span id="total-materi">{{ $materi->total() }}</span>
+    {{-- Breadcrumb --}}
+    <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 mb-6 uppercase tracking-widest flex-wrap">
+        <a href="{{ route('dashboard-buku.index') }}" class="hover:text-[#F4922A] transition">Semua Buku</a>
+        <span>›</span>
+        <span class="text-[#F4922A]">Semua Materi</span>
+    </nav>
+
+    {{-- Header --}}
+    <div class="flex items-start justify-between mb-6 gap-4">
+        <div>
+            <h1 class="text-2xl font-black text-black font-jakarta">Data Materi</h1>
+            <p class="text-sm font-bold text-slate-500 mt-1">
+                Total {{ $materi->total() }} materi di seluruh buku
+            </p>
         </div>
         <a href="{{ route('materi.create') }}"
-           class="flex items-center gap-3 px-4 py-3 text-xl font-bold text-black bg-admin-orange rounded-xl hover:bg-opacity-90 font-jakarta">
-            <span>Tambah Materi</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 lg:w-8 lg:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14"/>
-            </svg>
+           class="flex-shrink-0 px-5 py-2.5 text-sm font-black text-white bg-[#F4922A] border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
+            + Tambah Materi
         </a>
     </div>
 
-    <!-- Header Tabel -->
-    <div class="hidden p-4 mb-4 bg-white shadow-md lg:block rounded-2xl">
-        <div class="grid grid-cols-5 gap-4 text-xl font-semibold text-center font-jakarta">
-            <div>Judul</div>
-            <div>Subbab</div>
-            <div>Bab</div>
-            <div>Buku</div>
-            <div>Aksi</div>
-        </div>
+    @if(session('success'))
+    <div class="px-4 py-3 mb-4 text-green-800 bg-green-100 border-2 border-green-400 rounded-xl font-jakarta text-sm font-bold">
+        ✓ {{ session('success') }}
     </div>
+    @endif
 
-    <!-- LIST DARI API -->
-    <div id="list-materi">
+    {{-- Materi list --}}
+    <div class="space-y-3">
         @forelse($materi as $item)
-        <div class="p-4 mb-4 bg-white shadow-md rounded-xl">
-            <div class="grid items-center grid-cols-5 gap-4 text-center font-jakarta">
-                <div class="text-left pl-2">{{ $item->judul_materi }}</div>
-                <div>{{ $item->subbab->nama ?? '-' }}</div>
-                <div>{{ $item->subbab->bab->nama ?? '-' }}</div>
-                <div>{{ $item->subbab->bab->buku->judul ?? '-' }}</div>
-                <div class="flex justify-center items-center gap-4 flex-wrap">
-                    <a href="{{ route('materi.edit', $item->id) }}" class="text-[#F4922A] hover:text-[#d37c1e] mr-3" title="Edit">
-                        <i data-lucide="edit-2" class="w-5 h-5 inline"></i>
+        @php
+            $panjangIsi = mb_strlen(strip_tags($item->isi ?? ''));
+            $preview    = Str::limit(strip_tags($item->isi ?? ''), 120);
+        @endphp
+        <div class="bg-white border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl overflow-hidden">
+
+            {{-- Header row --}}
+            <div class="flex items-start justify-between px-5 py-4 gap-4">
+                <div class="flex-1 min-w-0">
+                    {{-- Breadcrumb konteks --}}
+                    <div class="flex items-center gap-1.5 mb-2 flex-wrap">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider">
+                            {{ Str::limit($item->subab->bab->buku->judul_buku ?? '-', 25) }}
+                        </span>
+                        <span class="text-slate-300 text-[10px]">›</span>
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider">
+                            Bab {{ $item->subab->bab->nomor_bab ?? '-' }}
+                        </span>
+                        <span class="text-slate-300 text-[10px]">›</span>
+                        <span class="text-[10px] font-black text-[#F4922A] uppercase tracking-wider">
+                            {{ $item->subab->nomor_subbab ?? '' }} {{ Str::limit($item->subab->judul_subbab ?? '-', 20) }}
+                        </span>
+                    </div>
+
+                    {{-- Judul materi --}}
+                    <p class="font-black text-black text-sm">{{ $item->judul_materi }}</p>
+
+                    {{-- Info panjang konten --}}
+                    <div class="flex items-center gap-3 mt-1.5">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                            {{ number_format($panjangIsi) }} karakter
+                        </span>
+                        @if($item->gambar)
+                        <span class="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full">
+                            ⊞ Ada gambar
+                        </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <a href="{{ route('materi.edit', $item->id_materi) }}"
+                       class="px-3 py-1.5 text-xs font-bold text-black bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                        Edit
                     </a>
-                    <form action="{{ route('materi.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus materi ini?');">
+                    <form action="{{ route('materi.destroy', $item->id_materi) }}" method="POST" class="inline"
+                          onsubmit="return confirm('Hapus materi ini?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="text-red-600 hover:text-red-800" title="Hapus">
-                            <i data-lucide="trash-2" class="w-5 h-5 inline"></i>
+                        <button type="submit"
+                                class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                            Hapus
                         </button>
                     </form>
                 </div>
             </div>
+
+            {{-- Preview konten --}}
+            @if($preview)
+            <div class="px-5 py-3 bg-slate-50 border-t-2 border-black">
+                <p class="text-xs text-slate-500 leading-relaxed font-medium">{{ $preview }}</p>
+            </div>
+            @endif
+
         </div>
         @empty
-        <div class="p-8 text-center bg-white shadow-md rounded-2xl">
-            <p class="text-2xl text-gray-500 font-jakarta">Tidak ada materi.</p>
+        <div class="p-12 text-center bg-white border-2 border-black rounded-xl">
+            <p class="text-slate-400 font-bold text-sm">Belum ada materi tersimpan.</p>
         </div>
         @endforelse
+    </div>
 
+    {{-- Pagination --}}
+    @if($materi->hasPages())
+    <div class="mt-8">
         {{ $materi->links('pagination::tailwind') }}
     </div>
+    @endif
+
+</div>
 @endsection

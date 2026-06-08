@@ -3,372 +3,141 @@
 @section('title', 'Kelola Bab - SahabatBuku')
 
 @section('content')
-<div class="flex flex-col lg:flex-row gap-6 min-h-[calc(100vh-120px)]">
-    <!-- Sidebar Bab -->
-    <div class="w-full lg:w-96 bg-white border border-slate-200 p-5 rounded-2xl shadow-sm overflow-y-auto">
+<div class="max-w-5xl mx-auto">
 
-        <h2 class="text-lg font-semibold mb-4">
-            Struktur Buku
-        </h2>
+    {{-- Breadcrumb --}}
+    <nav class="flex items-center gap-2 text-xs font-bold text-slate-400 mb-6 uppercase tracking-widest">
+        <a href="{{ route('dashboard-buku.index') }}" class="hover:text-[#F4922A] transition">Semua Buku</a>
+        @if($buku)
+        <span>›</span>
+        <span class="text-black">{{ $buku->judul_buku }}</span>
+        <span>›</span>
+        <span class="text-[#F4922A]">Daftar Bab</span>
+        @else
+        <span>›</span>
+        <span class="text-[#F4922A]">Semua Bab</span>
+        @endif
+    </nav>
 
-        {{-- TAMBAH BAB --}}
-        <a
-            href="{{ route('bab.create',['id_buku'=>$id_buku, 'active_menu' => request()->input('active_menu')]) }}"
-            class="block mb-4 text-center bg-blue-600 text-white py-2 rounded text-sm hover:bg-blue-700"
-        >
+    {{-- Header --}}
+    <div class="flex items-start justify-between mb-6 gap-4">
+        <div>
+            <h1 class="text-2xl font-black text-black font-jakarta">
+                {{ $buku ? 'Kelola Bab' : 'Semua Bab' }}
+            </h1>
+            <p class="text-sm font-bold text-slate-500 mt-1">
+                @if($buku)
+                    Kelas {{ $buku->kelas }} · {{ $bab->count() }} bab tersedia
+                @else
+                    {{ $bab->count() }} bab dari seluruh buku · Gunakan shortcut di Data Buku untuk kelola per buku
+                @endif
+            </p>
+        </div>
+        @if($buku)
+        <a href="{{ route('bab.create', ['id_buku' => $id_buku, 'active_menu' => request()->input('active_menu')]) }}"
+           class="flex-shrink-0 px-5 py-2.5 text-sm font-black text-white bg-[#F4922A] border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
             + Tambah Bab
         </a>
-
-
-        {{-- LIST BAB --}}
-        @foreach($bab as $b)
-
-            <div class="mb-4 border rounded p-3 bg-gray-50">
-
-                {{-- HEADER BAB --}}
-                <div class="flex justify-between items-center">
-
-                    <div class="font-semibold">
-
-                        Bab {{ $b->nomor_bab }}  
-                        <br>
-                        <span class="text-sm text-gray-600">
-                            {{ $b->judul_bab }}
-                        </span>
-
-                    </div>
-
-                    <div class="flex items-center gap-1">
-                        <a
-                            href="{{ route('bab.edit',['bab' => $b->id_bab, 'active_menu' => request()->input('active_menu')]) }}"
-                            class="transition-opacity hover:opacity-80"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="text-admin-green fill-admin-green">
-                                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-                                <path d="m15 5 4 4"/>
-                            </svg>
-                        </a>
-
-                        <form
-                            action="{{ route('bab.destroy',$b->id_bab) }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method('DELETE')
-                            <button
-                                class="transition-opacity hover:opacity-80"
-                                onclick="return confirm('Hapus bab ini?')"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="text-admin-red fill-admin-red">
-                                    <path d="M3 6h18"/>
-                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-
-                </div>
-
-
-                {{-- TAMBAH SUBAB --}}
-                <a
-                    href="{{ route('subab.create',['id_bab'=>$b->id_bab, 'active_menu' => request()->input('active_menu')]) }}"
-                    class="text-xs text-blue-600 mt-2 inline-block font-semibold"
-                >
-                    + Tambah Subab
-                </a>
-
-
-                {{-- LIST SUBAB --}}
-                <ul class="mt-2 pl-4">
-
-                    @foreach($b->subab as $s)
-
-                        <li class="flex justify-between items-center text-sm py-1">
-
-                            <span class="mr-2">
-                                <a 
-                                href="#"
-                                class="subab-link block text-sm text-gray-700 hover:text-blue-600"
-                                data-id="{{ $s->id_subbab }}"
-                                >
-
-                                {{ $s->nomor_subbab }} {{ $s->judul_subbab }}
-
-                                </a>
-                            </span>
-
-                             <div class="flex items-center gap-1">
-                                <a
-                                    href="{{ route('subab.edit',['subab' => $s->id_subbab, 'active_menu' => request()->input('active_menu')]) }}"
-                                    class="transition-opacity hover:opacity-80"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                         class="text-admin-green fill-admin-green">
-                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-                                        <path d="m15 5 4 4"/>
-                                    </svg>
-                                </a>
-
-                                <form
-                                    action="{{ route('subab.destroy',$s->id_subbab) }}"
-                                    method="POST"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button
-                                        class="transition-opacity hover:opacity-80"
-                                        onclick="return confirm('Hapus subab?')"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                             class="text-admin-red fill-admin-red">
-                                            <path d="M3 6h18"/>
-                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-
-                        </li>
-
-                    @endforeach
-
-                </ul>
-
-            </div>
-
-        @endforeach
-
+        @endif
     </div>
-        {{-- KONTEN MATERI --}}
-        <div class="flex-1 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
 
-            <div class="flex items-center mb-3 justify-between">
-                <div>
-                    <h1 class="text-2xl font-bold">
-                    Materi Bab
-                    </h1>
-                    <p class="text-gray-600">
-                        Pilih bab di sidebar untuk melihat materi.
-                    </p>
-                </div>
-                    <button
-                    id="btnTambahMateri"
-                    class="bg-blue-600 text-white px-4 py-2 rounded text-sm"
-                    >
-                    + Tambah Materi
-                    </button>
+    @if(session('success'))
+    <div class="px-4 py-3 mb-4 text-green-800 bg-green-100 border-2 border-green-400 rounded-xl font-jakarta text-sm font-bold">
+        ✓ {{ session('success') }}
+    </div>
+    @endif
 
-            </div>
+    {{-- Bab cards --}}
+    <div class="space-y-4">
+        @forelse($bab as $b)
+        @php
+            $totalSubbab = $b->subab->count();
+            $totalMateri = $b->subab->sum(fn($s) => $s->materi->count());
+        @endphp
+        <div class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl overflow-hidden">
 
-            <div class="mt-6 bg-white rounded shadow p-6">
-
-                <div class="flex justify-between items-center mb-4 border-b pb-4">
-                    <h1 id="materiJudul" class="text-xl font-bold"></h1>
-                    <div id="materiActions" class="flex items-center gap-2 hidden">
-                        <!-- Edit Button -->
-                        <a id="editMateriBtn" href="#" class="transition-opacity hover:opacity-80">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="text-admin-green fill-admin-green">
-                                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-                                <path d="m15 5 4 4"/>
-                            </svg>
-                        </a>
-                        <!-- Delete Button -->
-                        <form id="deleteMateriForm" action="#" method="POST" onsubmit="return confirm('Yakin ingin menghapus materi ini?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="transition-opacity hover:opacity-80">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="text-admin-red fill-admin-red">
-                                    <path d="M3 6h18"/>
-                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                                </svg>
-                            </button>
-                        </form>
+            {{-- Bab header --}}
+            <div class="flex items-center justify-between px-5 py-4 border-b-2 border-black bg-slate-50">
+                <div class="flex items-center gap-4">
+                    <span class="w-10 h-10 flex items-center justify-center bg-[#F4922A] border-2 border-black text-white font-black text-sm rounded-lg flex-shrink-0">
+                        {{ $b->nomor_bab }}
+                    </span>
+                    <div>
+                        <p class="font-black text-black text-base">{{ $b->judul_bab }}</p>
+                        <div class="flex items-center gap-3 mt-1">
+                            @if(!$buku)
+                            <span class="text-[10px] font-black text-[#F4922A] uppercase tracking-wider">
+                                {{ $b->buku->judul_buku ?? '-' }}
+                            </span>
+                            <span class="text-slate-300">·</span>
+                            @endif
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                                {{ $totalSubbab }} subbab
+                            </span>
+                            <span class="text-slate-300">·</span>
+                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                                {{ $totalMateri }} materi
+                            </span>
+                        </div>
                     </div>
                 </div>
-
-                <div id="materiIsi" class="prose max-w-none"></div>
-                
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('subab.index', ['id_bab' => $b->id_bab]) }}"
+                       class="px-3 py-1.5 text-xs font-black text-black bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                        Lihat Subbab
+                    </a>
+                    <a href="{{ route('bab.edit', ['bab' => $b->id_bab, 'active_menu' => request()->input('active_menu')]) }}"
+                       class="px-3 py-1.5 text-xs font-bold text-[#F4922A] bg-white border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                        Edit
+                    </a>
+                    <form action="{{ route('bab.destroy', $b->id_bab) }}" method="POST"
+                          onsubmit="return confirm('Hapus Bab {{ $b->nomor_bab }} beserta semua subbab dan materinya?')">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="active_menu" value="{{ request()->input('active_menu') }}">
+                        <button type="submit"
+                                class="px-3 py-1.5 text-xs font-bold text-white bg-red-500 border-2 border-black rounded-lg shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                            Hapus
+                        </button>
+                    </form>
+                </div>
             </div>
+
+            {{-- Subbab preview --}}
+            @if($totalSubbab > 0)
+            <div class="px-5 py-3">
+                <div class="flex flex-wrap gap-2">
+                    @foreach($b->subab->take(5) as $s)
+                    <span class="px-2.5 py-1 text-[10px] font-bold text-slate-600 bg-slate-100 border border-slate-200 rounded-full">
+                        {{ $s->nomor_subbab }} {{ Str::limit($s->judul_subbab, 25) }}
+                    </span>
+                    @endforeach
+                    @if($totalSubbab > 5)
+                    <span class="px-2.5 py-1 text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 rounded-full">
+                        +{{ $totalSubbab - 5 }} lainnya
+                    </span>
+                    @endif
+                </div>
+            </div>
+            @else
+            <div class="px-5 py-3">
+                <p class="text-xs font-bold text-slate-400 italic">Belum ada subbab —
+                    <a href="{{ route('subab.create', ['id_bab' => $b->id_bab]) }}" class="text-[#F4922A] hover:underline">tambah sekarang</a>
+                </p>
+            </div>
+            @endif
 
         </div>
+        @empty
+        <div class="p-12 text-center bg-white border-2 border-black rounded-xl">
+            <p class="text-slate-400 font-bold text-sm mb-3">Buku ini belum memiliki bab.</p>
+            <a href="{{ route('bab.create', ['id_buku' => $id_buku]) }}"
+               class="inline-block px-5 py-2.5 text-sm font-black text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
+                + Tambah Bab Pertama
+            </a>
+        </div>
+        @endforelse
+    </div>
+
 </div>
-
-
-
-<script>
-const activeMenu = new URLSearchParams(window.location.search).get('active_menu') || 'bab';
-
-/* =========================
-   BAB
-========================= */
-
-const dropdown = document.getElementById('babDropdown');
-const textInfo = document.getElementById('babTerpilih');
-const editBtn = document.getElementById('editBab');
-const deleteBtn = document.getElementById('deleteBabBtn');
-const deleteForm = document.getElementById('deleteBabForm');
-
-if(dropdown){
-
-    dropdown.addEventListener('change', function(){
-
-        let id = this.value;
-        let text = this.options[this.selectedIndex].text;
-
-        textInfo.innerText = "Bab dipilih: " + text;
-
-        if(id){
-
-            editBtn.href = "/bab/" + id + "/edit";
-            deleteForm.action = "/bab/" + id;
-
-        }
-
-    });
-
-}
-
-if(deleteBtn){
-
-    deleteBtn.addEventListener('click', function(){
-
-        if(confirm('Yakin ingin menghapus bab ini?')){
-            deleteForm.submit();
-        }
-
-    });
-
-}
-
-
-/* =========================
-   SUBAB
-========================= */
-
-const subabDropdown = document.getElementById('subabDropdown');
-const editSubab = document.getElementById('editSubab');
-const deleteSubabBtn = document.getElementById('deleteSubabBtn');
-const deleteSubabForm = document.getElementById('deleteSubabForm');
-
-if(subabDropdown){
-
-    subabDropdown.addEventListener('change', function(){
-
-        let id = this.value;
-
-        if(id){
-
-            editSubab.href = "/subab/" + id + "/edit";
-            deleteSubabForm.action = "/subab/" + id;
-
-        }
-
-    });
-
-}
-
-if(deleteSubabBtn){
-
-    deleteSubabBtn.addEventListener('click', function(){
-
-        if(confirm('Yakin ingin menghapus subab ini?')){
-            deleteSubabForm.submit();
-        }
-
-    });
-
-}
-
-
-/* =========================
-   MATERI
-========================= */
-
-let subabAktif = null;
-
-
-/* klik subab → load materi */
-
-document.querySelectorAll('.subab-link').forEach(function(link){
-
-    link.addEventListener('click', function(e){
-
-        e.preventDefault();
-
-        let id = this.dataset.id;
-
-        subabAktif = id;
-
-        fetch('/materi/subab/' + id)
-
-        .then(res => res.json())
-
-        .then(data => {
-
-            if(data && data.id_materi) {
-                document.getElementById('materiJudul').innerText = data.judul_materi;
-                document.getElementById('materiIsi').innerHTML = data.isi;
-                document.getElementById('editMateriBtn').href = "/admin/materi/" + data.id_materi + "/edit?active_menu=" + activeMenu;
-                document.getElementById('deleteMateriForm').action = "/admin/materi/" + data.id_materi;
-                document.getElementById('materiActions').classList.remove('hidden');
-                document.getElementById('btnTambahMateri').classList.add('hidden');
-            } else {
-                document.getElementById('materiJudul').innerText = 'Belum ada materi';
-                document.getElementById('materiIsi').innerHTML = '<p class="text-slate-400">Silakan tambahkan materi untuk subab ini.</p>';
-                document.getElementById('materiActions').classList.add('hidden');
-                document.getElementById('btnTambahMateri').classList.remove('hidden');
-            }
-
-        });
-
-    });
-
-});
-
-
-/* tombol tambah materi */
-
-const btnTambahMateri = document.getElementById('btnTambahMateri');
-
-if(btnTambahMateri){
-
-    btnTambahMateri.addEventListener('click', function(){
-
-        if(!subabAktif){
-
-            alert('Pilih subab terlebih dahulu');
-            return;
-
-        }
-
-        window.location.href =
-            "/admin/materi/create?id_subbab=" + subabAktif + "&active_menu=" + activeMenu;
-
-    });
-
-}
-
-</script>
-
-
 @endsection

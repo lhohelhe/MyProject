@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller; 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
     class UserController extends Controller
 {
@@ -23,7 +24,7 @@ use Illuminate\Http\Request;
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:3',
+            'password' => 'required|string|min:8',
             'kelas'    => 'nullable|string|max:255',
             'role'     => 'required|in:user,admin',
             'foto'     => 'nullable|image|max:2048',
@@ -32,7 +33,7 @@ use Illuminate\Http\Request;
         $data = [
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'kelas'    => $request->kelas,
             'role'     => $request->role,
         ];
@@ -42,7 +43,7 @@ use Illuminate\Http\Request;
         }
 
         User::create($data);
-        return redirect('/dashboard-user')->with('success', 'user berhasil ditambahkan!');
+        return redirect()->route('dashboard-user.index')->with('success', 'User berhasil ditambahkan!');
     }
 
     public function show(User $dashboard_user)
@@ -67,8 +68,7 @@ use Illuminate\Http\Request;
             'kelas'    => 'nullable|string|max:10',
             'role'     => 'required|in:user,admin',
             'foto'     => 'nullable|image|max:2048',
-            // password tidak wajib diisi saat edit
-            'password' => 'nullable|string|min:3',
+            'password' => 'nullable|string|min:8',
         ]);
 
         $data = [
@@ -80,8 +80,7 @@ use Illuminate\Http\Request;
 
         // hanya update password kalau field password diisi
         if ($request->filled('password')) {
-            // simpan plain text, tidak di-hash
-            $data['password'] = $request->password;
+            $data['password'] = Hash::make($request->password);
         }
 
         if ($request->hasFile('foto')) {
@@ -97,6 +96,6 @@ use Illuminate\Http\Request;
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect('/dashboard-user')->with('success', 'User berhasil dihapus!');
+        return redirect()->route('dashboard-user.index')->with('success', 'User berhasil dihapus!');
     }
 }

@@ -4,9 +4,9 @@
 
 @section('content')
             <div class="max-w-6xl mx-auto">
-                <div class="bg-white rounded-3xl shadow-[0_0_8px_5px_rgba(0,0,0,0.25)] p-8 md:p-12">
+                <div class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-8 md:p-12">
 
-                    <h1 class="mb-10 text-2xl font-bold text-center md:text-3xl font-jakarta">
+                    <h1 class="mb-10 text-2xl font-black text-black uppercase tracking-wider text-center md:text-3xl font-jakarta">
                         Edit Buku
                     </h1>
 
@@ -15,14 +15,14 @@
                             
                             <!-- KIRI -->
                             <div class="flex flex-col items-center lg:col-span-5">
-                                <label class="block mb-4 text-base font-jakarta">Cover Buku Saat Ini</label>
+                                <label class="block mb-4 text-base font-bold text-black font-jakarta">Cover Buku Saat Ini</label>
                                 
                                 <img id="cover-preview"
-                                     class="object-cover w-full max-w-xs border border-gray-200 shadow-sm rounded-2xl"
+                                     class="object-cover w-full max-w-xs border-2 border-black rounded-xl"
                                      style="aspect-ratio: 717 / 1027; display:none;">
 
                                 <div id="cover-preview-placeholder"
-                                     class="flex items-center justify-center w-full max-w-xs text-gray-300 bg-gray-100 border border-gray-200 h-96 text-8xl rounded-2xl">
+                                     class="flex items-center justify-center w-full max-w-xs text-gray-300 bg-gray-100 border-2 border-black h-96 text-8xl rounded-xl">
                                     kosong
                                 </div>
 
@@ -41,13 +41,13 @@
                                 <div class="space-y-6">
 
                                 <div>
-                                    <label class="block mb-2 text-base font-jakarta">Judul Buku</label>
+                                    <label class="block mb-2 text-base font-bold text-black font-jakarta">Judul Buku</label>
                                     <input type="text" id="judul_buku"
                                            class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                                 </div>
 
                                 <div>
-                                    <label class="block mb-2 text-base font-jakarta">Kategori</label>
+                                    <label class="block mb-2 text-base font-bold text-black font-jakarta">Kategori</label>
                                     <select id="id_kategori" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta">
                                         <option value="" disabled selected>-- Pilih Kategori --</option>
                                     </select>
@@ -55,7 +55,7 @@
 
                                 <div class="grid grid-cols-2 gap-6">
                                     <div>
-                                        <label class="block mb-2 text-base font-jakarta">Kelas</label>
+                                        <label class="block mb-2 text-base font-bold text-black font-jakarta">Kelas</label>
                                         <select id="kelas"
                                                 class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta">
                                             <option value="10">10 (X)</option>
@@ -64,7 +64,7 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block mb-2 text-base font-jakarta">Semester</label>
+                                        <label class="block mb-2 text-base font-bold text-black font-jakarta">Semester</label>
                                         <select id="semester"
                                                 class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta">
                                             <option value="1">1</option>
@@ -74,38 +74,38 @@
                                 </div>
 
                                 <div>
-                                    <label class="block mb-2 text-base font-jakarta">Deskripsi</label>
+                                    <label class="block mb-2 text-base font-bold text-black font-jakarta">Deskripsi</label>
                                     <textarea id="deskripsi"
                                               placeholder="Tambahkan deskripsi buku..."
                                               rows="4"
-                                              class="w-full px-4 py-2 text-base border border-gray-300 rounded-lg font-jakarta focus:outline-none focus:ring-2 focus:ring-sahabat-blue"></textarea>
+                                              class="w-full px-4 py-2 text-base border-2 border-black rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-sahabat-blue"></textarea>
                                 </div>
                                 <div class="space-y-6">
                                     <div>
-                                        <label class="block mb-2 text-base font-jakarta">Penulis</label>
+                                        <label class="block mb-2 text-base font-bold text-black font-jakarta">Penulis</label>
                                         <input type="text" id="penulis" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                                     </div>
                                     <div>
-                                        <label class="block mb-2 text-base font-jakarta">Penerbit</label>
+                                        <label class="block mb-2 text-base font-bold text-black font-jakarta">Penerbit</label>
                                         <input type="text" id="penerbit" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                                     </div>
                                     <div>
-                                        <label class="block mb-2 text-base font-jakarta">ISBN</label>
+                                        <label class="block mb-2 text-base font-bold text-black font-jakarta">ISBN</label>
                                         <input type="text" id="isbn" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                                     </div>
                                     <div>
-                                        <label class="block mb-2 text-base font-jakarta">Edisi</label>
+                                        <label class="block mb-2 text-base font-bold text-black font-jakarta">Edisi</label>
                                         <input type="text" id="edisi" class="w-full pb-2 text-base bg-transparent border-0 border-b-2 border-black focus:outline-none focus:border-sahabat-blue font-jakarta"/>
                                     </div>
                                 </div>
 
                                 <div class="flex gap-4 pt-8">
                                     <a href="/admin/dashboard-buku" 
-                                       class="flex-1 py-4 text-center text-white bg-gray-400 hover:bg-gray-500 rounded-xl font-jakarta">
+                                       class="flex-1 py-4 text-center text-black bg-white border-2 border-black shadow-[2px_2px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all font-jakarta">
                                         Batal
                                     </a>
                                     <button type="submit" 
-                                            class="flex-1 py-4 text-white bg-sahabat-orange hover:bg-opacity-90 rounded-xl font-jakarta">
+                                            class="flex-1 py-4 text-white bg-[#F4922A] border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all font-jakarta">
                                         Simpan Perubahan
                                     </button>
                                 </div>

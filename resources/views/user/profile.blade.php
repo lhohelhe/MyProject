@@ -126,6 +126,55 @@
             </select>
         </div>
 
+        {{-- Weekly Streak Tracker --}}
+        <div class="w-full mb-6 p-4 bg-white border-2 border-black shadow-[3px_3px_0px_#000] rounded-xl">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="flame" class="w-4 h-4 text-[#F4922A]"></i>
+                    <span class="text-xs font-black text-black uppercase tracking-wider">Streak Minggu Ini</span>
+                </div>
+                <span class="text-xs font-black text-[#F4922A]">{{ $totalStreak }} hari terpanjang</span>
+            </div>
+
+            {{-- 7 kotak hari --}}
+            <div class="grid grid-cols-7 gap-1 mb-3">
+                @foreach($weeklyStreak as $hari)
+                <div class="flex flex-col items-center gap-1">
+                    <div class="w-full aspect-square rounded-lg border-2 flex items-center justify-center
+                        {{ $hari['aktif']
+                            ? 'bg-[#F4922A] border-black shadow-[2px_2px_0px_#000]'
+                            : ($hari['hari_ini']
+                                ? 'bg-orange-50 border-[#F4922A] border-dashed'
+                                : 'bg-slate-50 border-slate-200') }}">
+                        @if($hari['aktif'])
+                            <i data-lucide="flame" class="w-3 h-3 text-white"></i>
+                        @elseif($hari['hari_ini'])
+                            <div class="w-1.5 h-1.5 rounded-full bg-[#F4922A]"></div>
+                        @else
+                            <div class="w-1.5 h-1.5 rounded-full {{ $hari['lewat'] ? 'bg-slate-300' : 'bg-slate-200' }}"></div>
+                        @endif
+                    </div>
+                    <span class="text-[9px] font-black {{ $hari['hari_ini'] ? 'text-[#F4922A]' : 'text-slate-400' }} uppercase">
+                        {{ $hari['label'] }}
+                    </span>
+                </div>
+                @endforeach
+            </div>
+
+            {{-- Status hari ini --}}
+            @if($streakHariIni)
+                <div class="flex items-center gap-2 px-3 py-2 bg-green-50 border-2 border-green-400 rounded-lg">
+                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-600 flex-shrink-0"></i>
+                    <p class="text-[10px] font-black text-green-700">Keren! Terus pertahankan progresmu</p>
+                </div>
+            @else
+                <div class="flex items-center gap-2 px-3 py-2 bg-orange-50 border-2 border-[#F4922A] rounded-lg">
+                    <i data-lucide="alarm-clock" class="w-3.5 h-3.5 text-[#F4922A] flex-shrink-0"></i>
+                    <p class="text-[10px] font-black text-[#F4922A]">Belum belajar hari ini — jaga streakmu!</p>
+                </div>
+            @endif
+        </div>
+
         {{-- Simpan Button --}}
                 <button id="btn-simpan" onclick="simpanProfile()" class="hidden rounded-xl px-5 py-2 font-semibold text-sm text-white w-full mb-3 border-2 border-black shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all bg-[#F4922A]">
             Simpan

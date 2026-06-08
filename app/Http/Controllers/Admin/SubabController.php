@@ -22,6 +22,17 @@ class SubabController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Subbab dan materinya berhasil dihapus']);
     }
 
+    public function index(Request $request)
+    {
+        $id_bab = $request->id_bab;
+        $bab    = \App\Models\Bab::with(['buku', 'subab.materi'])->findOrFail($id_bab);
+        $subab  = \App\Models\Subab::with('materi')
+                                   ->where('id_bab', $id_bab)
+                                   ->orderBy('nomor_subbab')
+                                   ->get();
+        return view('admin.subab.index', compact('subab', 'id_bab', 'bab'));
+    }
+
     public function create(Request $request)
     {
         $id_bab = $request->id_bab;
@@ -33,9 +44,9 @@ class SubabController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_bab' => 'required',
-            'nomor_subbab' => 'required',
-            'judul_subbab' => 'required'
+            'id_bab'       => 'required|exists:bab,id_bab',
+            'nomor_subbab' => 'required|string|max:20',
+            'judul_subbab' => 'required|string|max:255',
         ]);
 
         Subab::create([
@@ -77,6 +88,8 @@ class SubabController extends Controller
     public function destroy($id)
     {
         $subab = Subab::findOrFail($id);
+
+        \DB::table('materi')->where('id_subbab', $id)->delete();
 
         $subab->delete();
 

@@ -29,7 +29,7 @@ class Quiz extends Model
         return $this->belongsTo(Bab::class, 'id_bab', 'id_bab');
     }
 
-    public function soalQuiz()
+    public function soal()
     {
         return $this->hasMany(SoalQuiz::class, 'id_quiz', 'id_quiz');
     }

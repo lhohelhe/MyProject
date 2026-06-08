@@ -1,0 +1,5 @@
+@extends('errors.layout')
+@section('title', 'Sedang Dalam Pemeliharaan')
+@section('code', '503')
+@section('heading', 'Sedang Dalam Pemeliharaan')
+@section('message', 'SahabatBuku sedang dalam pemeliharaan untuk meningkatkan layanan. Kembali lagi dalam beberapa saat.')
