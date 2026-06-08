@@ -302,7 +302,6 @@
                     {{-- Content --}}
                     <div class="px-8 lg:px-14 py-10 book-page" id="book-content">
                         @php
-                            }
                             if (!empty($current)) {
                                 $paragraphs[] = implode(' ', $current);
                             }
