@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 
 class BabController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bab = Bab::with('buku')->latest('id_bab')->paginate(10);
+        $id_buku = $request->query('id_buku');
+        
+        $bab = Bab::where('id_buku', $id_buku)
+                    ->with('subab')
+                    ->orderBy('nomor_bab')
+                    ->get();
 
         return response()->json($bab);
     }
@@ -18,19 +23,23 @@ class BabController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_buku'   => 'required|exists:buku,id_buku',
+            'id_buku' => 'required',
             'nomor_bab' => 'required',
-            'judul_bab' => 'required|string|max:255',
+            'judul_bab' => 'required'
         ]);
 
-        $bab = Bab::create($request->all());
+        $bab = Bab::create([
+            'id_buku' => $request->id_buku,
+            'nomor_bab' => $request->nomor_bab,
+            'judul_bab' => $request->judul_bab
+        ]);
 
         return response()->json($bab, 201);
     }
 
     public function show($id)
     {
-        $bab = Bab::with('buku', 'subab')->findOrFail($id);
+        $bab = Bab::with('subab')->findOrFail($id);
 
         return response()->json($bab);
     }
@@ -38,11 +47,16 @@ class BabController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'judul_bab' => 'required|string|max:255',
+            'nomor_bab' => 'required',
+            'judul_bab' => 'required'
         ]);
 
         $bab = Bab::findOrFail($id);
-        $bab->update($request->all());
+
+        $bab->update([
+            'nomor_bab' => $request->nomor_bab,
+            'judul_bab' => $request->judul_bab
+        ]);
 
         return response()->json($bab);
     }

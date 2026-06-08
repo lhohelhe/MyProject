@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class MateriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $materi = Materi::with('subab')->latest('id_materi')->paginate(10);
+        $id_subbab = $request->query('id_subbab');
+        
+        $materi = Materi::where('id_subbab', $id_subbab)
+                         ->with('subab')
+                         ->get();
 
         return response()->json($materi);
     }
@@ -19,9 +23,9 @@ class MateriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_subbab'    => 'required|exists:subbab,id_subbab',
-            'judul_materi' => 'required|string|max:255',
-            'isi'          => 'required|string',
+            'id_subbab' => 'required',
+            'judul_materi' => 'required',
+            'isi' => 'required'
         ]);
 
         $data = $request->all();
@@ -45,12 +49,13 @@ class MateriController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'judul_materi' => 'required|string|max:255',
-            'isi'          => 'required|string',
+            'judul_materi' => 'required',
+            'isi' => 'required'
         ]);
 
         $materi = Materi::findOrFail($id);
-        $data   = $request->all();
+
+        $data = $request->all();
 
         if ($request->hasFile('gambar')) {
             if ($materi->gambar) {

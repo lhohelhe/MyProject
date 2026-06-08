@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 
 class SubabController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $subab = Subab::with('bab')->latest('id_subbab')->paginate(10);
+        $id_bab = $request->query('id_bab');
+        
+        $subab = Subab::where('id_bab', $id_bab)
+                       ->with('bab')
+                       ->orderBy('nomor_subbab')
+                       ->get();
 
         return response()->json($subab);
     }
@@ -18,19 +23,23 @@ class SubabController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_bab'       => 'required|exists:bab,id_bab',
+            'id_bab' => 'required',
             'nomor_subbab' => 'required',
-            'judul_subbab' => 'required|string|max:255',
+            'judul_subbab' => 'required'
         ]);
 
-        $subab = Subab::create($request->all());
+        $subab = Subab::create([
+            'id_bab' => $request->id_bab,
+            'nomor_subbab' => $request->nomor_subbab,
+            'judul_subbab' => $request->judul_subbab
+        ]);
 
         return response()->json($subab, 201);
     }
 
     public function show($id)
     {
-        $subab = Subab::with('bab', 'materi')->findOrFail($id);
+        $subab = Subab::with('bab')->findOrFail($id);
 
         return response()->json($subab);
     }
@@ -38,11 +47,16 @@ class SubabController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'judul_subbab' => 'required|string|max:255',
+            'nomor_subbab' => 'required',
+            'judul_subbab' => 'required'
         ]);
 
         $subab = Subab::findOrFail($id);
-        $subab->update($request->all());
+
+        $subab->update([
+            'nomor_subbab' => $request->nomor_subbab,
+            'judul_subbab' => $request->judul_subbab
+        ]);
 
         return response()->json($subab);
     }
