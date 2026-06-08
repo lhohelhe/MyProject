@@ -1,5 +1,76 @@
 @extends('layouts.user')
 
+@push('styles')
+<style>
+    .materi-content {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 17px;
+        line-height: 1.8;
+        color: #1f1f1f;
+        text-align: left;
+    }
+
+    .materi-content p {
+        margin-bottom: 1.4em;
+    }
+
+    .materi-content h1,
+    .materi-content h2,
+    .materi-content h3,
+    .materi-content h4,
+    .materi-content h5,
+    .materi-content h6 {
+        color: #1f1f1f;
+        line-height: 1.3;
+        margin-top: 1.6em;
+        margin-bottom: 0.6em;
+    }
+
+    .materi-content ul,
+    .materi-content ol {
+        padding-left: 1.5em;
+        margin-bottom: 1.4em;
+    }
+
+    .materi-content li {
+        margin-bottom: 0.4em;
+    }
+
+    .materi-content blockquote {
+        border-left: 4px solid #F4922A;
+        padding: 0.5em 1em;
+        margin: 1.4em 0;
+        color: #1f1f1f;
+    }
+
+    .materi-content img {
+        max-width: 100%;
+        border-radius: 0.5rem;
+        margin: 1em 0;
+    }
+
+    .materi-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.4em;
+        font-size: 0.95em;
+    }
+
+    .materi-content th,
+    .materi-content td {
+        border: 1px solid #d1d5db;
+        padding: 0.5em 0.75em;
+    }
+
+    .materi-content th {
+        background: #f3f4f6;
+        font-weight: 700;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="flex h-screen overflow-hidden bg-[#E5F8FF]">
     <x-user-sidebar />
@@ -46,7 +117,7 @@
             </aside>
 
             {{-- Center: Reading View --}}
-            <main class="flex-1 max-w-[720px] mx-auto w-full h-screen overflow-y-auto pb-16">
+            <main class="flex-1 max-w-[720px] mx-auto h-screen overflow-y-auto pb-16">
                 <article class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-8">
                     <span class="inline-block bg-[#F4922A] text-white text-[10px] font-black px-3 py-1 border-2 border-black rounded-full shadow-[2px_2px_0px_#000] mb-4 uppercase tracking-wider">
                         Materi Belajar
@@ -55,7 +126,7 @@
                         {{ $materi->judul_materi }}
                     </h1>
 
-                    <div class="prose max-w-none text-slate-700 leading-relaxed font-serif text-base space-y-4">
+                    <div class="materi-content">
                         {!! $materi->isi !!}
                     </div>
 
@@ -98,11 +169,16 @@
 
                     <div class="pt-3 border-t-2 border-black flex items-center justify-between">
                         <div>
-                            <p class="text-[10px] font-black text-black uppercase tracking-widest">XP Diperoleh</p>
-                            <p class="text-lg font-black text-[#F4922A] mt-0.5">{{ $userXp }} XP</p>
+                            <p class="text-[10px] font-black uppercase tracking-widest {{ $alreadyClaimed ? 'text-slate-400' : 'text-black' }}">XP Diperoleh</p>
+                            <p class="text-lg font-black mt-0.5 {{ $alreadyClaimed ? 'text-slate-400' : 'text-[#F4922A]' }}">
+                                {{ $userXp }} XP
+                            </p>
+                            @if($alreadyClaimed)
+                                <p class="text-[10px] font-bold text-slate-400 mt-0.5">Sudah diklaim</p>
+                            @endif
                         </div>
-                        <div class="w-10 h-10 rounded-xl bg-orange-50 border-2 border-black flex items-center justify-center text-[#F4922A]">
-                            <i data-lucide="award" class="w-5 h-5"></i>
+                        <div class="w-10 h-10 rounded-xl border-2 border-black flex items-center justify-center {{ $alreadyClaimed ? 'bg-slate-100 text-slate-400' : 'bg-orange-50 text-[#F4922A]' }}">
+                            <i data-lucide="{{ $alreadyClaimed ? 'check' : 'award' }}" class="w-5 h-5"></i>
                         </div>
                     </div>
 
@@ -115,6 +191,11 @@
                            class="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
                             <i data-lucide="clipboard-list" class="w-4 h-4"></i> Kerjakan Quiz
                         </a>
+                        <a href="{{ route('user.quiz.start-ai', $bab->id_bab) }}"
+                           class="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-bold text-black bg-white border-2 border-black rounded-xl hover:bg-orange-50 transition-all">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-[#F4922A]"></i> Quiz Variasi AI
+                        </a>
+                        <p class="text-center text-[10px] text-slate-400 font-bold -mt-1">Soal berbeda setiap sesi</p>
                     </div>
                 </div>
 

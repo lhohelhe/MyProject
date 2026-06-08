@@ -48,9 +48,7 @@ class QuizController extends Controller
             return response()->json(['error' => 'Tidak ada materi ditemukan pada bab ini untuk dijadikan quiz.'], 400);
         }
 
-        $apiKey = env('XAI_API_KEY');
-
-        // Panggil API Groq
+        $apiKey = env('GROQ_API_KEY');
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $apiKey,
             'Content-Type' => 'application/json',

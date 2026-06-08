@@ -98,8 +98,8 @@
                 {{-- Quiz --}}
                 <a href="{{ route('user.quiz.index', $buku->bab->first()?->id_bab ?? 0) }}"
                    class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-5 flex flex-col items-center gap-3 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all group">
-                    <div class="w-10 h-10 border-2 border-black rounded-xl bg-blue-50 flex items-center justify-center transition">
-                        <i data-lucide="clipboard-list" class="w-5 h-5 text-blue-500"></i>
+                    <div class="w-10 h-10 border-2 border-black rounded-xl bg-orange-50 flex items-center justify-center transition">
+                        <i data-lucide="clipboard-list" class="w-5 h-5 text-[#F4922A]"></i>
                     </div>
                     <p class="text-sm font-black text-black">Quiz</p>
                     <span class="text-[10px] text-black font-bold">Latihan soal per bab</span>
@@ -108,8 +108,8 @@
                 {{-- Flashcard --}}
                 <a href="{{ route('user.flashcard', $buku->bab->first()?->subab->first()?->id_subbab ?? 0) }}"
                    class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-5 flex flex-col items-center gap-3 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all group">
-                    <div class="w-10 h-10 border-2 border-black rounded-xl bg-purple-50 flex items-center justify-center transition">
-                        <i data-lucide="book-marked" class="w-5 h-5 text-purple-500"></i>
+                    <div class="w-10 h-10 border-2 border-black rounded-xl bg-orange-50 flex items-center justify-center transition">
+                        <i data-lucide="book-marked" class="w-5 h-5 text-[#F4922A]"></i>
                     </div>
                     <p class="text-sm font-black text-black">Flashcard</p>
                     <span class="text-[10px] text-black font-bold">Hafalan istilah</span>
@@ -118,8 +118,8 @@
                 {{-- Ujian Simulasi --}}
                 <a href="{{ route('user.simulasi.index', ['book' => $buku->id_buku]) }}"
                    class="bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl p-5 flex flex-col items-center gap-3 hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all group">
-                    <div class="w-10 h-10 border-2 border-black rounded-xl bg-green-50 flex items-center justify-center transition">
-                        <i data-lucide="timer" class="w-5 h-5 text-green-500"></i>
+                    <div class="w-10 h-10 border-2 border-black rounded-xl bg-orange-50 flex items-center justify-center transition">
+                        <i data-lucide="timer" class="w-5 h-5 text-[#F4922A]"></i>
                     </div>
                     <p class="text-sm font-black text-black">Ujian Simulasi</p>
                     <span class="text-[10px] text-black font-bold">Multi bab bertimer</span>

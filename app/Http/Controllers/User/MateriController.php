@@ -7,9 +7,12 @@ use App\Models\Materi;
 use App\Models\Subab;
 use App\Models\UserFlashcard;
 use App\Models\UserMateriProgress;
+use App\Models\UserMateriXpClaim;
 use App\Models\UserQuizProgress;
+use App\Services\XpService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class MateriController extends Controller
 {
@@ -125,6 +128,27 @@ class MateriController extends Controller
 
         $userXp = Auth::user()->total_xp ?? 0;
 
+        // --- XP claim: satu kali per materi per user ---
+        $userId = Auth::id();
+        $existingClaim = UserMateriXpClaim::where('user_id', $userId)
+            ->where('id_materi', $materi->id_materi)
+            ->first();
+
+        $alreadyClaimed = $existingClaim !== null;
+
+        if (! $alreadyClaimed) {
+            XpService::addXp(Auth::user(), 10);
+
+            UserMateriXpClaim::create([
+                'user_id'      => $userId,
+                'id_materi'    => $materi->id_materi,
+                'xp_claimed_at' => Carbon::now(),
+            ]);
+
+            // Refresh XP setelah penambahan
+            $userXp = Auth::user()->fresh()->total_xp ?? 0;
+        }
+
         return view('user.materi-baca', compact(
             'materi',
             'bab',
@@ -133,7 +157,8 @@ class MateriController extends Controller
             'prev',
             'next',
             'progress',
-            'userXp'
+            'userXp',
+            'alreadyClaimed'
         ));
     }
 }

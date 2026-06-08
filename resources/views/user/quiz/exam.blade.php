@@ -42,9 +42,13 @@
     {{-- main content --}}
     <main class="flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto sm:p-8">
         <div class="w-full max-w-2xl">
-            <form id="quizForm" action="{{ route('user.quiz.submit') }}" method="POST" class="space-y-8">
+            <form id="quizForm" action="{{ $isAiMode ? route('user.quiz.ai.submit') : route('user.quiz.submit') }}" method="POST" class="space-y-8">
                 @csrf
-                <input type="hidden" name="id_quiz" value="{{ $quiz->id_quiz }}">
+                @if($isAiMode)
+                    <input type="hidden" name="id_bab" value="{{ $quiz->id_bab }}">
+                @else
+                    <input type="hidden" name="id_quiz" value="{{ $quiz->id_quiz }}">
+                @endif
 
                 {{-- progress bar --}}
                 <div class="mb-8">
@@ -65,7 +69,22 @@
                 @foreach($soal as $index => $s)
                 <div id="question-{{ $index }}" class="question-container hidden">
                     {{-- teks pertanyaan --}}
-                    <div class="mb-8 p-6 bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl">
+                    <div class="relative mb-8 p-6 bg-white border-2 border-black shadow-[4px_4px_0px_#000] rounded-xl">
+                        @if(!empty($s->tingkat))
+                        @php
+                            $tingkat = strtolower($s->tingkat);
+                            $badgeClass = match($tingkat) {
+                                'mudah'  => 'bg-green-100 text-green-700 border-green-400',
+                                'sedang' => 'bg-yellow-100 text-yellow-700 border-yellow-400',
+                                'sulit'  => 'bg-red-100 text-red-600 border-red-400',
+                                default  => 'bg-slate-100 text-slate-500 border-slate-300',
+                            };
+                            $badgeLabel = ucfirst($tingkat);
+                        @endphp
+                        <span class="absolute top-4 right-4 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider border-2 rounded-full {{ $badgeClass }}">
+                            {{ $badgeLabel }}
+                        </span>
+                        @endif
                         <p class="text-2xl font-bold text-black font-jakarta">{{ $s->pertanyaan }}</p>
                     </div>
 
@@ -77,9 +96,10 @@
                             $optionValue = $s->$columnName;
                         @endphp
                         @if(!empty($optionValue))
+                        <!-- DEBUG: soal id = {{ $s->id_soal_quiz }} -->
                         <button type="button" 
                                 class="answer-btn w-full p-4 text-left bg-white border-2 border-black rounded-xl hover:shadow-[2px_2px_0px_#000] transition-all font-jakarta"
-                                onclick="selectAnswer('{{ $s->id_soal_quiz }}', '{{ $option }}', this, {{ $index }})"
+                                onclick="selectAnswer('{{ $s->id_soal_quiz }}', '{{ strtoupper($option) }}', this, {{ $loop->index }})"
                                 data-soal="{{ $s->id_soal_quiz }}"
                                 data-option="{{ $option }}"
                                 data-question="{{ $index }}">
@@ -259,6 +279,7 @@ function nextQuestion() {
 
 // Select answer
 function selectAnswer(soalId, option, button, questionIndex) {
+    console.log('soalId:', soalId, typeof soalId);
     selectedAnswers[soalId] = option;
     
     // Remove highlight from other buttons for this question
@@ -282,6 +303,7 @@ function closeConfirmModal() {
 }
 
 function submitQuiz() {
+    console.log('selectedAnswers:', selectedAnswers);
     closeConfirmModal();
     
     // Add hidden inputs for answers
@@ -293,6 +315,7 @@ function submitQuiz() {
         input.value = selectedAnswers[soalId];
         form.appendChild(input);
     }
+    console.log('form inputs:', form.querySelectorAll('input[name^="jawaban"]').length);
     
     form.submit();
 }

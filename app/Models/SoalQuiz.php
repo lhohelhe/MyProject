@@ -11,6 +11,8 @@ class SoalQuiz extends Model
 
     protected $table = 'soal_quiz';
     protected $primaryKey = 'id_soal_quiz';
+    protected $keyType = 'string';
+    public $incrementing = false;
     public $timestamps = true;
 
     protected $fillable = [

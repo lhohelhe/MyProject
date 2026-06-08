@@ -25,8 +25,8 @@ Route::get('/', function () {
 // Public - submit saran from landing page
 Route::post('/saran', [App\Http\Controllers\SaranController::class, 'store'])->name('saran.store');
 
-// ROUTE ADMIN — harus sudah login
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+// ROUTE ADMIN — harus sudah login & role admin
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Dashboard ringkasan admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
@@ -111,6 +111,8 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::match(['get','post'], '/simulasi/{id}/start', [UserSimulasiController::class, 'start'])->name('user.simulasi.start');
     // QUIZ HARIAN ADAPTIF (Perbaikan urutan: Submit & Result dulu sebelum {id})
     Route::get('/quiz/bab/{id_bab}', [UserQuizController::class, 'index'])->name('user.quiz.index');
+    Route::get('/quiz/bab/{id_bab}/ai', [UserQuizController::class, 'startAi'])->name('user.quiz.start-ai');
+    Route::post('/quiz/ai/submit', [UserQuizController::class, 'submitAi'])->name('user.quiz.ai.submit');
     Route::post('/quiz/submit', [UserQuizController::class, 'submit'])->name('user.quiz.submit');
     Route::get('/quiz/result/{id}', [UserQuizController::class, 'result'])->name('user.quiz.result');
     Route::get('/quiz/{id}/start', [UserQuizController::class, 'start'])->name('user.quiz.start');

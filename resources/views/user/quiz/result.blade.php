@@ -25,7 +25,7 @@
             <div class="mb-3 text-5xl font-black text-[#F4922A] font-jakarta">
                 {{ $hasil->skor }}%
             </div>
-            <p class="text-base font-bold text-black font-jakarta">{{ $quiz->judul_quiz }}</p>
+            <p class="text-base font-bold text-black font-jakarta">{{ $quiz?->judul_quiz ?? 'Quiz Variasi AI' }}</p>
         </div>
 
         {{-- XP badge dengan animasi --}}
@@ -105,16 +105,66 @@
             </div>
         </div>
 
-        {{-- tombol aksi --}}
+        {{-- pembahasan (hanya untuk AI mode) --}}
+        @if ($pembahasan)
+            <div class="mb-8">
+                <h2 class="text-xl font-bold text-black mb-4 border-b-2 border-black pb-2">Pembahasan</h2>
+                @foreach ($pembahasan as $item)
+                    <div class="mb-6 p-4 bg-white border border-gray-300 rounded-lg">
+                        <div class="flex items-start gap-3 mb-2">
+                            <span class="inline-flex items-center justify-center w-6 h-6 min-w-6 bg-[#F4922A] text-white text-sm font-bold rounded-full">
+                                {{ $item['nomor'] }}
+                            </span>
+                            <p class="text-sm font-semibold text-black flex-1">{{ $item['pertanyaan'] }}</p>
+                        </div>
+
+                        <div class="ml-9 space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-slate-600">Jawaban Anda:</span>
+                                <span class="px-3 py-1 text-sm font-bold rounded {{ $item['jawaban_user'] === $item['jawaban_benar'] ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                                    {{ $item['jawaban_user'] ?: '-' }}
+                                </span>
+                            </div>
+
+                            @if ($item['jawaban_user'] !== $item['jawaban_benar'])
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-bold text-slate-600">Jawaban Benar:</span>
+                                    <span class="px-3 py-1 text-sm font-bold bg-green-100 text-green-700 rounded">
+                                        {{ $item['jawaban_benar'] }}
+                                    </span>
+                                </div>
+                            @endif
+
+                            @if ($item['pembahasan'])
+                                <p class="text-xs text-slate-600 italic mt-3 p-3 bg-gray-50 rounded border-l-2 border-gray-400">
+                                    {{ $item['pembahasan'] }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+
         <div class="flex flex-col justify-center gap-4 sm:flex-row sm:justify-center mb-8">
-            <a href="{{ route('user.quiz.start', $quiz->id_quiz) }}" 
-               class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
-                Ulangi Quiz
-            </a>
-            <a href="{{ route('user.buku.show', $quiz->bab->id_buku) }}" 
-               class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-black bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
-                Kembali ke Bab
-            </a>
+            @if ($quiz && $quiz->id_quiz == 0)
+                <a href="{{ route('user.quiz.start-ai', $quiz->bab->id_bab) }}"
+                   class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
+                    Ulangi Quiz
+                </a>
+            @elseif ($quiz)
+                <a href="{{ route('user.quiz.start', $quiz->id_quiz) }}"
+                   class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-white bg-[#F4922A] border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
+                    Ulangi Quiz
+                </a>
+            @endif
+            @if ($quiz && $quiz->bab)
+                <a href="{{ route('user.buku.show', $quiz->bab->id_buku) }}"
+                   class="flex-1 sm:flex-initial px-8 py-3 text-lg font-bold text-center text-black bg-white border-2 border-black rounded-xl shadow-[3px_3px_0px_#000] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition font-jakarta">
+                    Kembali ke Bab
+                </a>
+            @endif
         </div>
 
     </main>

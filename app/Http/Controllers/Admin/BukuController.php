@@ -239,7 +239,7 @@ class BukuController extends Controller
             'pdf' => 'required|mimes:pdf|max:50000',
         ]);
 
-        $apiKey = env('XAI_API_KEY');
+        $apiKey = env('GROQ_API_KEY');
         if (empty($apiKey)) {
             return response()->json(['error' => 'API Key Groq belum dikonfigurasi di .env.'], 500);
         }

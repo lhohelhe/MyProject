@@ -315,7 +315,7 @@ if (saranBtn && saranForm) {
         .to(saranBtn, { duration: 0.7, text: { value: 'Mengirim...', type: 'diff' }, ease: 'sine.in' })
         .to(saranBtn, { duration: 0.35, text: { value: 'Mengirim', type: 'diff' }, ease: 'sine.inOut', repeat: 3, yoyo: true })
         .to(saranBtn, {
-            text: 'Terkirim! 🙏',
+            text: 'Terkirim!',
             ease: 'none',
             onComplete: () => { saranBtn.disabled = false; saranForm.submit(); }
         }, '+=0.3');
