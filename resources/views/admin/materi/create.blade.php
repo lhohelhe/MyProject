@@ -112,8 +112,15 @@
                 <div class="max-w-2xl mx-auto bg-white rounded shadow p-6" style="font-family: serif;" x-ref="book" x-html="bookHtml"></div>
             </div>
 
+            <!-- Isi Materi -->
+            <div>
+                <label for="isi" class="block mb-2 text-sm font-bold text-black font-jakarta">Isi Materi</label>
+                <textarea id="isi" name="isi" rows="10" required class="w-full px-4 py-3 border-2 border-black rounded-xl font-jakarta focus:outline-none focus:ring-2 focus:ring-[#F4922A] focus:border-transparent" x-ref="isi" placeholder="Masukkan isi materi di sini...">{{ old('isi') }}</textarea>
+                <p class="mt-2 text-sm text-gray-600 font-jakarta">Atau upload PDF di bawah untuk ekstrak teks otomatis</p>
+            </div>
+
             <!-- Hidden field containing generated HTML for submission -->
-            <input type="hidden" name="isi" x-ref="isi" />
+            <!-- <input type="hidden" name="isi" x-ref="isi" /> -->
 
             <!-- Side panel for tagged terms -->
             <div class="w-72 bg-gray-50 border-l p-4 overflow-y-auto mt-6">
